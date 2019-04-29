@@ -1,13 +1,12 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <router-view></router-view>
+  <div>
+    <x-header>客户<a slot="right">保存</a></x-header>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HelloWorld',
+  name: 'Customer',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
