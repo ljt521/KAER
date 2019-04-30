@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <div class="app-top" v-show="$route.path == '/mine' ||
+    <div class="x-bottom"  v-show="$route.path == '/mine' ||
      $route.path == '/dynamic' ||
       $route.path == '/customer' || $route.path == '/'" >
-      <tabbar class="x-bottom">
+      <tabbar>
         <tabbar-item selected link="/dynamic">
           <img slot="icon" src="./assets/icon/icon_nav_msg.png">
           <span slot="label">动态</span>
@@ -25,8 +25,11 @@
 
 <script>
 import Vue from 'vue'
-import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Timeline, TimelineItem, Scroller} from 'vux'
+import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Timeline, TimelineItem, Blur, Group, Cell} from 'vux'
 
+Vue.component('cell', Cell)
+Vue.component('group', Group)
+Vue.component('blur', Blur)
 Vue.component('tabbar', Tabbar)
 Vue.component('tabbarItem', TabbarItem)
 Vue.component('x-header', XHeader)
@@ -36,7 +39,6 @@ Vue.component('icon', Icon)
 Vue.component('timeline', Timeline)
 Vue.component('timeline-item', TimelineItem)
 Vue.component('x-button', XButton)
-Vue.component('scroller', Scroller)
 
 export default {
   name: 'APP',
@@ -49,18 +51,13 @@ export default {
 </script>
 
 <style lang="less">
-  @import '~vux/src/styles/1px.less';
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 0;
-    .app-top {
-      width: 100%;
-      height: 60px;
-    }
+    margin-top: 0px;
     .x-bottom {
       position: fixed;
       z-index: 500;
@@ -71,5 +68,19 @@ export default {
         line-height: 0;
       }
     }
+    h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
   }
 </style>
