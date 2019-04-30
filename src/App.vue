@@ -25,7 +25,7 @@
 
 <script>
 import Vue from 'vue'
-import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Timeline, TimelineItem, Scroller} from 'vux'
+import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Selector, Search} from 'vux'
 
 Vue.component('tabbar', Tabbar)
 Vue.component('tabbarItem', TabbarItem)
@@ -33,10 +33,9 @@ Vue.component('x-header', XHeader)
 Vue.component('flexbox', Flexbox)
 Vue.component('flexbox-item', FlexboxItem)
 Vue.component('icon', Icon)
-Vue.component('timeline', Timeline)
-Vue.component('timeline-item', TimelineItem)
 Vue.component('x-button', XButton)
-Vue.component('scroller', Scroller)
+Vue.component('search', Search)
+Vue.component('selector', Selector)
 
 export default {
   name: 'APP',
@@ -57,6 +56,14 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin-top: 0;
+    .clearfix:after,.clearfix:before{
+      content:"";/*加一段内容*/
+      display:table;/*创建匿名的表格单元，触发bfc*/
+    }
+    .clearfix:after{
+      clear:both;/*清除浮动*/
+    }
+    .clearfix{zoom:1;/*为IE6，7的兼容性设置*/}
     .app-top {
       width: 100%;
       height: 60px;
