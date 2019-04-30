@@ -1,43 +1,49 @@
 <template>
   <div>
-    <div class="x-header">
-      <x-header slot="header" :left-options="{showBack: false}">动态</x-header>
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{showBack: false}">动态</x-header>
     </div>
-    <div class="timeline-demo">
-      <timeline>
-        <timeline-item>
-          <p class="recent">2016-04-17 12:00:00</p>
-          <h3 class="recent">李峰</h3>
-          <h4 class="recent">新增</h4>
-        </timeline-item>
-        <timeline-item>
-          <p class="recent">2016-04-17 12:00:00</p>
-          <h3 class="recent">李峰</h3>
-          <h4 class="recent">新增</h4>
-        </timeline-item>
-        <timeline-item>
-          <p class="recent">2016-04-17 12:00:00</p>
-          <h3 class="recent">李峰</h3>
-          <h4 class="recent">新增</h4>
-        </timeline-item>
-      </timeline>
-      <timeline>
-        <timeline-item>
-          <p class="recent">2016-04-17 12:00:00</p>
-          <h3 class="recent">李峰</h3>
-          <h4 class="recent">新增</h4>
-        </timeline-item>
-        <timeline-item>
-          <p class="recent">2016-04-17 12:00:00</p>
-          <h3 class="recent">李峰</h3>
-          <h4 class="recent">新增</h4>
-        </timeline-item>
-        <timeline-item>
-          <p class="recent">2016-04-17 12:00:00</p>
-          <h3 class="recent">李峰</h3>
-          <h4 class="recent">新增</h4>
-        </timeline-item>
-      </timeline>
+    <div>
+      <div class="space">
+        <div class="dy-div-icon">
+          <icon type="waiting-circle"></icon>
+        </div>
+        <div class="dy-div">
+          <i>2019/4/30 11:56:50</i>
+          <h4>李峰</h4>
+          <i>新增了@丁一@论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+        </div>
+      </div>
+      <div class="space">
+        <div class="dy-div-icon">
+          <icon type="waiting-circle"></icon>
+        </div>
+        <div class="dy-div">
+          <i>2019/4/30 11:56:50</i>
+          <h4>李峰</h4>
+          <i>新增了@丁一@论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+        </div>
+      </div>
+      <div class="space">
+        <div class="dy-div-icon">
+          <icon type="waiting-circle"></icon>
+        </div>
+        <div class="dy-div">
+          <i>2019/4/30 11:56:50</i>
+          <h4>李峰</h4>
+          <i>新增了@丁一@论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+        </div>
+      </div>
+      <div class="space">
+        <div class="dy-div-icon">
+          <icon type="waiting-circle"></icon>
+        </div>
+        <div class="dy-div">
+          <i>2019/4/30 11:56:50</i>
+          <h4>李峰</h4>
+          <i>新增了@丁一@论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -55,50 +61,54 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-  @import '~vux/src/styles/1px.less';
-  .timeline-demo {
-    p {
-      color: #888;
-      font-size: 0.8rem;
-    }
-    h4 {
-      color: #666;
-      font-weight: normal;
-    }
-    .recent {
-      text-align: left;
-      padding: 13px 0 0 20px;
-      color: #999;
-    }
-  }
-  .vux-timeline > ul {
-    padding: 0;
-    li {
-      background-color: pink;
-      .vux-timeline-item-tail {
-        position: absolute;
-        content: '';
-        height: 100%;
-        width: 1px;
-        left: 19px;
-        top: 20px;
-        background-color: #04BE02;
-      }
-      .vux-timeline-item-head-first {
-        width: 20px;
-        height: 20px;
-        left: 10px;
-        top: 10px;}
-      .vux-timeline-item-head {
-        width: 10px;
-        height: 10px;
-        left: 14px;
-        top: 9px;}
-    }
-  }
-  .x-header{
-    position: fixed;
+  .dy-top {
+    height: 40px;
     width: 100%;
-    z-index: 999;
+    .x-header {
+      position: fixed;
+      width: 100%;
+      z-index: 999;
+      margin-bottom: 20px;
+    }
+    .vux-header {
+      background-color: #073f89;
+    }
+  }
+
+  .space {
+    padding: 24px;
+    margin: 20px 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: left;
+    height: 212px;
+    max-height: 212px;
+    .dy-div-icon {
+      float: left;
+      height: 140px;
+    }
+    .dy-div {
+      padding-top: 5px;
+      i {
+        font-style: normal;
+        color: #a3a3a3;
+      }
+      h4 {
+        line-height: 0;
+      }
+    }
+    .weui-icon-waiting-circle {
+      color: #a3a3a3;
+    }
+    .weui-icon-waiting-circle::after {
+      content: '';
+      width: 1px;
+      height: calc(212px + 23px);
+      border-left: 1px solid #a3a3a3;
+      display: block;
+      position: relative;
+      left: 16px;
+      top: -3px;
+    }
   }
 </style>
