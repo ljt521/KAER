@@ -53,7 +53,6 @@ export default {
   name: 'Dynamic',
   data () {
     return {
-      count: 3
     }
   }
 }
@@ -81,8 +80,8 @@ export default {
     background-color: #fff;
     border-radius: 5px;
     text-align: left;
-    height: 212px;
-    max-height: 212px;
+    height: 130px;
+    max-height: 130px;
     .dy-div-icon {
       float: left;
       height: 140px;
@@ -103,12 +102,12 @@ export default {
     .weui-icon-waiting-circle::after {
       content: '';
       width: 1px;
-      height: calc(212px + 23px);
+      height: calc(130px + 22px);
       border-left: 1px solid #a3a3a3;
       display: block;
       position: relative;
       left: 16px;
-      top: -3px;
+      top: -2px;
     }
   }
 </style>
