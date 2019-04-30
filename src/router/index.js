@@ -11,16 +11,16 @@ export default new Router({
   routes: [
     {
       path: '/',
+      component: Mine
+    },
+    {
+      path: '/mine',
       name: 'Mine',
       component: Mine,
       children: [{
         path: '/userInfo',
         component: UserInfo
       }]
-    }, {
-      path: '/mine',
-      name: 'Mine',
-      component: Mine
     }, {
       path: '/customer',
       name: 'Customer',

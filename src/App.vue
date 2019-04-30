@@ -1,47 +1,69 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <tabbar>
-      <tabbar-item selected link="/dynamic">
-        <!--<img slot="icon" src="./assets/img/ic_tab_home_normal.png">-->
-        <!--<img slot="icon-active" src="./assets/img/ic_tab_home_active.png">-->
-        <span slot="label">动态</span>
-      </tabbar-item>
-      <tabbar-item show-dot link="/customer">
-        <!--<img slot="icon" src="./assets/img/ic_tab_subject_normal.png">-->
-        <!--<img slot="icon-active" src="./assets/img/ic_tab_subject_active.png">-->
-        <span slot="label">客户</span>
-      </tabbar-item>
-      <tabbar-item badge="2" link="/mine">
-        <!--<img slot="icon" src="./assets/img/ic_tab_profile_normal.png">-->
-        <!--<img slot="icon-active" src="./assets/img/ic_tab_profile_active.png">-->
-        <span slot="label">我的</span>
-      </tabbar-item>
-    </tabbar>
+    <div class="x-bottom"  v-show="$route.path == '/mine' ||
+     $route.path == '/dynamic' ||
+      $route.path == '/customer' || $route.path == '/'" >
+      <tabbar>
+        <tabbar-item selected link="/dynamic">
+          <img slot="icon" src="./assets/icon/icon_nav_msg.png">
+          <span slot="label">动态</span>
+        </tabbar-item>
+        <tabbar-item show-dot link="/customer">
+          <img slot="icon" src="./assets/icon/icon_nav_cell.png">
+          <span slot="label">客户</span>
+        </tabbar-item>
+        <tabbar-item badge="2" link="/mine">
+          <img slot="icon" src="./assets/icon/icon_nav_button.png">
+          <span slot="label">我的</span>
+        </tabbar-item>
+      </tabbar>
+    </div>
+
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
-import { Tabbar, TabbarItem, XHeader } from 'vux'
+import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Timeline, TimelineItem} from 'vux'
+
 Vue.component('tabbar', Tabbar)
 Vue.component('tabbarItem', TabbarItem)
 Vue.component('x-header', XHeader)
+Vue.component('flexbox', Flexbox)
+Vue.component('flexbox-item', FlexboxItem)
+Vue.component('icon', Icon)
+Vue.component('timeline', Timeline)
+Vue.component('timeline-item', TimelineItem)
+Vue.component('x-button', XButton)
 
 export default {
   name: 'APP',
   data () {
+    return {
+      select: 'customer'
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 0px;
-}
+<style lang="less">
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 0px;
+    .x-bottom {
+      position: fixed;
+      z-index: 500;
+      bottom: 0;
+      width: 100%;
+      background-color: #f7f7fa;
+      .weui-tabbar__label {
+        line-height: 0;
+      }
+    }
+  }
 </style>
