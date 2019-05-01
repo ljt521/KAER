@@ -25,8 +25,7 @@
 
 <script>
 import Vue from 'vue'
-import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Timeline, TimelineItem, Blur, Group, Cell} from 'vux'
-
+import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Blur, Group, Cell, Selector, Search} from 'vux'
 Vue.component('cell', Cell)
 Vue.component('group', Group)
 Vue.component('blur', Blur)
@@ -36,9 +35,9 @@ Vue.component('x-header', XHeader)
 Vue.component('flexbox', Flexbox)
 Vue.component('flexbox-item', FlexboxItem)
 Vue.component('icon', Icon)
-Vue.component('timeline', Timeline)
-Vue.component('timeline-item', TimelineItem)
 Vue.component('x-button', XButton)
+Vue.component('search', Search)
+Vue.component('selector', Selector)
 
 export default {
   name: 'APP',
@@ -57,7 +56,19 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    margin-top: 0px;
+    margin-top: 0;
+    .clearfix:after,.clearfix:before{
+      content:"";/*加一段内容*/
+      display:table;/*创建匿名的表格单元，触发bfc*/
+    }
+    .clearfix:after{
+      clear:both;/*清除浮动*/
+    }
+    .clearfix{zoom:1;/*为IE6，7的兼容性设置*/}
+    .app-top {
+      width: 100%;
+      height: 60px;
+    }
     .x-bottom {
       position: fixed;
       z-index: 500;
@@ -70,17 +81,17 @@ export default {
     }
     h1, h2 {
   font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
   }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  a {
+    color: #42b983;
+  }
+    }
 </style>
