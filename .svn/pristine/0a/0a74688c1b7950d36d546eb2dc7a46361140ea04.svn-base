@@ -1,0 +1,9 @@
+<template>
+  <div>
+    <x-header></x-header>
+    11
+  </div>
+</template>
+<style lang="less">
+
+</style>

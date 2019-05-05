@@ -5,10 +5,6 @@ import UserInfo from '@/components/UserInfo'
 import Customer from '@/components/Customer'
 import Dynamic from '@/components/Dynamic'
 import PersonalInfo from '@/components/PersonalInfo'
-import ForeignAbility from '@/components/ForeignAbility'
-import AcademicDuty from '@/components/AcademicDuty'
-import OperativeVolume from '@/components/OperativeVolume'
-import ConsultationVolume from '@/components/ConsultationVolume'
 
 Vue.use(Router)
 
@@ -29,24 +25,7 @@ export default new Router({
         {
           path: 'personal-info',
           component: PersonalInfo
-        },
-        {
-          path: 'foreign-ability',
-          component: ForeignAbility
-        },
-        {
-          path: 'academic-duty',
-          component: AcademicDuty
-        },
-        {
-          path: 'operative-volume',
-          component: OperativeVolume
-        },
-        {
-          path: 'consultation-volume',
-          component: ConsultationVolume
-        }
-      ]
+        }]
     }, {
       path: '/customer',
       name: 'Customer',
