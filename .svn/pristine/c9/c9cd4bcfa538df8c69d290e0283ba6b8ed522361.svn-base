@@ -53,7 +53,7 @@ export default {
 <style lang="less">
   @import '~vux/src/styles/1px.less';
   #app {
-    font-family: PingFangSC-Regular;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
