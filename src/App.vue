@@ -74,9 +74,6 @@ export default {
       bottom: 0;
       width: 100%;
       background-color: #f7f7fa;
-      .weui-tabbar__label {
-        line-height: 0;
-      }
     }
   }
 </style>

@@ -75,13 +75,13 @@ export default {
   }
 
   .space {
-    padding: 24px;
-    margin: 20px 15px;
+    padding: 12px;
+    margin: 12px 15px;
     background-color: #fff;
     border-radius: 5px;
     text-align: left;
-    height: 130px;
-    max-height: 130px;
+    height: 120px;
+    max-height: 120px;
     .dy-div-icon {
       float: left;
       height: 140px;
@@ -102,7 +102,7 @@ export default {
     .weui-icon-waiting-circle::after {
       content: '';
       width: 1px;
-      height: calc(130px + 22px);
+      height: calc(110px + 12px);
       border-left: 1px solid #a3a3a3;
       display: block;
       position: relative;

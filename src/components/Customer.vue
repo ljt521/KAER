@@ -13,10 +13,26 @@
         <selector name="type2" ref="departments" title="科室类型" :options="departmentsType" v-model="departments" @on-change="onTyChange"></selector>
       </div>
     </div>
-    <flexbox>
-      <flexbox-item><div class="flex-demo">我的</div></flexbox-item>
-      <flexbox-item><div class="flex-demo">新建</div></flexbox-item>
-    </flexbox>
+    <div class="cu-con">
+      <flexbox>
+        <flexbox-item><div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span></p></div></flexbox-item>
+        <flexbox-item><div class="flex-demo"><div class="cu-div"><x-icon type="ios-plus-empty" size="21"></x-icon><span>新建客户</span></div></div></flexbox-item>
+      </flexbox>
+      <div class="cu-content">
+        <div class="cu-content-top">
+          <div class="userImg">
+            <img src="" alt="dadada">
+          </div>
+          <div class="userImg-r">
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
+              <span class="cu-title">待跟进</span></p>
+            <p><span>中国人民解放军第三军区医院</span></p>
+            <p><span>骨科</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -59,6 +75,68 @@ export default {
         background-color: #fff;
       }
     }
-  }
+    .cu-con {
+      padding: 0 15px;
+      margin: 18px 0;
+      .cu-span {
+        padding: 0;
+        margin: 0;
+        .cu-left {
+          float: left;
+          width: 6px;
+          background-color: #073f89;
+          height: 21px;
+          border-radius: 3px;
+        }
+        .cu-right {
+          padding-left: 10px;
+        }
+      }
+      .cu-div {
+        text-align: right;
+        color: #19498b;
+        span {
+          float: right;
+        }
+      }
+      .cu-content {
+        background-color: #fff;
+        margin-top: 15px;
+        border-radius: 5px;
+        .cu-content-top {
+          padding: 15px;
+          .userImg{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #e6e7ec;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+          }
+          .userImg-r {
+            width: calc(100% - 80px);
+            margin-left: 90px;
+            .cu-title {
+              width: 60px;
+              height: 20px;
+              background-color: #f6be07;
+              display: inline-block;
+              border-radius: 5px;
+              color: #ffffff;
+              text-align: center;
+              line-height: 20px;
+              position: relative;
+              top: -5px;
+            }
+          }
+        }
 
+      }
+    }
+  }
+  p {
+    margin: 0;
+    text-align: left;
+  }
 </style>
