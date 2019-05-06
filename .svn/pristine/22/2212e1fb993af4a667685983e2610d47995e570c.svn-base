@@ -1,31 +1,26 @@
+
 <template>
   <div >
     <group>
       <cell-box is-link>
-        <span class="spanCell">2019：</span>
-        <span class="leftSpan">全部主刀</span>
-        <span >30</span>
+        <span class="spanCell">英语：</span>熟练
       </cell-box>
       <cell-box is-link>
-        <span class="spanCell">2019：</span>
-        <span class="leftSpan">全部主刀</span>
-        <span >30</span>
+        <span class="spanCell">法语：</span>熟练
       </cell-box>
       <cell-box is-link>
-        <span class="spanCell">2019：</span>
-        <span class="leftSpan">全部主刀</span>
-        <span >30</span>
+        <span class="spanCell">德语：</span>熟练
       </cell-box>
       <hr class="diliver">
       <div class="cardFoot">
-        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建手术量
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建语种
       </div>
     </group>
   </div>
 </template>
 <script>
   export default {
-    name: 'OperativeVolume',
+    name: 'ForeignAbility',
     data () {
       return {
         msg: 'Welcome to Your Vue.js App'
@@ -53,7 +48,7 @@
     color:#A4A4A4;
   }
   .diliver{
-    border: 1px solid #dddddd;
+  border: 1px solid #dddddd;
   }
   .cardFoot{
     img{
@@ -63,7 +58,6 @@
     font-size: 14px;
     margin-bottom: 10px;
   }
-
 
 
 </style>

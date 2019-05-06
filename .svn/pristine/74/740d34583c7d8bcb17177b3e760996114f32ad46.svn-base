@@ -28,7 +28,7 @@
 
 <script>
 import Vue from 'vue'
-import {Tabbar,Group,TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Selector, Search, Tab, TabItem, CellBox} from 'vux'
+import {Tabbar, TabbarItem, XHeader, XButton, Flexbox, FlexboxItem, Icon, Selector, Search, Tab, TabItem, CellBox} from 'vux'
 
 Vue.component('cell-box', CellBox)
 Vue.component('tabbar', Tabbar)
@@ -42,7 +42,6 @@ Vue.component('search', Search)
 Vue.component('selector', Selector)
 Vue.component('tab', Tab)
 Vue.component('tab-item', TabItem)
-Vue.component('group', Group)
 
 export default {
   name: 'APP',
@@ -87,11 +86,5 @@ export default {
       width: 100%;
       background-color: #f7f7fa;
     }
-  }
-  .leftSpan{
-    width: 25%;
-  }
-  .visible{
-    visibility:hidden
   }
 </style>
