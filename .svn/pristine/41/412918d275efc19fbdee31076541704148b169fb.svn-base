@@ -55,20 +55,12 @@ export default {
   .weui-cells{
     margin-top:0px !important;
   }
-  .weui-cell{
-    padding: 7px 15px !important;
-    font-size: 14px;
-    text-align: left;
-  }
   .weui-cell:before{
     border: none !important;
   }
   .spanCell{
     width: 28%;
     color:#A4A4A4;
-  }
-  .weui-cells .vux-no-group-title{
-    margin-top: 0 !important;
   }
 
 

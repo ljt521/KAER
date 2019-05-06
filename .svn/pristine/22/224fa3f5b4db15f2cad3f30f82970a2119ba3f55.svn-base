@@ -1,41 +1,35 @@
+<!--作者：莫岭红 功能：手术量-->
 <template>
   <div >
     <group>
       <cell-box is-link>
-        <span class="spanCell">全<span class="visible">全</span>国：</span>
-         <span class="leftSpan">常委</span>
-        青委副主任
+        <span class="spanCell">2019：</span>
+        <span class="leftSpan">全部主刀</span>
+        <span >30</span>
       </cell-box>
       <cell-box is-link>
-        <span class="spanCell">省<span class="visible">全</span>级：</span>
-        <span class="leftSpan">副主任委员</span>
-        青委副主任
+        <span class="spanCell">2019：</span>
+        <span class="leftSpan">全部主刀</span>
+        <span >30</span>
       </cell-box>
       <cell-box is-link>
-        <span class="spanCell">地市级：</span>
-        <span class="leftSpan">主任委员</span>
-        青委副主任
+        <span class="spanCell">2019：</span>
+        <span class="leftSpan">全部主刀</span>
+        <span >30</span>
       </cell-box>
       <hr class="diliver">
-      <div class="cardFoot" v-on:click="goAacdemicTeam">
-        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建学术团队
+      <div class="cardFoot">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建手术量
       </div>
     </group>
   </div>
 </template>
 <script>
   export default {
-    name: 'AcademicDuty',
+    name: 'OperativeVolume',
     data () {
       return {
         msg: 'Welcome to Your Vue.js App'
-      }
-    },
-    methods:{
-      goAacdemicTeam(){
-        this.$router.push({
-          path: '/academic-team'
-        })
       }
     }
   }
@@ -43,6 +37,9 @@
 <style lang="less" scoped>
   .weui-cells{
     margin-top:0px !important;
+  }
+  .aa{
+    visibility:hidden
   }
   .weui-cell{
     padding: 7px 15px !important;

@@ -1,7 +1,6 @@
-<!--作者：莫岭红 功能：个人信息-->
 <template>
  <div style="margin: 0 15px;">
-   <group  style="margin-bottom: 10px;">
+   <group>
      <cell-box>
        <span class="spanCell">编<span class="visible">编号</span>号:</span>YS1000254
      </cell-box>
@@ -35,7 +34,7 @@
      <cell-box>
        <span class="spanCell">导师姓名:</span>张磊
      </cell-box>
-     <cell-box style="margin-bottom: 8px">
+     <cell-box>
        <span class="spanCell">专业领域:</span>骨科
      </cell-box>
    </group>
@@ -51,7 +50,7 @@ export default {
   }
 }
 </script>
-<style lang="less" scoped>
+<style lang="less">
   .weui-cells{
     margin-top:0px !important;
   }
@@ -66,9 +65,6 @@ export default {
   .spanCell{
     width: 28%;
     color:#A4A4A4;
-  }
-  .weui-cells .vux-no-group-title{
-    margin-top: 0 !important;
   }
 
 
