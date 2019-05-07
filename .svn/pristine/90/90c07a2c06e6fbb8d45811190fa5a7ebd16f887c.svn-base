@@ -14,15 +14,9 @@
         <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_consultation.png" alt="">
       </cell>
 
-      <swipeout class="slide" :class="showContent1?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="i in 3" :key="i">
-          <div slot="right-menu">
-            <swipeout-button type="primary">是的</swipeout-button>
-            <swipeout-button type="warn">正确</swipeout-button>
-          </div>
-          <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">JavaScript is the best language</div>
-        </swipeout-item>
-      </swipeout>
+      <p class="slide" :class="showContent1?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
     </div>
     <div class="fo-div">
       <cell
@@ -34,15 +28,9 @@
         <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_operation_demonstration.png" alt="">
       </cell>
 
-      <swipeout class="slide" :class="showContent2?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="i in 3" :key="i">
-          <div slot="right-menu">
-            <swipeout-button type="primary">是的</swipeout-button>
-            <swipeout-button type="warn">正确</swipeout-button>
-          </div>
-          <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">JavaScript is the best language</div>
-        </swipeout-item>
-      </swipeout>
+      <p class="slide" :class="showContent2?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
     </div>
     <div class="fo-div">
       <cell
@@ -54,15 +42,9 @@
         <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_lecture.png" alt="">
       </cell>
 
-      <swipeout class="slide" :class="showContent3?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="i in 3" :key="i">
-          <div slot="right-menu">
-            <swipeout-button type="primary">是的</swipeout-button>
-            <swipeout-button type="warn">正确</swipeout-button>
-          </div>
-          <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">JavaScript is the best language</div>
-        </swipeout-item>
-      </swipeout>
+      <p class="slide" :class="showContent3?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
     </div>
     <div class="fo-div">
       <cell
@@ -74,15 +56,9 @@
         <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_research.png" alt="">
       </cell>
 
-      <swipeout class="slide" :class="showContent4?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="i in 3" :key="i">
-          <div slot="right-menu">
-            <swipeout-button type="primary">是的</swipeout-button>
-            <swipeout-button type="warn">正确</swipeout-button>
-          </div>
-          <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">JavaScript is the best language</div>
-        </swipeout-item>
-      </swipeout>
+      <p class="slide" :class="showContent4?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
     </div>
     <div class="fo-div">
       <cell
@@ -94,15 +70,9 @@
         <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_paper.png" alt="">
       </cell>
 
-      <swipeout class="slide" :class="showContent5?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="i in 3" :key="i">
-          <div slot="right-menu">
-            <swipeout-button type="primary">是的</swipeout-button>
-            <swipeout-button type="warn">正确</swipeout-button>
-          </div>
-          <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">JavaScript is the best language</div>
-        </swipeout-item>
-      </swipeout>
+      <p class="slide" :class="showContent5?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
     </div>
     <div class="fo-div">
       <cell
@@ -114,29 +84,20 @@
         <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_learning.png" alt="">
       </cell>
 
-      <swipeout class="slide" :class="showContent6?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="i in 3" :key="i">
-          <div slot="right-menu">
-            <swipeout-button type="primary">是的</swipeout-button>
-            <swipeout-button type="warn">正确</swipeout-button>
-          </div>
-          <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">JavaScript is the best language</div>
-        </swipeout-item>
-      </swipeout>
+      <p class="slide" :class="showContent6?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
     </div>
   </div>
 </template>
 <script>
-  import {Datetime, Cell, Swipeout, SwipeoutItem, SwipeoutButton} from 'vux'
+  import {Datetime, Cell} from 'vux'
 
   export default {
     name: 'FollowDetails',
     components: {
       Datetime,
-      Cell,
-      Swipeout,
-      SwipeoutItem,
-      SwipeoutButton
+      Cell
     },
     data () {
       return {
