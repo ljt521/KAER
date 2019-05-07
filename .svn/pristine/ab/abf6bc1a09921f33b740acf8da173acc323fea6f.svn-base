@@ -1,13 +1,13 @@
 <!--作者：莫岭红 功能：手术量-->
 <template>
   <div class="divBox">
-    <swipeout>
+    <swipeout class="vux-1px-tb">
       <swipeout-item transition-mode="follow"  v-for="(item,i) of 3" :key="i">
         <div slot="right-menu">
           <swipeout-button type="primary">编辑</swipeout-button>
           <swipeout-button type="warn">删除</swipeout-button>
         </div>
-        <div slot="content" :class="{'vux-1px-b': i !== 3}" style="padding: 0 12px;">
+        <div slot="content"  style="padding:12px;">
           <cell is-link>
             <span slot="title" >
               <span class="spanCell">2019：</span>
@@ -63,6 +63,7 @@
       vertical-align: middle;
     }
     font-size: 14px;
+    border-top: 1px solid #dddddd;
     padding-top: 12px;
     margin-bottom: 10px;
   }

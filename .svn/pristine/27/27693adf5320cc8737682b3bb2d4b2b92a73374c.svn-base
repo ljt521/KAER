@@ -1,13 +1,13 @@
 <!--作者：莫岭红 功能：外语能力-->
 <template>
     <div class="divBox" >
-      <swipeout>
+      <swipeout class="vux-1px-tb">
         <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
           <div slot="right-menu" >
             <swipeout-button type="primary" @click="goNewLang()">编辑</swipeout-button>
             <swipeout-button type="warn" @click="deleteData()">删除</swipeout-button>
           </div>
-          <div slot="content" :class="{'vux-1px-b': i !== list.length}" style="padding: 0 12px;">
+          <div slot="content"  style="padding:12px;">
             <cell is-link>
               <span slot="title" >
                 <span style="vertical-align:middle;" class="spanCell">{{item.key|toChinese}}</span>  {{item.value}}
@@ -35,7 +35,7 @@
     },
     methods: {
       goNewLang() {
-        this.$router.push('/new-lang')
+        this.router.push('/new-lang')
       },
       deleteData(){
         console.log(11)
@@ -72,6 +72,7 @@
       vertical-align: middle;
     }
     font-size: 14px;
+    border-top: 1px solid #dddddd;
     padding-top: 12px;
     margin-bottom: 10px;
     text-align: center;
