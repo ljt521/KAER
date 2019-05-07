@@ -184,40 +184,36 @@
     </div>
     <div class="fo-add" @click="show = !show">+</div>
     <div v-transfer-dom>
-      <x-dialog v-model="show" class="dialog-demo" :dialog-style="{'max-width': '90%', width: '90%', height: '80%'}">
+      <x-dialog v-model="show" class="dialog-demo">
         <div class="img-box">
           <p style="text-align: center">请点击下面图标新增业务对象</p>
           <div class="fo-line">
-            <grid :show-lr-borders="false" :show-vertical-dividers="false">
               <grid-item>
                 <img slot="icon" src="../assets/image/client_follow_s.png">
-                <span slot="label">新会诊</span>
+                <span slot="label">快乐</span>
               </grid-item>
               <grid-item>
                 <img slot="icon" src="../assets/image/client_follow_s.png">
-                <span slot="label">新手术演示</span>
+                <span slot="label">快乐</span>
               </grid-item>
               <grid-item>
                 <img slot="icon" src="../assets/image/client_follow_s.png">
-                <span slot="label">新讲课</span>
+                <span slot="label">快乐</span>
               </grid-item>
-            </grid>
           </div>
           <div>
-            <grid :show-lr-borders="false" :show-vertical-dividers="false">
             <grid-item>
               <img slot="icon" src="../assets/image/client_follow_s.png">
-              <span slot="label">新论文发表</span>
+              <span slot="label">快乐</span>
             </grid-item>
             <grid-item>
               <img slot="icon" src="../assets/image/client_follow_s.png">
-              <span slot="label">新参与课题</span>
+              <span slot="label">快乐</span>
             </grid-item>
             <grid-item>
               <img slot="icon" src="../assets/image/client_follow_s.png">
-              <span slot="label">学术参与</span>
+              <span slot="label">快乐</span>
             </grid-item>
-            </grid>
           </div>
         </div>
         <div @click="show=false">
@@ -228,7 +224,7 @@
   </div>
 </template>
 <script>
-  import { Grid, Datetime, Cell, XDialog, TransferDom } from 'vux'
+  import { Datetime, Cell, XDialog, TransferDom } from 'vux'
 
   export default {
     name: 'FollowDetails',
@@ -238,8 +234,7 @@
     components: {
       Datetime,
       Cell,
-      XDialog,
-      Grid
+      XDialog
     },
     data () {
       return {
@@ -318,9 +313,6 @@
   }
 
   .weui-grid::after {
-    content: none;
-  }
-  .weui-grids::before {
     content: none;
   }
   .slide {

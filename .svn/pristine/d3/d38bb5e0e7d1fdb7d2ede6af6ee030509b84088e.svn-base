@@ -184,7 +184,7 @@
     </div>
     <div class="fo-add" @click="show = !show">+</div>
     <div v-transfer-dom>
-      <x-dialog v-model="show" class="dialog-demo" :dialog-style="{'max-width': '90%', width: '90%', height: '80%'}">
+      <x-dialog v-model="show" class="dialog-demo">
         <div class="img-box">
           <p style="text-align: center">请点击下面图标新增业务对象</p>
           <div class="fo-line">
