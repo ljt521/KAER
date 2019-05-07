@@ -1,0 +1,66 @@
+<template>
+  <div >
+    <group>
+      <cell-box is-link>
+        <span class="spanCell">全<span class="visible">全</span>国：</span>
+         <span class="leftSpan">常委</span>
+        青委副主任
+      </cell-box>
+      <cell-box is-link>
+        <span class="spanCell">省<span class="visible">全</span>级：</span>
+        <span class="leftSpan">副主任委员</span>
+        青委副主任
+      </cell-box>
+      <cell-box is-link>
+        <span class="spanCell">地市级：</span>
+        <span class="leftSpan">主任委员</span>
+        青委副主任
+      </cell-box>
+      <hr class="diliver">
+      <div class="cardFoot">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建学术团队
+      </div>
+    </group>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'AcademicDuty',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
+    }
+  }
+</script>
+<style lang="less" scoped>
+  .weui-cells{
+    margin-top:0px !important;
+  }
+  .weui-cell{
+    padding: 7px 15px !important;
+    font-size: 14px;
+    text-align: left;
+  }
+  .weui-cell:before{
+    border: none !important;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+  .diliver{
+    border: 1px solid #dddddd;
+  }
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
+    }
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+
+
+</style>

@@ -1,0 +1,87 @@
+<!--作者：莫岭红 功能：外语能力-->
+<template>
+    <div class="divBox" >
+      <swipeout>
+        <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
+          <div slot="right-menu" >
+            <swipeout-button type="primary" >编辑</swipeout-button>
+            <swipeout-button type="warn" @click="deleteData()">删除</swipeout-button>
+          </div>
+          <div slot="content" :class="{'vux-1px-b': i !== list.length}" style="padding: 0 12px;">
+            <cell is-link>
+              <span slot="title" >
+                <span style="vertical-align:middle;" class="spanCell">{{item.key|toChinese}}</span>  {{item.value}}
+              </span>
+            </cell>
+          </div>
+        </swipeout-item>
+      </swipeout>
+      <div class="cardFoot"  v-on:click="goNewLang">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建语种
+      </div>
+    </div>
+
+
+
+</template>
+<script>
+  export default {
+    name: 'ForeignAbility',
+    data () {
+      return {
+        url:'/new-lang',
+        list: [{key: 'zh', value: '熟悉'}, {key: 'eh', value: '一般'}],
+      }
+    },
+    methods: {
+      goNewLang() {
+        this.$router.push('/new-lang')
+
+      },
+      deleteData(){
+        console.log(11)
+      }
+    },
+    filters: {
+      toChinese: function (value) {
+          switch (value) {
+            case 'zh':
+              value="汉语：";
+              break;
+            case 'eh':
+              value="英语：";
+              break;
+
+          }
+          return value
+      }
+    }
+  }
+</script>
+<style lang="less" >
+
+  .divBox{
+    background-color: white;
+    margin: 0 15px;
+    padding-bottom: 10px;
+    text-align: left;
+  }
+
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
+    }
+    font-size: 14px;
+    padding-top: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+
+
+
+</style>

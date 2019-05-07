@@ -1,0 +1,140 @@
+<template>
+  <div class="fo-top">
+    <div class="fo-div">
+      <datetime v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY" @on-change="change"
+                year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'会诊信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent1 ? 'up' : 'down'"
+        @click.native="showContent1 = !showContent1">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_consultation.png" alt="">
+      </cell>
+
+      <p class="slide" :class="showContent1?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'手术演示信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent2 ? 'up' : 'down'"
+        @click.native="showContent2 = !showContent2">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_operation_demonstration.png" alt="">
+      </cell>
+
+      <p class="slide" :class="showContent2?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'讲课信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent3 ? 'up' : 'down'"
+        @click.native="showContent3 = !showContent3">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_lecture.png" alt="">
+      </cell>
+
+      <p class="slide" :class="showContent3?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'参与课题信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent4 ? 'up' : 'down'"
+        @click.native="showContent4 = !showContent4">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_research.png" alt="">
+      </cell>
+
+      <p class="slide" :class="showContent4?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'论文发表信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent5 ? 'up' : 'down'"
+        @click.native="showContent5 = !showContent5">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_paper.png" alt="">
+      </cell>
+
+      <p class="slide" :class="showContent5?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'学术参与信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent6 ? 'up' : 'down'"
+        @click.native="showContent6 = !showContent6">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_learning.png" alt="">
+      </cell>
+
+      <p class="slide" :class="showContent6?'animate':''">
+        blablabla...<br/>blablabla...<br/>blablabla...<br/>blablabla...
+      </p>
+    </div>
+  </div>
+</template>
+<script>
+  import {Datetime, Cell} from 'vux'
+
+  export default {
+    name: 'FollowDetails',
+    components: {
+      Datetime,
+      Cell
+    },
+    data () {
+      return {
+        value5: '',
+        showContent1: false,
+        showContent2: false,
+        showContent3: false,
+        showContent4: false,
+        showContent5: false,
+        showContent6: false,
+      }
+    },
+    methods: {
+      change (value) {
+        console.log('change', value)
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .fo-top {
+    margin: 0 15px;
+    .fo-div {
+      background-color: #fff;
+      margin-bottom: 5px;
+    }
+  }
+  .slide {
+    padding: 0 20px;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+  }
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+</style>

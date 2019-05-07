@@ -1,0 +1,71 @@
+<template>
+  <div class="divBox">
+      <cell-box is-link>
+        <span class="spanCell">全<span class="visible">全</span>国：</span>
+         <span class="leftSpan">常委</span>
+        青委副主任
+      </cell-box>
+      <cell-box is-link>
+        <span class="spanCell">省<span class="visible">全</span>级：</span>
+        <span class="leftSpan">副主任委员</span>
+        青委副主任
+      </cell-box>
+      <cell-box is-link>
+        <span class="spanCell">地市级：</span>
+        <span class="leftSpan">主任委员</span>
+        青委副主任
+      </cell-box>
+      <div class="cardFoot" v-on:click="goAacdemicTeam">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建学术团队
+      </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'AcademicDuty',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
+    },
+    methods:{
+      goAacdemicTeam(){
+        this.$router.push({
+          path: '/academic-team'
+        })
+      }
+    }
+  }
+</script>
+<style lang="less" >
+  .divBox{
+    background-color: white;
+    margin: 0 15px;
+    padding-bottom: 10px;
+  }
+  .weui-cell{
+    padding: 7px 15px;
+    font-size: 14px;
+    text-align: left;
+  }
+  .weui-cell:before{
+    border: none !important;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
+    }
+    font-size: 14px;
+    border-top: 1px solid #dddddd;
+    padding-top: 12px;
+    margin-bottom: 10px;
+  }
+
+
+</style>

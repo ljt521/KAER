@@ -1,0 +1,60 @@
+<!--作者：莫岭红 功能：会诊量-->
+<template>
+  <div class="divBox">
+    <swipeout>
+      <swipeout-item transition-mode="follow"  v-for="(item,i) of 3" :key="i">
+        <div slot="right-menu">
+          <swipeout-button type="primary">编辑</swipeout-button>
+          <swipeout-button type="warn">删除</swipeout-button>
+        </div>
+        <div slot="content" :class="{'vux-1px-b': i !== 3}" style="padding: 0 12px;">
+          <cell is-link>
+            <span slot="title" >
+              <span class="spanCell">2019：</span>
+              <span class="leftSpan">全部主刀</span>
+              <span >30</span>
+            </span>
+          </cell>
+        </div>
+      </swipeout-item>
+    </swipeout>
+    <div class="cardFoot" @click="goNewConsultation()">
+      <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建会诊量
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'ConsultationVolume',
+    data () {
+      return {
+      }
+    },
+    methods: {
+      goNewConsultation() {
+        this.$router.push('/new-consultation')
+      }
+    }
+  }
+</script>
+<style lang="less" >
+  .divBox{
+    background-color: white;
+    margin: 0 15px;
+    padding-bottom: 10px;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
+    }
+    font-size: 14px;
+    padding-top: 12px;
+    margin-bottom: 10px;
+  }
+
+</style>

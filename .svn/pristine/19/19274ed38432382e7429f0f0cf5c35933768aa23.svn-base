@@ -1,0 +1,32 @@
+<!--作者：莫岭红 功能：新建语种-->
+<template>
+  <div style="text-align: left">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">新建语种<a slot="right">完成</a></x-header>
+    </div>
+    <div>
+      <group>
+        <cell title="语种"  value="请选择" is-link></cell>
+        <cell title="熟练度"  value="请选择" is-link></cell>
+      </group>
+    </div>
+
+
+  </div>
+</template>
+<script>
+
+export default {
+  name: 'NewLang',
+  data () {
+    return {
+    }
+  },
+  methods: {
+  }
+}
+</script>
+
+<style lang="less">
+
+</style>

@@ -1,0 +1,97 @@
+<!--作者：吕俊涛 功能：动态组件-->
+<template>
+  <div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<router-link to="/userInfo">@丁一@</router-link>论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+      </div>
+    </div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<router-link to="/userInfo">@丁一@</router-link>论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+      </div>
+    </div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<router-link to="/userInfo">@丁一@</router-link>论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+      </div>
+    </div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<router-link to="/userInfo">@丁一@</router-link>论文信息#1浅谈临床医学小儿科质量中和花单声道是的是的</i>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<script>
+  export default {
+    name: 'TimeAxis',
+    data () {
+      return {
+      }
+    },
+    methods: {
+    }
+  }
+</script>
+
+<style lang="less">
+  .space {
+    padding: 12px;
+    margin: 0 12px 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: left;
+    height: 120px;
+    max-height: 120px;
+    .dy-div-icon {
+      float: left;
+      height: 140px;
+    }
+    .dy-div {
+      padding-top: 5px;
+      i {
+        font-style: normal;
+        color: #a3a3a3;
+      }
+      h4 {
+        line-height: 0;
+      }
+    }
+    .weui-icon-waiting-circle {
+      color: #a3a3a3;
+    }
+    .weui-icon-waiting-circle::after {
+      content: '';
+      width: 1px;
+      height: calc(110px + 12px);
+      border-left: 1px solid #a3a3a3;
+      display: block;
+      position: relative;
+      left: 16px;
+      top: -2px;
+    }
+  }
+</style>

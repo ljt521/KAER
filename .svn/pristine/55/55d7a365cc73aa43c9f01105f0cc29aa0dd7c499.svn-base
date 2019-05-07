@@ -1,0 +1,29 @@
+<template>
+  <div>
+    <group>
+      <datetime v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY" @on-change="change" year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+    </group>
+  </div>
+</template>
+<script>
+import { Datetime } from 'vux'
+export default {
+  name: 'FollowDetails',
+  components: {
+    Datetime
+  },
+  data () {
+    return {
+      value5: ''
+    }
+  },
+  methods: {
+    change (value) {
+      console.log('change', value)
+    }
+  }
+}
+</script>
+
+<style lang="less">
+</style>

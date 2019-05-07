@@ -1,0 +1,55 @@
+<!--作者：莫岭红 功能：外语能力-->
+<template>
+    <div class="divBox" id="d1">
+      <selector ref="defaultValueRef" title="英语:"  :options="list" v-model="defaultValue"></selector>
+      <selector ref="defaultValueRef" title="法语:"  :options="list" v-model="defaultValue"></selector>
+      <selector ref="defaultValueRef" title="德语:"  :options="list" v-model="defaultValue"></selector>
+      <div class="cardFoot"  v-on:click="goNewLang">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建语种
+      </div>
+    </div>
+</template>
+<script>
+  export default {
+    name: 'ForeignAbility',
+    data () {
+      return {
+        defaultValue: 'eh',
+        list: [{key: 'eh', value: '熟悉'}, {key: 'gx', value: '广西'}],
+      }
+    },
+    methods: {
+      goNewLang() {
+        this.$router.push({
+          path: '/new-lang'
+        })
+      }
+    }
+  }
+</script>
+<style lang="less" >
+  .divBox{
+    background-color: white;
+    margin: 0 15px;
+    padding-bottom: 10px;
+    text-align: left;
+    color:#A4A4A4;
+  }
+  #vux-selector-kii80{
+    color:white;
+  }
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
+    }
+    font-size: 14px;
+    border-top: 1px solid #dddddd;
+    padding-top: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+
+
+</style>

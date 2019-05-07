@@ -1,0 +1,81 @@
+<template>
+  <div class="us-top">
+    <x-header></x-header>
+    <div class="us-img">
+    </div>
+    <div class="us-z">
+      <img class="us-img-1" src="../assets/image/default_head.png" alt="">
+      <grid :show-lr-borders="false" :show-vertical-dividers="false">
+        <grid-item :link="{ path: '/userInfo/essential-info'}">
+          <img slot="icon" src="../assets/image/tab_dynamic_n.png">
+          <span slot="label">1</span>
+        </grid-item>
+        <grid-item>
+          <img slot="icon" src="../assets/image/tab_dynamic_n.png">
+          <span slot="label">2</span>
+        </grid-item>
+        <grid-item>
+          <img slot="icon" src="../assets/image/tab_dynamic_n.png">
+          <span slot="label">3</span>
+        </grid-item>
+        <grid-item>
+          <img slot="icon" src="../assets/image/tab_dynamic_n.png">
+          <span slot="label">4</span>
+        </grid-item>
+      </grid>
+    </div>
+    <div class="us-bottom">
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Grid, GridItem } from 'vux'
+export default {
+  name: 'UserInfo',
+  components: {
+    Grid,
+    GridItem
+  },
+  data () {
+    return {
+    }
+  },
+  mounted: function () {
+  },
+  methods: {
+  }
+}
+</script>
+
+<style lang="less">
+ .us-top {
+   .vux-header, .us-img {
+     background-color: #074089;
+   }
+   .us-img {
+     position: relative;
+     height: 120px;
+     top: -1px;
+   }
+   .us-z {
+     height: 200px;
+     margin: 0 15px -80px;
+     position: relative;
+     top: -90px;
+     background-color: #fff;
+     border-radius: 5px;
+     .us-img-1 {
+       position: relative;
+       top: -45px;
+     }
+   }
+   .us-bottom {
+     margin: 0 7px;
+     .scrollable .vux-tab-item {
+       flex: 0 0 20%;
+     }
+   }
+ }
+</style>

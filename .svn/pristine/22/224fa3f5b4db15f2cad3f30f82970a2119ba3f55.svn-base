@@ -1,0 +1,70 @@
+<!--作者：莫岭红 功能：手术量-->
+<template>
+  <div >
+    <group>
+      <cell-box is-link>
+        <span class="spanCell">2019：</span>
+        <span class="leftSpan">全部主刀</span>
+        <span >30</span>
+      </cell-box>
+      <cell-box is-link>
+        <span class="spanCell">2019：</span>
+        <span class="leftSpan">全部主刀</span>
+        <span >30</span>
+      </cell-box>
+      <cell-box is-link>
+        <span class="spanCell">2019：</span>
+        <span class="leftSpan">全部主刀</span>
+        <span >30</span>
+      </cell-box>
+      <hr class="diliver">
+      <div class="cardFoot">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建手术量
+      </div>
+    </group>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'OperativeVolume',
+    data () {
+      return {
+        msg: 'Welcome to Your Vue.js App'
+      }
+    }
+  }
+</script>
+<style lang="less" scoped>
+  .weui-cells{
+    margin-top:0px !important;
+  }
+  .aa{
+    visibility:hidden
+  }
+  .weui-cell{
+    padding: 7px 15px !important;
+    font-size: 14px;
+    text-align: left;
+  }
+  .weui-cell:before{
+    border: none !important;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+  .diliver{
+    border: 1px solid #dddddd;
+  }
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
+    }
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+
+
+
+</style>
