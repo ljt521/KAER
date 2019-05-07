@@ -11,8 +11,7 @@
         :border-intent="false"
         :arrow-direction="showContent1 ? 'up' : 'down'"
         @click.native="showContent1 = !showContent1">
-        <img slot="icon" width="20" style="display:block;margin-right:5px;"
-             src="../assets/image/follow_up_consultation.png" alt="">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_consultation.png" alt="">
       </cell>
 
       <swipeout class="slide" :class="showContent1?'animate':''">
@@ -25,22 +24,14 @@
             <div class="fo-tex">
               <span class="fo-span"></span><span>胃十二指肠手术</span><span style="float: right">2019/02/07</span>
 
-              <flexbox :gutter="25">
-                <flexbox-item :span="1/3">
-                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex-demo"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</div>
-                </flexbox-item>
-                <flexbox-item :span="1/3">
-                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">上海</div>
-                </flexbox-item>
-              </flexbox>
-              <flexbox>
-                <flexbox-item>
-                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
-                </flexbox-item>
-              </flexbox>
+                <flexbox :gutter="25">
+                  <flexbox-item :span="1/3" ><div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div></flexbox-item>
+                  <flexbox-item :span="1/3" ><div class="flex-demo"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</div></flexbox-item>
+                  <flexbox-item :span="1/3" ><div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">上海</div></flexbox-item>
+                </flexbox>
+                <flexbox >
+                  <flexbox-item ><div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div></flexbox-item>
+                </flexbox>
 
             </div>
           </div>
@@ -59,8 +50,7 @@
         :border-intent="false"
         :arrow-direction="showContent2 ? 'up' : 'down'"
         @click.native="showContent2 = !showContent2">
-        <img slot="icon" width="20" style="display:block;margin-right:5px;"
-             src="../assets/image/follow_up_operation_demonstration.png" alt="">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_operation_demonstration.png" alt="">
       </cell>
 
       <swipeout class="slide" :class="showContent2?'animate':''">
@@ -85,8 +75,7 @@
         :border-intent="false"
         :arrow-direction="showContent3 ? 'up' : 'down'"
         @click.native="showContent3 = !showContent3">
-        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_lecture.png"
-             alt="">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_lecture.png" alt="">
       </cell>
 
       <swipeout class="slide" :class="showContent3?'animate':''">
@@ -111,8 +100,7 @@
         :border-intent="false"
         :arrow-direction="showContent4 ? 'up' : 'down'"
         @click.native="showContent4 = !showContent4">
-        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_research.png"
-             alt="">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_research.png" alt="">
       </cell>
 
       <swipeout class="slide" :class="showContent4?'animate':''">
@@ -137,8 +125,7 @@
         :border-intent="false"
         :arrow-direction="showContent5 ? 'up' : 'down'"
         @click.native="showContent5 = !showContent5">
-        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_paper.png"
-             alt="">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_paper.png" alt="">
       </cell>
 
       <swipeout class="slide" :class="showContent5?'animate':''">
@@ -163,8 +150,7 @@
         :border-intent="false"
         :arrow-direction="showContent6 ? 'up' : 'down'"
         @click.native="showContent6 = !showContent6">
-        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_learning.png"
-             alt="">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_learning.png" alt="">
       </cell>
 
       <swipeout class="slide" :class="showContent6?'animate':''">
@@ -182,59 +168,20 @@
         </swipeout-item>
       </swipeout>
     </div>
-    <div class="fo-add" @click="show = !show">+</div>
-    <div v-transfer-dom>
-      <x-dialog v-model="show" class="dialog-demo">
-        <div class="img-box">
-          <p style="text-align: center">请点击下面图标新增业务对象</p>
-          <div class="fo-line">
-              <grid-item>
-                <img slot="icon" src="../assets/image/client_follow_s.png">
-                <span slot="label">快乐</span>
-              </grid-item>
-              <grid-item>
-                <img slot="icon" src="../assets/image/client_follow_s.png">
-                <span slot="label">快乐</span>
-              </grid-item>
-              <grid-item>
-                <img slot="icon" src="../assets/image/client_follow_s.png">
-                <span slot="label">快乐</span>
-              </grid-item>
-          </div>
-          <div>
-            <grid-item>
-              <img slot="icon" src="../assets/image/client_follow_s.png">
-              <span slot="label">快乐</span>
-            </grid-item>
-            <grid-item>
-              <img slot="icon" src="../assets/image/client_follow_s.png">
-              <span slot="label">快乐</span>
-            </grid-item>
-            <grid-item>
-              <img slot="icon" src="../assets/image/client_follow_s.png">
-              <span slot="label">快乐</span>
-            </grid-item>
-          </div>
-        </div>
-        <div @click="show=false">
-          <span class="vux-close"></span>
-        </div>
-      </x-dialog>
-    </div>
+    <div class="fo-add">+</div>
   </div>
 </template>
 <script>
-  import { Datetime, Cell, XDialog, TransferDom } from 'vux'
+  import {Datetime, Cell, Swipeout, SwipeoutItem, SwipeoutButton} from 'vux'
 
   export default {
     name: 'FollowDetails',
-    directives: {
-      TransferDom
-    },
-    component: {
+    components: {
       Datetime,
       Cell,
-      XDialog
+      Swipeout,
+      SwipeoutItem,
+      SwipeoutButton
     },
     data () {
       return {
@@ -245,7 +192,6 @@
         showContent4: false,
         showContent5: false,
         showContent6: false,
-        show: false
       }
     },
     methods: {
@@ -257,8 +203,6 @@
 </script>
 
 <style lang="less">
-  @import '~vux/src/styles/close';
-
   .fo-top {
     margin: 0 15px;
     p {
@@ -293,27 +237,6 @@
       line-height: 70px;
       font-size: 50px;
     }
-    .dialog-demo {
-      .weui-dialog {
-        border-radius: 8px;
-        padding-bottom: 8px;
-      }
-      .dialog-title {
-        line-height: 30px;
-        color: #666;
-      }
-      .img-box {
-        overflow: hidden;
-      }
-      .vux-close {
-        margin-top: 8px;
-        margin-bottom: 8px;
-      }
-    }
-  }
-
-  .weui-grid::after {
-    content: none;
   }
   .slide {
     padding: 0;
@@ -321,7 +244,6 @@
     max-height: 0;
     transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
   }
-
   .animate {
     max-height: 9999px;
     transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
