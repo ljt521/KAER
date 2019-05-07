@@ -1,0 +1,36 @@
+<template>
+  <div>
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :right-options="{showMore: true}" @on-click-more="showMenus = true">全部下属</x-header>
+    </div>
+    <div v-transfer-dom>
+      <actionsheet :menus="menus" v-model="showMenus" show-cancel></actionsheet>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { Actionsheet, TransferDom } from 'vux'
+  export default {
+    name: 'AllSubordinates',
+    directives: {
+      TransferDom
+    },
+    components: {
+      Actionsheet
+    },
+    data () {
+      return {
+        menus: {
+          menu1: 'Take Photo',
+          menu2: 'Choose from photos'
+        },
+        showMenus: false
+      }
+    },
+    methods: {
+    }
+  }
+</script>
+
+<style lang="less"></style>
