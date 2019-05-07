@@ -190,15 +190,15 @@
           <p style="text-align: center">请点击下面图标新增业务对象</p>
           <div class="fo-line">
             <grid :show-lr-borders="false" :show-vertical-dividers="false">
-              <grid-item :link="{ path: '/new-consul-info'}">
+              <grid-item>
                 <img slot="icon" src="../assets/image/client_follow_s.png">
                 <span slot="label">新会诊</span>
               </grid-item>
-              <grid-item :link="{ path: '/new-oper-demo'}">
+              <grid-item>
                 <img slot="icon" src="../assets/image/client_follow_s.png">
                 <span slot="label">新手术演示</span>
               </grid-item>
-              <grid-item :link="{ path: '/new-iecture'}">
+              <grid-item>
                 <img slot="icon" src="../assets/image/client_follow_s.png">
                 <span slot="label">新讲课</span>
               </grid-item>
@@ -206,15 +206,15 @@
           </div>
           <div>
             <grid :show-lr-borders="false" :show-vertical-dividers="false">
-            <grid-item :link="{ path: '/new-topic'}">
+            <grid-item>
               <img slot="icon" src="../assets/image/client_follow_s.png">
               <span slot="label">新论文发表</span>
             </grid-item>
-            <grid-item :link="{ path: '/new-paper'}">
+            <grid-item>
               <img slot="icon" src="../assets/image/client_follow_s.png">
               <span slot="label">新参与课题</span>
             </grid-item>
-            <grid-item :link="{ path: '/new-learning'}">
+            <grid-item>
               <img slot="icon" src="../assets/image/client_follow_s.png">
               <span slot="label">学术参与</span>
             </grid-item>
