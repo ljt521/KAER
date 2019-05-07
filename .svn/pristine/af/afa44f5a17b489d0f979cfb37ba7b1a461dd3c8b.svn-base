@@ -21,7 +21,7 @@
             <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" :class="{'vux-1px-b': i !== 3, 'vux-1px-t': i === 1}" style="padding:12px;">
-            <div class="fo-tex"><span class="fo-span"></span><span>胃十二指肠手术</span><span style="float: right">2019/02/07</span></div>
+            <div class="fo-tex"><span class="fo-span"></span><span>胃十二指肠手术</span></div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -181,7 +181,7 @@
     }
   }
   .slide {
-    padding: 0;
+    padding: 0 20px;
     overflow: hidden;
     max-height: 0;
     transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
