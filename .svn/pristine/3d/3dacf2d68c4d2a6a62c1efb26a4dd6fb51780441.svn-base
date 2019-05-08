@@ -18,8 +18,8 @@
       <swipeout class="slide" :class="showContent1?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn">删除</swipeout-button>
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -66,8 +66,8 @@
       <swipeout class="slide" :class="showContent2?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn">删除</swipeout-button>
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" class="{'vux-1px-t}" style="padding:12px;">JavaScript is the best language</div>
         </swipeout-item>
@@ -92,8 +92,8 @@
       <swipeout class="slide" :class="showContent3?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn">删除</swipeout-button>
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
         </swipeout-item>
@@ -118,8 +118,8 @@
       <swipeout class="slide" :class="showContent4?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn">删除</swipeout-button>
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
         </swipeout-item>
@@ -144,8 +144,8 @@
       <swipeout class="slide" :class="showContent5?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn">删除</swipeout-button>
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
         </swipeout-item>
@@ -170,8 +170,8 @@
       <swipeout class="slide" :class="showContent6?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn">删除</swipeout-button>
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
         </swipeout-item>
@@ -221,14 +221,7 @@
             </grid>
           </div>
         </div>
-        <div @click="show=false" style="position: absolute;
-          bottom: 20px;
-          left: 50%;
-          width: 35px;
-          height: 35px;
-          border: 1px solid #ccc;
-          border-radius: 50%;
-          line-height: 30px;">
+        <div @click="show=false" style="margin-top: 20%">
           <span class="vux-close"></span>
         </div>
       </x-dialog>
@@ -309,7 +302,7 @@
       .weui-dialog {
         border-radius: 8px;
         padding-bottom: 8px;
-        }
+      }
       .dialog-title {
         line-height: 30px;
         color: #666;
@@ -317,6 +310,12 @@
       .img-box {
         overflow: hidden;
       }
+      .vux-close {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        bottom: -67px;
+      }
+
     }
   }
 
