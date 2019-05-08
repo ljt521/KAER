@@ -110,9 +110,17 @@ export default {
   .visible{
     visibility:hidden
   }
+  .weui-grid:after {
+    content: none;
+  }
+  .weui-grids:before {
+    content: none;
+  }
   .weui-tabbar{
     a{
       text-decoration: none;
     }
   }
+
+
 </style>

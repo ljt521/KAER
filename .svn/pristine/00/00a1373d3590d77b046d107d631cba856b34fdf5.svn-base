@@ -20,7 +20,6 @@
     data () {
       return {
         value:'',
-        value5:'',
         defaultValue: 'eh',
         list: [{key: 'eh', value: '英语'}, {key: 'gx', value: '广西'}],
       }

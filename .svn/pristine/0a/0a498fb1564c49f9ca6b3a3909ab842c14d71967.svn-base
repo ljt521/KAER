@@ -1,10 +1,8 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <div class="app-top" v-show="$route.path == '/mine' || $route.path == '/dynamic' ||
-      $route.path == '/customer' || $route.path == '/'" >
-      <tabbar class="x-bottom">
-        <tabbar-item selected link="/dynamic">
+    <div class="app-top" v-show="$route.path == '/mine' ||
+      $route.path == '/customer' || $route.path == '/'" >      <tabbar class="x-bottom">        <tabbar-item selected link="/dynamic">
           <img slot="icon" src="./assets/image/tab_dynamic_n.png">
           <img slot="icon-active" src="./assets/image/tab_dynamic_s.png">
           <span slot="label">动态</span>
@@ -115,4 +113,6 @@ export default {
       text-decoration: none;
     }
   }
+
+
 </style>

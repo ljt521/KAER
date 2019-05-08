@@ -7,10 +7,10 @@
       ref="search"></search>
     <div class="clearfix">
       <div class="cu-type1">
-        <selector ref="region" title="区域" :options="regionType" v-model="region" @on-change="onChange"></selector>
+        <selector name="type1" ref="region" title="区域" :options="regionType" v-model="region" @on-change="onChange"></selector>
       </div>
       <div class="cu-type2">
-        <selector ref="departments" title="科室类型" :options="departmentsType" v-model="departments" @on-change="onTyChange"></selector>
+        <selector name="type2" ref="departments" title="科室类型" :options="departmentsType" v-model="departments" @on-change="onTyChange"></selector>
       </div>
     </div>
     <div class="cu-con">

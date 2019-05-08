@@ -72,7 +72,7 @@
       <swipeout class="slide" :class="showContent2?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button @click.native="onButtonClick('/new-oper-demo')" type="primary">编辑</swipeout-button>
+            <swipeout-button type="primary">编辑</swipeout-button>
             <swipeout-button type="warn">删除</swipeout-button>
           </div>
           <div slot="content" class="{'vux-1px-t}" style="padding:12px;">JavaScript is the best language</div>
@@ -98,7 +98,7 @@
       <swipeout class="slide" :class="showContent3?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture')">编辑</swipeout-button>
+            <swipeout-button type="primary">编辑</swipeout-button>
             <swipeout-button type="warn">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
@@ -124,7 +124,7 @@
       <swipeout class="slide" :class="showContent4?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-topic')">编辑</swipeout-button>
+            <swipeout-button type="primary">编辑</swipeout-button>
             <swipeout-button type="warn">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
@@ -150,7 +150,7 @@
       <swipeout class="slide" :class="showContent5?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-paper')">编辑</swipeout-button>
+            <swipeout-button type="primary">编辑</swipeout-button>
             <swipeout-button type="warn">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
@@ -176,7 +176,7 @@
       <swipeout class="slide" :class="showContent6?'animate':''">
         <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-learning')">编辑</swipeout-button>
+            <swipeout-button type="primary">编辑</swipeout-button>
             <swipeout-button type="warn">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>

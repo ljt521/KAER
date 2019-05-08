@@ -89,9 +89,6 @@ export default {
      .weui-grid::after {
        content: none;
      }
-     .weui-grid {
-       text-decoration: none;
-     }
    }
    .us-bottom {
      .scrollable .vux-tab-item {
