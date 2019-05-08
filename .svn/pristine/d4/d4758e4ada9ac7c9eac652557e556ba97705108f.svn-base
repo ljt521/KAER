@@ -130,7 +130,7 @@ export default {
       this.$router.push('/all-subordinates')
     },
     goNewCustomer(){
-      this.$router.push('/new-custom')
+      this.$router.push('/new-customer')
     }
   }
 }

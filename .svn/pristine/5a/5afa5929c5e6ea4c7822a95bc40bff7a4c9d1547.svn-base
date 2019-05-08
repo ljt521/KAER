@@ -130,7 +130,7 @@ export default {
       this.$router.push('/all-subordinates')
     },
     goNewCustomer(){
-      this.$router.push('/new-custom')
+      this.$router.push('/new-customer')
     }
   }
 }
@@ -222,7 +222,7 @@ export default {
             .cu-bottom-l, .cu-bottom-r {
               float: left;
               width: calc(50% - 1px);
-              line-height: 28px;
+              line-height: 32px;
               font-weight: 600;
               img {
                 position: relative;
