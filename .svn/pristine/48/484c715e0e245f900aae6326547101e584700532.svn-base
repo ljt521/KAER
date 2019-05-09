@@ -375,16 +375,7 @@
         console.log('change', value)
       },
       onButtonClick(e) {
-        if(e == '/new-consul-info') {
-          this.$router.push({
-            name:"NewConsulInfo",
-            params:{
-              title: '编辑会诊'
-            }
-          });
-        } else {
-          this.$router.push({path: e});
-        }
+        this.$router.push({path: e})
       }
     }
   }

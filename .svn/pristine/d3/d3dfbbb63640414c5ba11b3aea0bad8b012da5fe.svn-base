@@ -50,7 +50,7 @@ export default new Router({
           path: 'essential-info',
           component: EssentialInfo,
           meta: {
-            title: '基本资料'
+            title: '个人信息'
           }
         },
         {
@@ -135,7 +135,6 @@ export default new Router({
     {
       path: '/new-consul-info',
       component: NewConsulInfo,
-      name: 'NewConsulInfo',
       meta: {
         title: '新建会诊'
       }
