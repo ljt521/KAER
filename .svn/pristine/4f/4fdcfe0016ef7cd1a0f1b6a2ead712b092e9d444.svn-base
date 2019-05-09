@@ -1,7 +1,7 @@
 <!--作者：莫岭红 功能：个人信息-->
 <template>
- <div class="perInfo" >
-   <div class="divBox" >
+ <div >
+   <div class="divBox">
      <cell-box>
        <span class="spanCell">编号:</span>YS1000254
      </cell-box>
@@ -53,18 +53,8 @@ export default {
 }
 </script>
 <style lang="less" >
-  .perInfo{
     .divBox{
       background-color: white;
       margin: 0 15px;
-
     }
-    span{
-      &:after{
-        content: '';
-        margin-right: 5px;
-      }
-    }
-  }
-
 </style>

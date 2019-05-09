@@ -1,27 +1,27 @@
 <!--作者：莫岭红 功能：个人信息-->
 <template>
- <div class="perInfo" >
-   <div class="divBox" >
+ <div >
+   <div class="divBox">
      <cell-box>
-       <span class="spanCell">编号:</span>YS1000254
+       <span class="spanCell">编<span class="visible">编号</span>号:</span>YS1000254
      </cell-box>
      <cell-box>
-       <span class="spanCell">姓名:</span>丁一
+       <span class="spanCell">姓<span class="visible">编号</span>名:</span>丁一
      </cell-box>
      <cell-box>
        <span class="spanCell">出生年月:</span>1980-03-22
      </cell-box>
      <cell-box>
-       <span class="spanCell">年龄:</span>39
+       <span class="spanCell">年<span class="visible">编号</span>龄:</span>39
      </cell-box>
      <cell-box>
-       <span class="spanCell">医院:</span>第三医院
+       <span class="spanCell">医<span class="visible">编号</span>院:</span>第三医院
      </cell-box>
      <cell-box>
-       <span class="spanCell">科室:</span>骨科
+       <span class="spanCell">科<span class="visible">编号</span>室:</span>骨科
      </cell-box>
      <cell-box>
-       <span class="spanCell">职称:</span>主治医师
+       <span class="spanCell">职<span class="visible">编号</span>称:</span>主治医师
      </cell-box>
      <cell-box>
        <span class="spanCell">行政职务:</span>科室主任
@@ -53,18 +53,27 @@ export default {
 }
 </script>
 <style lang="less" >
-  .perInfo{
+
     .divBox{
       background-color: white;
       margin: 0 15px;
+    }
+    .weui-cell{
+      padding: 15px;
+      font-size: 14px;
+      text-align: left;
+    }
+    .weui-cell:before{
+      border: none;
+    }
+    .spanCell{
+      width: 28%;
+      color:#A4A4A4;
+    }
 
-    }
-    span{
-      &:after{
-        content: '';
-        margin-right: 5px;
-      }
-    }
-  }
+
+
+
+
 
 </style>

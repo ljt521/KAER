@@ -6,10 +6,10 @@
           <swipeout-button type="primary" @click.native="onButtonClick('/academic-team')">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
         </div>
-        <div slot="content" :class="{'vux-1px-b': i !== 3}" >
+        <div slot="content" :class="{'vux-1px-b': i !== 3}" style="padding: 0 12px;">
           <cell is-link>
             <span slot="title" >
-              <span class="spanCell">全国：</span>
+              <span class="spanCell">全<span class="visible">全</span>国：</span>
               <span class="leftSpan">常委</span>
               青委副主任
             </span>
@@ -17,9 +17,9 @@
         </div>
       </swipeout-item>
     </swipeout>
-    <div class="cardFootIcon"  v-on:click="goAacdemicTeam">
-      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建学术团队</p>
-    </div>
+      <div class="cardFoot" v-on:click="goAacdemicTeam">
+        <img src="../assets/image/client_details_add@2x.png" alt="" >&nbsp;新建学术团队
+      </div>
   </div>
 </template>
 <script>
@@ -80,18 +80,27 @@
     margin: 0 15px;
     padding-bottom: 10px;
   }
-  .cardFootIcon{
-    height: 35px;
-    line-height: 45px;
-    p {
-      text-align: center;
-      color: #074089;
+  .weui-cell{
+    padding: 7px 15px;
+    font-size: 14px;
+    text-align: left;
+  }
+  .weui-cell:before{
+    border: none ;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+
+  .cardFoot{
+    img{
+      width: 15px;
+      vertical-align: middle;
     }
-    .x-icon {
-      position: relative;
-      top: 4px;
-      fill: #074089;
-    }
+    font-size: 14px;
+    padding-top: 12px;
+    margin-bottom: 10px;
   }
 
 </style>

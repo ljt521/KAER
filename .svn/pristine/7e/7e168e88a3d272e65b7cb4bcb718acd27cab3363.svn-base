@@ -6,7 +6,7 @@
           <swipeout-button type="primary" @click.native="onButtonClick('/academic-team')">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
         </div>
-        <div slot="content" :class="{'vux-1px-b': i !== 3}" >
+        <div slot="content" :class="{'vux-1px-b': i !== 3}" style="padding: 0 12px;">
           <cell is-link>
             <span slot="title" >
               <span class="spanCell">全国：</span>

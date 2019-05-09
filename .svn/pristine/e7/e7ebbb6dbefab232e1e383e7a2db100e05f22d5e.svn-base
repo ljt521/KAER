@@ -7,7 +7,7 @@
             <swipeout-button type="primary" @click.native="onButtonClick('/new-lang')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
           </div>
-          <div slot="content" :class="{'vux-1px-b': i !== list.length}" >
+          <div slot="content" :class="{'vux-1px-b': i !== list.length}" style="padding: 0 12px;">
             <cell is-link>
               <span slot="title" >
                 <span style="vertical-align:middle;" class="spanCell">{{item.key|toChinese}}</span>  {{item.value}}
@@ -17,7 +17,7 @@
         </swipeout-item>
       </swipeout>
       <div class="cardFootIcon"  v-on:click="goNewLang">
-        <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建语种</p>
+        <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon>新建语种</p>
       </div>
     </div>
 </template>
@@ -79,6 +79,7 @@
             case 'eh':
               value="英语：";
               break;
+
           }
           return value
       }
@@ -106,6 +107,10 @@
       top: 4px;
       fill: #074089;
     }
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
   }
 
 </style>
