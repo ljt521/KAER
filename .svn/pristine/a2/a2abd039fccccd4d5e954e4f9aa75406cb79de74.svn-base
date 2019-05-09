@@ -21,7 +21,6 @@
       return {
         value:'',
         value5:'',
-        title: '新建会诊量',
         defaultValue: 'eh',
         list: [{key: 'eh', value: '英语'}, {key: 'gx', value: '广西'}],
       }
