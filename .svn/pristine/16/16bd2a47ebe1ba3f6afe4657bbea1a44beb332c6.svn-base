@@ -1,6 +1,6 @@
 <template>
     <div id="growth">
-      <v-chart id="canvas" ref="demo" :data="data">
+      <v-chart ref="demo" :data="data">
         <v-scale x field="月份" />
         <v-scale y field="月均降雨量" />
         <v-bar series-field="name" adjust="stack" />
@@ -50,10 +50,5 @@ export default {
 <style lang="less">
   #growth {
     margin: 0 15px;
-    #canvas {
-      canvas {
-        width: 100%!important;
-      }
-    }
   }
 </style>

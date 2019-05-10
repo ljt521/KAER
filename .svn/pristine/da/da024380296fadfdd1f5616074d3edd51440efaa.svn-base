@@ -23,22 +23,34 @@
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
-                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
-                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
-              </p>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
-              </p>
-            </div>
+              <span class="fo-span"></span><span>胃十二指肠手术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">上海</div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox >
+                <flexbox-item >
+                  <div class="flex-demo">
+                    <img src="../assets/image/follow_up_product_information.png" alt=""><span style="margin-right: 3px;">品牌名称 产品名称</span>
+                    <span style="margin-right: 3px;">|</span>
+                    <span style="margin-right: 3px;">品牌名称 产品名称</span>
+                  </div>
+                </flexbox-item>
+              </flexbox>
 
+            </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll('全部会诊信息')" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部会诊信息')">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -63,24 +75,40 @@
           <div slot="content" class="{'vux-1px-t}" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
-                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
-                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
-              </p>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
-              </p>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_activity.png" alt="">华西腹腔镜胰腺手术，高级研修班手术演示</span>
-              </p>
-            </div>
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">上海</div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox >
+                <flexbox-item >
+                  <div class="flex-demo">
+                    <img src="../assets/image/follow_up_product_information.png" alt=""><span style="margin-right: 3px;">品牌名称 产品名称</span>
+                    <span style="margin-right: 3px;">|</span>
+                    <span style="margin-right: 3px;">品牌名称 产品名称</span>
+                  </div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox >
+                <flexbox-item >
+                  <div class="flex-demo">
+                    <img src="../assets/image/follow_up_activity.png" alt=""><span style="margin-right: 3px;">华西腹腔镜胰腺手术，高级研修班手术演示</span>
+                  </div>
+                </flexbox-item>
+              </flexbox>
 
+            </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll('全部手术演示信息')" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部手术演示信息')">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -105,24 +133,40 @@
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span>基于3D生物打印技术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
-                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
-                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
-              </p>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
-              </p>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_activity.png" alt="">华西腹腔镜胰腺手术，高级研修班手术演示</span>
-              </p>
-            </div>
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">上海</div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox >
+                <flexbox-item >
+                  <div class="flex-demo">
+                    <img src="../assets/image/follow_up_product_information.png" alt=""><span style="margin-right: 3px;">品牌名称 产品名称</span>
+                    <span style="margin-right: 3px;">|</span>
+                    <span style="margin-right: 3px;">品牌名称 产品名称</span>
+                  </div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox >
+                <flexbox-item >
+                  <div class="flex-demo">
+                    <img src="../assets/image/follow_up_activity.png" alt=""><span style="margin-right: 3px;">华西腹腔镜胰腺手术，高级研修班手术演示</span>
+                  </div>
+                </flexbox-item>
+              </flexbox>
 
+            </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll('全部讲课信息')" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部讲课信息')">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -147,17 +191,23 @@
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_topic_type.png" alt="">国际合作</span>
-                <span class="right"><img src="../assets/image/follow_up_participation_mode.png" alt="">研究负责人</span>
-                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
-              </p>
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_topic_type.png" alt="">国际合作</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_participation_mode.png" alt="">研究负责人</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">2019年</div>
+                </flexbox-item>
+              </flexbox>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll('全部参与课题信息')" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部参与课题信息')">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -181,18 +231,24 @@
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
-                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
-                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
-              </p>
+              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_topic_type.png" alt="">全程主刀</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_participation_mode.png" alt="">月均三台</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">2019</div>
+                </flexbox-item>
+              </flexbox>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll('全部论文发表信息')" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部论文发表信息')">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -217,17 +273,23 @@
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
-              <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
-                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
-                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
-              </p>
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_topic_type.png" alt="">全程主刀</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_participation_mode.png" alt="">月均三台</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">2019</div>
+                </flexbox-item>
+              </flexbox>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll('全部学术参与信息')" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部学术参与信息')">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -422,21 +484,6 @@
           text-overflow:ellipsis;
           white-space:nowrap
         }
-        p{
-          color: #888888;
-          font-size: 13px;
-          overflow:hidden;
-          text-overflow:ellipsis;
-          white-space:nowrap;
-          .right{
-            margin-right: 30px;
-            img{
-              vertical-align: middle;
-              margin-right: 5px;
-            }
-          }
-        }
-
       }
     }
     .fo-add {
@@ -486,6 +533,15 @@
     max-height: 9999px;
     transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
     transition-delay: 0s;
+  }
+  div.vux-flexbox.vux-flex-row{
+    color: #888888;
+    font-size: 13px;
+    margin:10px 0;
+    img{
+      vertical-align: middle;
+      margin-right: 5px;
+    }
   }
 
 </style>

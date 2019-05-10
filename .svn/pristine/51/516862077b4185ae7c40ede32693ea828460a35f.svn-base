@@ -22,7 +22,6 @@ import NewLearning from '@/components/NewLearning'
 import NewCustom from '@/components/NewCustom'
 import SetInfo from '@/components/SetInfo'
 import SeeAll from '@/components/SeeAll'
-import MyConcern from '@/components/MyConcern'
 
 Vue.use(Router)
 let notFound = {
@@ -203,14 +202,6 @@ export default new Router({
       name: 'SeeAll',
       meta: {
         title: '查看全部'
-      }
-    },
-    {
-      path: '/my-concern',
-      component: MyConcern,
-      name: 'MyConcern',
-      meta: {
-        title: '我的关注'
       }
     }
   ]

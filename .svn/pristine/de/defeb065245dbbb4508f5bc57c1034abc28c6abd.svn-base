@@ -1,11 +1,12 @@
 <template>
-    <div id="growth">
-      <v-chart id="canvas" ref="demo" :data="data">
+    <div style="margin: 0 15px;">
+      <v-chart ref="demo" :data="data">
         <v-scale x field="月份" />
         <v-scale y field="月均降雨量" />
         <v-bar series-field="name" adjust="stack" />
         <v-tooltip show-value-in-legend />
       </v-chart>
+      <x-button type="primary" plain @click.native="$refs.demo.rerender()">rerender</x-button>
     </div>
 </template>
 
@@ -48,12 +49,4 @@ export default {
 </script>
 
 <style lang="less">
-  #growth {
-    margin: 0 15px;
-    #canvas {
-      canvas {
-        width: 100%!important;
-      }
-    }
-  }
 </style>
