@@ -18,30 +18,7 @@
       <selector ref="defaultValueRef" title="术式类型" direction="rtl" :options="listData.list1" placeholder="请选择" v-model="basicData.defaultValue1"></selector>
       <selector ref="defaultValueRef" title="讲课场合" direction="rtl" :options="listData.list1" placeholder="请选择" v-model="basicData.defaultValue1"></selector>
       <x-input title="活动名称" v-model="value" placeholder="请填写" text-align="right"></x-input>
-      <cell
-        title="产品信息"
-        value="请选择"
-        is-link
-        :border-intent="false"
-        :arrow-direction="showContent004 ? 'up' : 'down'"
-        @click.native="showContent004 = !showContent004">
-      </cell>
-      <div class="slide" :class="showContent004?'animate':''">
-        <cell>
-          <check-icon  slot="icon" :value.sync="demo1" type="plain"> 产品 </check-icon>
-          <template v-slot="value">
-            <span  style="margin-right: 15px;" >品牌</span>
-          </template>
-        </cell>
-        <cell v-for="item of 3" :key="item">
-          <check-icon  slot="icon" :value.sync="demo2" type="plain"> 产品1 </check-icon>
-          <template v-slot="value">
-            <div class="new-select">
-              <selector placeholder="请选择" :options="list" v-model="infoValue"></selector>
-            </div>
-          </template>
-        </cell>
-      </div>
+      <selector ref="defaultValueRef" title="产品信息" direction="rtl" :options="listData.list1" placeholder="请选择" v-model="basicData.defaultValue1"></selector>
     </div>
   </div>
 </template>
@@ -51,11 +28,6 @@
     data () {
       return {
         title:'新建讲课',
-        showContent004: false,
-        demo2: true,
-        demo1: false,
-        list: ['1', '2', '3'],
-        infoValue: '',
         value:'',
         value1:"",
         basicData:{
@@ -94,22 +66,6 @@
   .cellBox{
     height: 20px;
   }
-  .slide {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
-    .new-select {
-      height: 0;
-      position: relative;
-      top: -20px;
-    }
-  }
-  .animate {
-    max-height: 9999px;
-    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
-    transition-delay: 0s;
-  }
-
 
 
 </style>
