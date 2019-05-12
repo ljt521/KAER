@@ -32,9 +32,7 @@
           username: this.userPassWord
         }
         this.$post('/api/authenticate/?_allow_anonymous=true', data).then(info => {
-          console.log(info.msg.id_token);
-        }).catch(error => {
-          console.log(error);
+          console.log(info);
         })
       }
     }
