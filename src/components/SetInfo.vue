@@ -39,12 +39,12 @@
         },
         showMenus: false,
         radio001: ['我的菜单', '动态菜单', '客户菜单'],
-        value: '我的菜单'
+        value: window.localStorage.getItem('meSet')
       }
     },
     methods: {
-      change (value, label) {
-        console.log('change:', value, label)
+      change (value) {
+        window.localStorage.setItem('meSet', value);
       }
     }
   }

@@ -2,8 +2,8 @@
   <div id="app">
     <router-view></router-view>
     <div class="app-top" v-show="$route.path == '/mine' || $route.path == '/dynamic' ||
-      $route.path == '/customer' || $route.path == '/'" >
-      <tabbar class="x-bottom">
+      $route.path == '/customer' || $route.path == '/'">
+      <tabbar class="x-bottom" v-model="indexData">
         <tabbar-item link="/dynamic">
           <img slot="icon" src="./assets/image/tab_dynamic_n.png">
           <img slot="icon-active" src="./assets/image/tab_dynamic_s.png">
@@ -14,7 +14,7 @@
           <img slot="icon-active" src="./assets/image/tab_client_s.png">
           <span slot="label">客户</span>
         </tabbar-item>
-        <tabbar-item selected link="/mine">
+        <tabbar-item link="/mine">
           <img slot="icon" src="./assets/image/tab_mine_n.png">
           <img slot="icon-active" src="./assets/image/tab_mine_s.png">
           <span slot="label">我的</span>
@@ -26,58 +26,86 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import {Tabbar, Swipeout, SwipeoutItem,Checker, CheckerItem,
-  SwipeoutButton,Group,Cell,TabbarItem, XHeader,Checklist,CheckIcon,
-  XButton, Flexbox, FlexboxItem, Icon,Datetime,XInput,XAddress,Actionsheet,
-  Selector, Search, Tab, TabItem, CellBox, GridItem} from 'vux'
-Vue.component('cell-box', CellBox)
-Vue.component('tabbar', Tabbar)
-Vue.component('tabbarItem', TabbarItem)
-Vue.component('x-header', XHeader)
-Vue.component('flexbox', Flexbox)
-Vue.component('flexbox-item', FlexboxItem)
-Vue.component('icon', Icon)
-Vue.component('x-button', XButton)
-Vue.component('search', Search)
-Vue.component('selector', Selector)
-Vue.component('tab', Tab)
-Vue.component('tab-item', TabItem)
-Vue.component('group', Group)
-Vue.component('cell', Cell)
-Vue.component('swipeout', Swipeout)
-Vue.component('swipeout-item', SwipeoutItem)
-Vue.component('swipeout-button', SwipeoutButton)
-Vue.component('grid-item', GridItem)
-Vue.component('datetime', Datetime)
-Vue.component('x-input', XInput)
-Vue.component('x-address', XAddress)
-Vue.component('checklist', Checklist)
-Vue.component('checker', Checker)
-Vue.component('checker-item', CheckerItem)
-Vue.component('check-icon', CheckIcon)
-Vue.component('actionsheet', Actionsheet)
+  import Vue from 'vue'
+  import {
+    Tabbar, Swipeout, SwipeoutItem, Checker, CheckerItem,
+    SwipeoutButton, Group, Cell, TabbarItem, XHeader, Checklist, CheckIcon,
+    XButton, Flexbox, FlexboxItem, Icon, Datetime, XInput, XAddress, Actionsheet,
+    Selector, Search, Tab, TabItem, CellBox, GridItem
+  } from 'vux'
 
-export default {
-  name: 'APP',
-  data () {
-    return {
-      select: 'customer'
+  Vue.component('cell-box', CellBox)
+  Vue.component('tabbar', Tabbar)
+  Vue.component('tabbarItem', TabbarItem)
+  Vue.component('x-header', XHeader)
+  Vue.component('flexbox', Flexbox)
+  Vue.component('flexbox-item', FlexboxItem)
+  Vue.component('icon', Icon)
+  Vue.component('x-button', XButton)
+  Vue.component('search', Search)
+  Vue.component('selector', Selector)
+  Vue.component('tab', Tab)
+  Vue.component('tab-item', TabItem)
+  Vue.component('group', Group)
+  Vue.component('cell', Cell)
+  Vue.component('swipeout', Swipeout)
+  Vue.component('swipeout-item', SwipeoutItem)
+  Vue.component('swipeout-button', SwipeoutButton)
+  Vue.component('grid-item', GridItem)
+  Vue.component('datetime', Datetime)
+  Vue.component('x-input', XInput)
+  Vue.component('x-address', XAddress)
+  Vue.component('checklist', Checklist)
+  Vue.component('checker', Checker)
+  Vue.component('checker-item', CheckerItem)
+  Vue.component('check-icon', CheckIcon)
+  Vue.component('actionsheet', Actionsheet)
+
+  export default {
+    name: 'APP',
+    data () {
+      return {
+        indexData: window.localStorage.getItem('meSet') === '我的菜单'? 2 : window.localStorage.getItem('meSet') === '客户菜单' ? 1 : 0,
+      }
+    },
+    mounted () {
+      // '我的菜单', '动态菜单', '客户菜单'
+      switch (window.localStorage.getItem('meSet')) {
+        case '我的菜单':
+          this.indexData = 2;
+          this.$router.push({
+            path: '/mine'
+          })
+          break
+        case '动态菜单':
+          this.indexData = 0;
+          this.$router.push({
+            path: '/dynamic'
+          })
+          break
+        case '客户菜单':
+          this.indexData = 1;
+          this.$router.push({
+            path: '/customer'
+          })
+          break
+        default:
+          this.indexData = 0;
+          this.$router.push({
+            path: '/login'
+          });
+          break
+      }
     }
-  },
-  mounted: function () {
-    this.$router.push({
-      path: '/login'
-    })
   }
-}
 </script>
 
 <style lang="less">
   @import '~vux/src/styles/1px.less';
+
   #app {
-    .spanCell{
-      color:#A4A4A4;
+    .spanCell {
+      color: #A4A4A4;
     }
     p {
       margin: 0;
@@ -88,14 +116,16 @@ export default {
     text-align: center;
     color: #2c3e50;
     margin-top: 0;
-    .clearfix:after,.clearfix:before{
-      content:"";/*加一段内容*/
-      display:table;/*创建匿名的表格单元，触发bfc*/
+    .clearfix:after, .clearfix:before {
+      content: ""; /*加一段内容*/
+      display: table; /*创建匿名的表格单元，触发bfc*/
     }
-    .clearfix:after{
-      clear:both;/*清除浮动*/
+    .clearfix:after {
+      clear: both; /*清除浮动*/
     }
-    .clearfix{zoom:1;/*为IE6，7的兼容性设置*/}
+    .clearfix {
+      zoom: 1; /*为IE6，7的兼容性设置*/
+    }
     .app-top {
       width: 100%;
       height: 60px;
@@ -108,15 +138,18 @@ export default {
       background-color: #f7f7fa;
     }
   }
-  .leftSpan{
+
+  .leftSpan {
     width: 25%;
   }
-  .weui-tabbar{
-    a{
+
+  .weui-tabbar {
+    a {
       text-decoration: none;
     }
   }
-  .backgroundStyle{
+
+  .backgroundStyle {
     background-color: white;
     text-align: left;
     font-size: 14px;

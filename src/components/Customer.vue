@@ -114,26 +114,21 @@ export default {
   name: 'Customer',
   data () {
     return {
-      region: '昌平区',
-      departments: '外科',
+      region: '',
+      departments: '',
       regionType: [],
       departmentsType: ['外科', '内科', '急诊']
     }
   },
   mounted() {
-    const data ={
-      dictCode: 'QY'
-    }
-    this.$get('/api/dict-tables/search-with-list', data).then((info) => {
+    this.$get('/api/dict-tables/search-with-list', {dictCode: 'QY'}).then((info) => {
       this.regionType = info.dictItems;
     }).catch(error => {
       console.log(error);
     })
-    const page ={
-      page: 0,
-      size: 10
-    };
-    this.$get('/api/customer', page).then(info => {
+    this.$get('/api/customer', {page: 0, size: 10}).then(info => {
+    }).catch(error => {
+      console.log(error);
     })
   },
   methods: {
