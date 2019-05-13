@@ -232,13 +232,18 @@
         </swipeout-item>
       </swipeout>
     </div>
-    <div class="fo-add" @click="openDiaLog">+</div>
-    <new-dia-log ref="NewDiaLog"></new-dia-log>
+    <div class="fo-add" @click="show = !show">+</div>
+    <NewDiaLog :show="show"></NewDiaLog>
   </div>
 </template>
 <script>
+  import NewDiaLog from "./Dictionaries/NewDiaLog";
+
   export default {
     name: 'FollowDetails',
+    components: {
+      NewDiaLog,
+    },
     data () {
       return {
         show8:'',
@@ -248,7 +253,8 @@
         showContent3: false,
         showContent4: false,
         showContent5: false,
-        showContent6: false
+        showContent6: false,
+        show:false
       }
     },
     methods: {
@@ -334,10 +340,6 @@
             title: info
           }
         });
-      },
-      openDiaLog() {
-        let self = this;
-        self.$refs['NewDiaLog'].isShowDia(true);
       }
     }
   }

@@ -34,7 +34,7 @@
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
-            <div @click="openDiaLog" class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
           </div>
         </div>
       </div>
@@ -60,19 +60,24 @@
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
-            <div @click="openDiaLog" class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt=""><span>日常跟进</span></div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt=""><span  @click="show=!show">日常跟进</span></div>
           </div>
         </div>
       </div>
-      <new-dia-log ref="NewDiaLog"></new-dia-log>
+      <NewDiaLog :show="show"></NewDiaLog>
     </div>
 
   </div>
 </template>
 
 <script>
+  import NewDiaLog from "./Dictionaries/NewDiaLog";
+
 export default {
   name: 'Customer',
+  components: {
+    NewDiaLog
+  },
   data () {
     return {
       region: '',
@@ -81,6 +86,7 @@ export default {
       departmentsType: ['外科', '内科', '急诊'],
       customerData: [],
       subCustomerData: [],
+      show:false
     }
   },
   mounted() {
@@ -112,10 +118,7 @@ export default {
     goNewCustomer(){
       this.$router.push('/new-custom')
     },
-    openDiaLog() {
-      let self = this;
-      self.$refs['NewDiaLog'].isShowDia(true);
-    }
+
   }
 }
 </script>
