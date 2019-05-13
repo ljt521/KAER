@@ -33,7 +33,6 @@
     XButton, Flexbox, FlexboxItem, Icon, Datetime, XInput, XAddress, Actionsheet,
     Selector, Search, Tab, TabItem, CellBox, GridItem
   } from 'vux'
-import DivSpan from './components/Dictionaries/DivSpan'
 
   Vue.component('cell-box', CellBox)
   Vue.component('tabbar', Tabbar)
@@ -61,7 +60,6 @@ import DivSpan from './components/Dictionaries/DivSpan'
   Vue.component('checker-item', CheckerItem)
   Vue.component('check-icon', CheckIcon)
   Vue.component('actionsheet', Actionsheet)
-  Vue.component('div-span', DivSpan)
 
   export default {
     name: 'APP',

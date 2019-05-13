@@ -18,19 +18,39 @@
         <flexbox-item><div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span></p></div></flexbox-item>
         <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item>
       </flexbox>
-      <div class="cu-content" v-for="customer in customerData">
+      <div class="cu-content">
         <div class="cu-content-top">
           <div class="userImg">
             <img src="../assets/image/default_head.png" alt="dadada">
           </div>
           <div class="userImg-r">
-            <p><span style="font-size: 20px;padding-right: 10px;">{{customer.name}}</span>
-              <span style="font-size: 18px;padding-right: 10px;"><div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="customer.title"></div-span></span>
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
               <span class="cu-title">待跟进</span></p>
             <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
-              <span style="color: #888888">{{customer.hospitalName}}</span></p>
+              <span style="color: #888888">中国人民解放军第三军区医院</span></p>
             <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
-              <span style="color: #888888">{{customer.deptName}}</span></p>
+              <span style="color: #888888">骨科</span></p>
+          </div>
+          <div class="cu-bottom">
+            <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+          </div>
+        </div>
+      </div>
+      <div class="cu-content">
+        <div class="cu-content-top">
+          <div class="userImg">
+            <img src="../assets/image/default_head.png" alt="dadada">
+          </div>
+          <div class="userImg-r">
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
+              <span class="cu-title">待跟进</span></p>
+            <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
+              <span style="color: #888888">中国人民解放军第三军区医院</span></p>
+            <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
+              <span style="color: #888888">骨科</span></p>
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
@@ -97,8 +117,7 @@ export default {
       region: '',
       departments: '',
       regionType: [],
-      departmentsType: ['外科', '内科', '急诊'],
-      customerData: []
+      departmentsType: ['外科', '内科', '急诊']
     }
   },
   mounted() {
@@ -106,13 +125,11 @@ export default {
       this.regionType = info.dictItems;
     }).catch(error => {
       console.log(error);
-    });
-    this.$get('/api/customer', {sort:'isFollowUp,name,DESC',page: 0, size: 10}).then(info => {
-      this.customerData = info;
+    })
+    this.$get('/api/customer', {page: 0, size: 10}).then(info => {
     }).catch(error => {
       console.log(error);
-    });
-    // api/dict-item
+    })
   },
   methods: {
     onChange (val) {

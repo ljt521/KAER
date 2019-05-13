@@ -107,12 +107,17 @@ export default {
     }).catch(error => {
       console.log(error);
     });
-    this.$get('/api/customer', {sort:'isFollowUp,name,DESC',page: 0, size: 10}).then(info => {
+    this.$get('/api/customer', {page: 0, size: 10}).then(info => {
       this.customerData = info;
     }).catch(error => {
       console.log(error);
     });
     // api/dict-item
+    this.$get('/api/dict-item/all').then(info => {
+      console.log(info);
+    }).catch(error => {
+      console.log(error);
+    });
   },
   methods: {
     onChange (val) {
