@@ -86,7 +86,7 @@ export default {
     }).catch(error => {
       console.log(error);
     });
-    this.$search('/api/customer', {sort:'isFocusOn,isFollowUp,name,DESC',page: 0, size: 10}, {isFocusOn: 0}).then(info => {
+    this.$get('/api/customer', {sort:'isFocusOn,isFollowUp,name,DESC',page: 0, size: 10}, {isFocusOn: 0}).then(info => {
       this.subCustomerData = info;
     }).catch(error => {
       console.log(error);

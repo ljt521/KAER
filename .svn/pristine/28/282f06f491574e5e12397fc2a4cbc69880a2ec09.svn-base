@@ -69,25 +69,36 @@
 
   export default {
     name: 'APP',
-    data () {
+    data() {
       return {
-        indexData: null,
+        indexData: '',
       }
     },
-    watch: {
-      '$route': function () {
-        if (this.$route.path == '/mine') {
-          this.indexData = 2
-        } else if (this.$route.path == '/customer') {
-          this.indexData = 1
-        } else if (this.$route.path == '/dynamic') {
-          this.indexData = 0
-        } else {
-          const index = window.localStorage.getItem('meSet') === '我的菜单' ? 2 : window.localStorage.getItem('meSet') === '客户菜单' ? 1 : 0
-          this.indexData = index
-        }
+    created() {
+      if (this.$route.path == '/mine') {
+        this.indexData = 2
+      } else if (this.$route.path == '/customer') {
+        this.indexData = 1
+      } else if (this.$route.path == '/dynamic') {
+        this.indexData = 0
+      } else {
+        const index = window.localStorage.getItem('meSet') === '我的菜单' ? 2 : window.localStorage.getItem('meSet') === '客户菜单' ? 1 : 0
+        this.indexData = index
       }
-    }
+    },
+    mounted() {
+      if (this.$route.path == '/mine') {
+        this.indexData = 2
+      } else if (this.$route.path == '/customer') {
+        this.indexData = 1
+      } else if (this.$route.path == '/dynamic') {
+        this.indexData = 0
+      } else {
+        const index = window.localStorage.getItem('meSet') === '我的菜单' ? 2 : window.localStorage.getItem('meSet') === '客户菜单' ? 1 : 0
+        this.indexData = index
+      }
+    },
+    methods: {}
   }
 </script>
 
