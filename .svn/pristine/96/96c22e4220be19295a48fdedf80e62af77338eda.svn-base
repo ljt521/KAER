@@ -34,7 +34,7 @@
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
-            <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+            <div @click="openDiaLog" class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
-            <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt=""><span>日常跟进</span></div>
+            <div @click="openDiaLog" class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt=""><span>日常跟进</span></div>
           </div>
         </div>
       </div>
@@ -104,9 +104,9 @@ export default {
     goNewCustomer(){
       this.$router.push('/new-custom')
     },
-    openDiaLog(id) {
+    openDiaLog() {
       let self = this;
-      self.$refs['NewDiaLog'].isShowDia(true, id);
+      self.$refs['NewDiaLog'].isShowDia(true);
     }
   }
 }
