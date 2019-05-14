@@ -50,9 +50,9 @@
     methods: {
       loginWx () {
         const data = {
-          password: this.userPassWord,
-          username: this.userName,
-          fwOpenid: this.fwWechatId || null,
+          password: this.userName,
+          username: this.userPassWord,
+          fwOpenid: this.fwWechatId,
           qyOpenid: this.qyWechatId || null
         }
         this.$post('/api/authenticate/?_allow_anonymous=true', data).then(info => {

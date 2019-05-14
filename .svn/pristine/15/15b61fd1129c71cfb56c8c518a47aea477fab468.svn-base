@@ -50,8 +50,8 @@
     methods: {
       loginWx () {
         const data = {
-          password: this.userPassWord,
-          username: this.userName,
+          password: this.userName,
+          username: this.userPassWord,
           fwOpenid: this.fwWechatId || null,
           qyOpenid: this.qyWechatId || null
         }

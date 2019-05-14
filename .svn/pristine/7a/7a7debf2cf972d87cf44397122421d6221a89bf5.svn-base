@@ -75,6 +75,33 @@ import DivSelector from './components/Dictionaries/DivSelector'
       }
     },
     mounted () {
+      // '我的菜单', '动态菜单', '客户菜单'
+      switch (window.localStorage.getItem('meSet')) {
+        case '我的菜单':
+          this.indexData = 2;
+          this.$router.push({
+            path: '/mine'
+          })
+          break
+        case '动态菜单':
+          this.indexData = 0;
+          this.$router.push({
+            path: '/dynamic'
+          })
+          break
+        case '客户菜单':
+          this.indexData = 1;
+          this.$router.push({
+            path: '/customer'
+          })
+          break
+        default:
+          this.indexData = 0;
+          this.$router.push({
+            path: '/login'
+          });
+          break
+      }
     }
   }
 </script>
