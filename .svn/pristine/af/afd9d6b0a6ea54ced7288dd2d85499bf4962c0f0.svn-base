@@ -47,11 +47,12 @@ export default {
   name: 'PersonalInfo',
   data () {
     return {
+
     }
   },
-  props:['personData'],
-  mounted() {
-  }
+  props:['persondata'],
+
+
 }
 </script>
 <style lang="less" >

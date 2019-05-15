@@ -7,8 +7,7 @@
         <tab-item @on-item-click="onItemClick">手术量</tab-item>
         <tab-item @on-item-click="onItemClick">会诊量</tab-item>
       </tab>
-
-      <personal-info v-bind:personData="personData"  v-if="select === 0"></personal-info>
+      <personal-info v-bind="personData"  v-if="select === 0"></personal-info>
       <ForeignAbility style="margin: 0 15px" v-if="select === 1"></ForeignAbility>
       <AcademicDuty style="margin: 0 15px" v-if="select === 2"></AcademicDuty>
       <OperativeVolume style="margin: 0 15px" v-if="select === 3"></OperativeVolume>

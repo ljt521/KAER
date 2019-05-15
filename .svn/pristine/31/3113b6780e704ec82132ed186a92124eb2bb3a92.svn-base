@@ -21,19 +21,19 @@
       </p>
       <p style="margin: 5px 0 15px 0;text-align: center">人民解放军总医院第三分院</p>
       <grid :show-lr-borders="false" :show-vertical-dividers="false">
-        <grid-item :link="{ path: '/userInfo/'+id+'/essential-info/'+id}">
+        <grid-item :link="{ path: '/userInfo/essential-info'}">
           <img slot="icon" src="../assets/image/client_details_basic_data.png">
           <span slot="label">基本资料</span>
         </grid-item>
-        <grid-item :link="{ path: '/userInfo/'+id+'/growth-archives'}">
+        <grid-item :link="{ path: '/userInfo/growth-archives'}">
           <img slot="icon" src="../assets/image/client_details_growth_archives.png">
           <span slot="label">成长档案</span>
         </grid-item>
-        <grid-item :link="{ path: '/userInfo/'+id+'/follow-details'}">
+        <grid-item :link="{ path: '/userInfo/follow-details'}">
           <img slot="icon" src="../assets/image/client_details_follow_up.png">
           <span slot="label">跟进详情</span>
         </grid-item>
-        <grid-item :link="{ path: '/userInfo/'+id+'/dynamic-assembly'}">
+        <grid-item :link="{ path: '/userInfo/dynamic-assembly'}">
           <img slot="icon" src="../assets/image/client_details_dynamic.png">
           <span slot="label">动态</span>
         </grid-item>
@@ -56,15 +56,13 @@ export default {
   data () {
     return {
       care:true,
-      id:this.$route.params.id
     }
   },
   methods: {
     careData(){
       this.care=!this.care;
     }
-  },
-
+  }
 }
 </script>
 

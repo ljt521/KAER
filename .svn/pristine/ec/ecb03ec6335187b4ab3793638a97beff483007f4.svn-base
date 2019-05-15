@@ -1,0 +1,122 @@
+
+<!--作者：莫岭红 功能：新建（编辑）会诊-->
+  <template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="value1"
+        @on-change="change"
+        title="会诊日期"
+        placeholder="请选择"
+        @on-cancel="log('cancel')"
+        @on-confirm="onConfirm"
+        @on-hide="log('hide', $event)"></datetime>
+      <cell
+        title="产品信息"
+        value="请选择"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent004 ? 'up' : 'down'"
+        @click.native="showContent004 = !showContent004">
+      </cell>
+      <div class="slide" :class="showContent004?'animate':''">
+        <cell>
+          <check-icon  slot="icon" :value.sync="demo1" type="plain"> 产品 </check-icon>
+          <template v-slot="value">
+            <span  style="margin-right: 15px;" >品牌</span>
+          </template>
+        </cell>
+        <cell v-for="(item,i) of list" :key="i">
+          <check-icon  slot="icon" :value.sync="demo2" type="plain" @click.native="go(i)"> {{item.value}} </check-icon>
+          <template v-slot="value">
+            <div class="new-select">
+              <div-selector  :dictCode="'CPPP'" ></div-selector>
+            </div>
+          </template>
+        </cell>
+      </div>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"></div-selector>
+      <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'" ></div-selector>
+      <div-selector :tilteValue="'会诊地点'" :dictCode="'YYXX'" ></div-selector>
+      <x-address title="会议地点" v-model="addressValue" raw-value :list="addressData"  label-align="justify"></x-address>
+    </div>
+  </div>
+</template>
+<script>
+  import { ChinaAddressData } from 'vux'
+  export default {
+    name: 'NewConsulInfo',
+    data () {
+      return {
+        title: '新建会诊',
+        showContent004: false,
+        demo2: true,
+        demo1: false,
+        list: [],
+        value1:"",
+        addressValue: ['广东省', '深圳市', '南山区'],
+        addressData: ChinaAddressData,
+
+
+      }
+    },
+    created() {
+      this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
+        this.list = info.dictItems;
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+    mounted () {
+      this.title = this.$route.params.title || this.$route.meta.title;
+      console.log(this.$route.params);
+    },
+    methods:{
+      goEssentialInfo(){
+        this.$router.push('/userInfo/essential-info')
+      },
+      change (value) {
+        console.log('change', value)
+      },
+      log (str1, str2 = '') {
+        console.log(str1, str2)
+      },
+      onConfirm (val) {
+        console.log('on-confirm arg', val)
+        console.log('current value', this.value1)
+      },
+      go(i){
+        console.log(i)
+      }
+
+    }
+  }
+</script>
+
+
+<style lang="less" >
+  .cellBox{
+    height: 20px;
+  }
+  .slide {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+    .new-select {
+      height: 0;
+      position: relative;
+      top: -20px;
+    }
+  }
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+
+</style>
