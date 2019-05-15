@@ -25,17 +25,12 @@
           </div>
           <div class="userImg-r">
             <p><span style="font-size: 20px;padding-right: 10px;">{{customer.name}}</span>
-              <span style="font-size: 18px;padding-right: 10px;">
-                <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="customer.title"></div-span>
-              </span>
+              <span style="font-size: 18px;padding-right: 10px;"><div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="customer.title"></div-span></span>
               <span class="cu-title" v-show="customer.isFollowUp === 1" >待跟进</span></p>
             <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
               <span style="color: #888888">{{customer.hospitalName}}</span></p>
             <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
-              <span style="color: #888888">
-                <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
-              </span>
-            </p>
+              <span style="color: #888888">{{customer.deptName}}</span></p>
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
@@ -56,17 +51,12 @@
           </div>
           <div class="userImg-r">
             <p><span style="font-size: 20px;padding-right: 10px;">{{subCustomer.name}}</span>
-              <span style="font-size: 18px;padding-right: 10px;">
-                <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
-              </span>
+              <span style="font-size: 18px;padding-right: 10px;"><div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span></span>
               <span class="cu-title" v-show="subCustomer.isFollowUp === 1"  >待跟进</span></p>
             <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
               <span style="color: #888888">{{subCustomer.hospitalName}}</span></p>
             <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
-              <span style="color: #888888">
-                <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
-              </span>
-            </p>
+              <span style="color: #888888">{{subCustomer.deptName}}</span></p>
           </div>
           <div class="cu-bottom">
             <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
@@ -88,6 +78,7 @@ export default {
     return {
       area: '',
       deptCode: '',
+      departments: '',
       customerData: [],
       subCustomerData: []
     }
