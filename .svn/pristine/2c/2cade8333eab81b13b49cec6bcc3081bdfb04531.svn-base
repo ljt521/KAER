@@ -82,6 +82,7 @@
             for (let k = 0; k < info.length; k++) {
               info[k]['level'] = level + 1;
               info[i]['select'] = false;
+              info[i]['father'] = value;
               arr[index].childData.splice(indexLs, 0, info[k]);
             }
             this.subPersons = JSON.parse(JSON.stringify(arr));
@@ -98,20 +99,20 @@
           }
           if (selectData) {
             if (indexLs != null) {
+              this.subPersons[index].childData[indexLs].select = true
               if (this.subPersons[index].childData[indexLs]['childData']) {
                 for (let i = 0; i < this.subPersons[index].childData.length; i++) {
                   if (this.subPersons[index].childData[indexLs].level - this.subPersons[index].childData[i].level === 1
                   && this.subPersons[index].childData[i].father == value) {
-                    this.subPersons[index].childData[indexLs].select = true;
-                    this.subPersons[index].childData[i].select = true;
+                    this.subPersons[index].childData[i].select = true
                   }
                 }
               }
             } else {
+              this.subPersons[index].select = true
               if (this.subPersons[index]['childData']) {
                 for (let i = 0; i < this.subPersons[index].childData.length; i++) {
                   if (this.subPersons[index].childData[i].level - this.subPersons[index].level === 1) {
-                    this.subPersons[index].select = true;
                     this.subPersons[index].childData[i].select = true
                   }
                 }
@@ -119,19 +120,19 @@
             }
           } else {
             if (indexLs != null) {
+              this.subPersons[index].select = false
               if (this.subPersons[index]['childData']) {
                 for (let i = 0; i < this.subPersons[index].childData.length; i++) {
                   if (this.subPersons[index].childData[i].level - this.subPersons[index].level >= 1 && this.subPersons[index].childData[i].father == value) {
-                    this.subPersons[index].childData[i].select = false;
-                    this.subPersons[index].childData[indexLs].select = false;
+                    this.subPersons[index].childData[i].select = false
                   }
                 }
               }
             } else {
+              this.subPersons[index].select = false
               if (this.subPersons[index]['childData']) {
                 for (let i = 0; i < this.subPersons[index].childData.length; i++) {
-                  this.subPersons[index].childData[i].select = false;
-                  this.subPersons[index].select = false;
+                  this.subPersons[index].childData[i].select = false
                 }
               }
             }

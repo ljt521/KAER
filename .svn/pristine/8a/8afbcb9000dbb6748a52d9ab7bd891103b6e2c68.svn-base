@@ -21,13 +21,13 @@
        <span class="spanCell">科室:</span>{{personData.deptName}}
      </cell-box>
      <cell-box>
-       <span class="spanCell">职称:</span><div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="personData.title"></div-span>
+       <span class="spanCell">职称:</span>{{personData.title}}
      </cell-box>
      <cell-box>
-       <span class="spanCell">行政职务:</span><div-span v-bind:dictCode="'ZW'" v-bind:dictItemCode="personData.administrative"></div-span>
+       <span class="spanCell">行政职务:</span>{{personData.administrative}}
      </cell-box>
      <cell-box>
-       <span class="spanCell">最高学历:</span><div-span v-bind:dictCode="'XL'" v-bind:dictItemCode="personData.education"></div-span>
+       <span class="spanCell">最高学历:</span>{{personData.education}}
      </cell-box>
      <cell-box>
        <span class="spanCell">学校名称:</span>{{personData.schoolName}}
@@ -65,7 +65,6 @@ export default {
       &:after{
         content: '';
         margin-right: 5px;
-        display: inline-block;
       }
     }
   }
