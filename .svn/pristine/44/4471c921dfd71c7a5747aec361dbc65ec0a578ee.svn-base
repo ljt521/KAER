@@ -5,7 +5,7 @@
       <datetime style="width: 40%" v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY"
                 @on-change="change"
                 year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
-      <span style="position: absolute;top: 12px;right: 20px;font-size: 13px;">共 {{sumData.data1*1+sumData.data2*1+sumData.data3*1+sumData.data4*1+sumData.data5*1+sumData.data6*1}}条跟进信息</span>
+      <span style="position: absolute;top: 12px;right: 20px;font-size: 13px;">共 108条跟进信息</span>
     </div>
     <div class="fo-div">
       <cell
@@ -54,7 +54,7 @@
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部会诊信息',id:customerId})" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部会诊信息')" style="color: #074089;">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -108,7 +108,7 @@
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部手术演示信息',id:customerId})" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部手术演示信息')" style="color: #074089;">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -159,7 +159,7 @@
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部讲课信息',id:customerId})" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部讲课信息')" style="color: #074089;">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -197,7 +197,7 @@
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部参与课题信息',id:customerId})" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部参与课题信息')" style="color: #074089;">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -222,12 +222,12 @@
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span>{{data.paperName }}</span><span
-              style="float: right;font-size: 12px;color: #BFBFBF;">{{data.paperYear}}</span>
+              style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt=""><div-span v-bind:dictCode="'SMFS'" v-bind:dictItemCode="data.signType"></div-span>
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt=""><div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="data.signType"></div-span>
 </span>
 <!--                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>-->
-                <span class="right"><img src="../assets/image/follow_up_position.png" alt=""><div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="data.periodicalType"></div-span>
+                <span class="right"><img src="../assets/image/follow_up_position.png" alt=""><div-span v-bind:dictCode="'CYFS'" v-bind:dictItemCode="data.periodicalType"></div-span>
 </span>
               </p>
             </div>
@@ -235,7 +235,7 @@
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部论文发表信息',id:customerId})" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部论文发表信息')" style="color: #074089;">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -264,14 +264,15 @@
               <p style="margin: 10px 0">
                 <span class="right"><img src="../assets/image/follow_up_role.png" alt="">{{data.academicActivityType}}</span>
 <!--                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>-->
-                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>2019</span>
+                <span class="right"><icon style="color: #888888;font-size: 15px;"
+                                          type="waiting-circle"></icon>2019</span>
               </p>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部学术参与信息',id:customerId})" style="color: #074089;">查看全部</div>
+            <div @click="goToSeeAll('全部学术参与信息')" style="color: #074089;">查看全部</div>
           </div>
         </swipeout-item>
       </swipeout>
@@ -312,24 +313,21 @@
         }
       }
     },
-    created() {
-      this.mounted();
-    },
     mounted () {
       this.$search('/api/Consultation', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-        this.contentData.contentData1 = this.$sortData(request);
+        this.contentData.contentData1 = this.sortData(request);
         this.sumData.data1 = this.$headers['x-total-count'];
       }).catch(error => {
         console.log(error)
       })
       this.$search('/api/OperationDemoInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-        this.contentData.contentData2 = this.$sortData(request);
+        this.contentData.contentData2 = this.sortData(request);
         this.sumData.data2 = this.$headers['x-total-count'];
       }).catch(error => {
         console.log(error)
       })
       this.$search('/api/lectureInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-        this.contentData.contentData3 = this.$sortData(request);
+        this.contentData.contentData3 = this.sortData(request);
         console.log(this.contentData.contentData3)
         this.sumData.data3 = this.$headers['x-total-count'];
       }).catch(error => {
@@ -434,15 +432,27 @@
         this.$router.push({
           name: 'SeeAll',
           params: {
-            title: info.title,
-            id:info.id
+            title: info
           }
         })
       },
       openDiaLog(id) {
         let self = this;
         self.$refs['NewDiaLog'].isShowDia(true,id);
+        },
+      sortData (request) {
+        for (let i = 0; i < request.length; i++) {
+          request[i]['product'] = [[], []];
+          let product = JSON.parse(request[i].productInfo);
+          for (let j = 0; j < product.length; j++) {
+            for (let key in product[j]) {
+              request[i].product[0].push(key);
+              request[i].product[1].push(product[j][key]);
+            }
+          }
         }
+        return request;
+      }
     }
   }
 </script>

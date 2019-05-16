@@ -32,17 +32,15 @@
       }
     },
     created(){
-      this.requestData()
+      this.$get('/api/languages',{customerId:this.personId}).then( (value) => {
+        this.list = value;
+        console.log(value)
+      }).catch(err => {
+        console.log(err)
+      })
     },
     props:['personId'],
     methods: {
-      requestData(){
-        this.$get('/api/languages',{customerId:this.personId}).then( (value) => {
-          this.list = value;
-        }).catch(err => {
-          console.log(err)
-        })
-      },
       goNewLang() {
         this.$router.push('/new-lang/'+ this.personId)
       },
@@ -51,10 +49,22 @@
         this.$vux.confirm.show({
           title: '操作提醒',
           content: '是否确认删除?',
+          // onShow () {
+          //   console.log('plugin show')
+          // },
+          // onHide () {
+          //   console.log('plugin hide')
+          // },
+          // onCancel () {
+          //   console.log('plugin cancel')
+          // },
           onConfirm () {
             that.$del('/api/languages/'+ id).then( val => {
               that.$vux.toast.text('删除成功', 'middle');
-            }).catch( err => {})
+            }).catch( err => {
+
+            })
+            console.log('plugin confirm')
           }
         })
       },

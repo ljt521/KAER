@@ -312,9 +312,6 @@
         }
       }
     },
-    created() {
-      this.mounted();
-    },
     mounted () {
       this.$search('/api/Consultation', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
         this.contentData.contentData1 = this.$sortData(request);
