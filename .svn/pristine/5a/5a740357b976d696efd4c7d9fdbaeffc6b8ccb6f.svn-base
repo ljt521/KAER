@@ -61,7 +61,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'手术演示信息('+ sumData.data2 + ')'"
+        :title="'手术演示信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent2 ? 'up' : 'down'"
@@ -71,7 +71,7 @@
       </cell>
 
       <swipeout class="slide" :class="showContent2?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData2" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button @click.native="onButtonClick('/new-oper-demo')" type="primary">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
@@ -104,7 +104,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'讲课信息('+ sumData.data3 + ')'"
+        :title="'讲课信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent3 ? 'up' : 'down'"
@@ -114,7 +114,7 @@
       </cell>
 
       <swipeout class="slide" :class="showContent3?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData3" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
@@ -147,7 +147,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'参与课题信息('+ sumData.data4 + ')'"
+        :title="'参与课题信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent4 ? 'up' : 'down'"
@@ -157,7 +157,7 @@
       </cell>
 
       <swipeout class="slide" :class="showContent4?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData4" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-topic')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
@@ -184,7 +184,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'论文发表信息('+ sumData.data5 + ')'"
+        :title="'论文发表信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent5 ? 'up' : 'down'"
@@ -194,7 +194,7 @@
       </cell>
 
       <swipeout class="slide" :class="showContent5?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData5" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-paper')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
@@ -220,7 +220,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'学术参与信息('+ sumData.data6 + ')'"
+        :title="'学术参与信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent6 ? 'up' : 'down'"
@@ -230,7 +230,7 @@
       </cell>
 
       <swipeout class="slide" :class="showContent6?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData6" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-learning')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
@@ -291,10 +291,20 @@
         }
       }
     },
+    filters: {
+      formatDate: function (val) {
+        const value = new Date(val);
+        const year = value.getFullYear();
+        const month = value.getMonth() + 1;
+        const day = value.getDate();
+        return year + '-' + month + '-' + day;
+      }
+    },
     mounted () {
       this.$search('/api/Consultation', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-        this.contentData.contentData1 = this.sortData(request);
-        this.sumData.data1 = this.$headers['x-total-count'];
+        this.contentData.contentData1 = this.sortData(request)
+        console.log(this.contentData.contentData1)
+        this.sumData.data1 = this.$headers['x-total-count']
       }).catch(error => {
         console.log(error)
       })
@@ -389,12 +399,12 @@
         },
       sortData (request) {
         for (let i = 0; i < request.length; i++) {
-          request[i]['product'] = [[], []];
-          let product = JSON.parse(request[i].productInfo);
+          request[i]['product'] = [[], []]
+          let product = JSON.parse(request[i].productInfo)
           for (let j = 0; j < product.length; j++) {
             for (let key in product[j]) {
-              request[i].product[0].push(key);
-              request[i].product[1].push(product[j][key]);
+              request[i].product[0].push(key)
+              request[i].product[1].push(product[j][key])
             }
           }
         }

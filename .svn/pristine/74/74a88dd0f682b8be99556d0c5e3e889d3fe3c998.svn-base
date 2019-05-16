@@ -1,50 +1,44 @@
-<!--作者：莫岭红 功能：会诊量-->
+<!--作者：莫岭红 功能：手术量-->
 <template>
   <div class="divBox">
     <swipeout>
-      <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
+      <swipeout-item transition-mode="follow"  v-for="(item,i) of 3" :key="i">
         <div slot="right-menu">
-          <swipeout-button type="primary" @click.native="onButtonClick('/new-consultation')">编辑</swipeout-button>
+          <swipeout-button type="primary" @click.native="onButtonClick('/new-operative')">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
         </div>
         <div slot="content" :class="{'vux-1px-b': i !== 3}" >
           <cell is-link>
             <span slot="title" >
-              <span class="spanCell">{{item.year}}：</span>
-              <div-span class="leftSpan" :dictCode="'SSJS'" :dictItemCode="item.roleInConsultation "></div-span>
-              <span >{{item.consultationVevolume}}</span>
+              <span class="spanCell">2019：</span>
+              <span class="leftSpan">全部主刀</span>
+              <span >30</span>
             </span>
           </cell>
         </div>
       </swipeout-item>
     </swipeout>
-    <div class="cardFootIcon"  v-on:click="goNewConsultation">
-      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建会诊量</p>
+    <div class="cardFootIcon"  v-on:click="goNewOperative">
+      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建手术量</p>
     </div>
   </div>
 </template>
 <script>
   export default {
-    name: 'ConsultationVolume',
+    name: 'OperativeVolume',
     data () {
       return {
-        list:[]
       }
-    },
-    created(){
-      this.$get('/api/consultation',{customerId:this.personId}).then( val => {
-        this.list = val;
-      }).catch( err => {})
     },
     props:['personId'],
     methods: {
-      goNewConsultation() {
-        this.$router.push('/new-consultation/'+this.personId)
+      goNewOperative() {
+        this.$router.push('/new-operative/'+this.personId)
       },
       onButtonClick(e) {
-        if(e=='/new-consultation'){
+        if(e=='/new-operative'){
           this.$router.push({
-            name:"NewConsultation",
+            name:"NewOperative",
             params:{
               title: '编辑手术量'
             }
@@ -52,7 +46,6 @@
         }else{
           this.$router.push({path:e})
         }
-
       },
       deleteData(){
         this.$vux.confirm.show({
@@ -72,6 +65,7 @@
           }
         })
       },
+
 
     }
   }
@@ -96,5 +90,9 @@
       fill: #074089;
     }
   }
+  .spanCell{
+    color:#A4A4A4;
+  }
+
 
 </style>

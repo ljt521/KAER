@@ -2,14 +2,13 @@
 <template>
   <div class="fo-top">
     <div class="fo-div" style="position: relative">
-      <datetime style="width: 40%" v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY"
-                @on-change="change"
+      <datetime style="width: 40%" v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY" @on-change="change"
                 year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
       <span style="position: absolute;top: 12px;right: 20px;font-size: 13px;">共 108条跟进信息</span>
     </div>
     <div class="fo-div">
       <cell
-        :title="'会诊信息('+ sumData.data1 + ')'"
+        :title="'会诊信息（22）'"
         :border-intent="false"
         is-link
         :arrow-direction="showContent1 ? 'up' : 'down'"
@@ -18,35 +17,21 @@
              src="../assets/image/follow_up_consultation.png" alt="">
       </cell>
       <swipeout class="slide" :class="showContent1?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData1" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button @click.native="onButtonClick('/new-consul-info')" type="primary">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span>
-              <div-span v-bind:dictCode="'SSMC'" v-bind:dictItemCode="data.operationName"></div-span>
-              <span
-                style="float: right;font-size: 12px;color: #BFBFBF;">{{data.consultationDate | formatDate}}</span>
+              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">
-                 <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.operativeRole"></div-span>
-                </span>
-                <!--<span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>-->
-                <img src="../assets/image/follow_up_position.png" alt="">
-                <div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="data.operationLocal"></div-span>
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
               </p>
               <p style="margin: 10px 0">
-                <span class="right">
-                  <img src="../assets/image/follow_up_product_information.png" alt="">
-                </span>
-                <template v-for="dataList in contentData.contentData1">
-                  <template v-for="(data, index) in dataList.product[0]">
-                    <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
-                    <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
-                  </template>
-                </template>
+                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
               </p>
             </div>
 
@@ -61,7 +46,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'手术演示信息('+ sumData.data2 + ')'"
+        :title="'手术演示信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent2 ? 'up' : 'down'"
@@ -71,15 +56,14 @@
       </cell>
 
       <swipeout class="slide" :class="showContent2?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData2" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button @click.native="onButtonClick('/new-oper-demo')" type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
+            <swipeout-button type="warn"  @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="{'vux-1px-t}" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span
-              style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
                 <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
                 <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
@@ -104,7 +88,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'讲课信息('+ sumData.data3 + ')'"
+        :title="'讲课信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent3 ? 'up' : 'down'"
@@ -114,15 +98,14 @@
       </cell>
 
       <swipeout class="slide" :class="showContent3?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData3" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>基于3D生物打印技术</span><span
-              style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <span class="fo-span"></span><span>基于3D生物打印技术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
                 <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
                 <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
@@ -147,7 +130,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'参与课题信息('+ sumData.data4 + ')'"
+        :title="'参与课题信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent4 ? 'up' : 'down'"
@@ -157,20 +140,18 @@
       </cell>
 
       <swipeout class="slide" :class="showContent4?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData4" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-topic')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span
-              style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
                 <span class="right"><img src="../assets/image/follow_up_topic_type.png" alt="">国际合作</span>
                 <span class="right"><img src="../assets/image/follow_up_participation_mode.png" alt="">研究负责人</span>
-                <span class="right"><icon style="color: #888888;font-size: 15px;"
-                                          type="waiting-circle"></icon>2019</span>
+                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
               </p>
             </div>
           </div>
@@ -184,7 +165,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'论文发表信息('+ sumData.data5 + ')'"
+        :title="'论文发表信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent5 ? 'up' : 'down'"
@@ -194,15 +175,14 @@
       </cell>
 
       <swipeout class="slide" :class="showContent5?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData5" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-paper')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span
-              style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
                 <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
                 <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
@@ -220,7 +200,7 @@
     </div>
     <div class="fo-div">
       <cell
-        :title="'学术参与信息('+ sumData.data6 + ')'"
+        :title="'学术参与信息（22）'"
         is-link
         :border-intent="false"
         :arrow-direction="showContent6 ? 'up' : 'down'"
@@ -230,20 +210,18 @@
       </cell>
 
       <swipeout class="slide" :class="showContent6?'animate':''">
-        <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData6" :key="index">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-learning')">编辑</swipeout-button>
             <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span
-              style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
               <p style="margin: 10px 0">
                 <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
                 <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
-                <span class="right"><icon style="color: #888888;font-size: 15px;"
-                                          type="waiting-circle"></icon>2019</span>
+                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
               </p>
             </div>
           </div>
@@ -255,8 +233,8 @@
         </swipeout-item>
       </swipeout>
     </div>
-    <div class="fo-add" @click="openDiaLog(customerId)">+</div>
-    <new-dia-log ref="NewDiaLog"></new-dia-log>
+    <div class="fo-add" @click="openDiaLog">+</div>
+    <new-dia-log ref="NewDiaLog" ></new-dia-log>
   </div>
 </template>
 <script>
@@ -264,100 +242,82 @@
     name: 'FollowDetails',
     data () {
       return {
-        show8: '',
-        customerId :this.$route.params.id,
+        show8:'',
         value5: '',
         showContent1: false,
         showContent2: false,
         showContent3: false,
         showContent4: false,
         showContent5: false,
-        showContent6: false,
-        sumData: {
-          data1: 0,
-          data2: 0,
-          data3: 0,
-          data4: 0,
-          data5: 0,
-          data6: 0,
-        },
-        contentData: {
-          contentData1: [],
-          contentData2: [],
-          contentData3: [],
-          contentData4: [],
-          contentData5: [],
-          contentData6: [],
-        }
+        showContent6: false
       }
     },
-    mounted () {
-      this.$search('/api/Consultation', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-        this.contentData.contentData1 = this.sortData(request);
-        this.sumData.data1 = this.$headers['x-total-count'];
+    mounted() {
+      this.$search('/api/Consultation',{page: 0, size: 1},{customerId: this.$route.params.id}).then(info => {
+        console.log(info);
       }).catch(error => {
-        console.log(error)
+        console.log(error);
       })
     },
     methods: {
       change (value) {
         console.log('change', value)
       },
-      onButtonClick (e) {
+      onButtonClick(e) {
         switch (e) {
           case '/new-consul-info':
             this.$router.push({
-              name: 'NewConsulInfo',
-              params: {
+              name:"NewConsulInfo",
+              params:{
                 title: '编辑会诊'
               }
-            })
-            break
+            });
+            break;
           case '/new-oper-demo':
             this.$router.push({
-              name: 'NewOperDemo',
-              params: {
+              name:"NewOperDemo",
+              params:{
                 title: '编辑手术演示'
               }
-            })
-            break
+            });
+            break;
           case '/new-iecture':
             this.$router.push({
-              name: 'NewIecture',
-              params: {
+              name:"NewIecture",
+              params:{
                 title: '编辑讲课'
               }
-            })
-            break
+            });
+            break;
           case '/new-paper':
             this.$router.push({
-              name: 'NewPaper',
-              params: {
+              name:"NewPaper",
+              params:{
                 title: '编辑论文发表'
               }
-            })
-            break
+            });
+            break;
           case '/new-topic':
             this.$router.push({
-              name: 'NewTopic',
-              params: {
+              name:"NewTopic",
+              params:{
                 title: '编辑参与课题'
               }
-            })
-            break
+            });
+            break;
           case '/new-learning':
             this.$router.push({
-              name: 'NewLearning',
-              params: {
+              name:"NewLearning",
+              params:{
                 title: '编辑手术参与'
               }
-            })
-            break
+            });
+            break;
           default:
             this.$router.push({path: e})
         }
       },
-      deleteInfo () {
+      deleteInfo(){
         this.$vux.confirm.show({
           title: '操作提醒',
           content: '是否确认删除?',
@@ -375,30 +335,17 @@
           }
         })
       },
-      goToSeeAll (info) {
+      goToSeeAll(info) {
         this.$router.push({
-          name: 'SeeAll',
-          params: {
+          name: "SeeAll",
+          params:{
             title: info
           }
-        })
+        });
       },
-      openDiaLog(id) {
+      openDiaLog() {
         let self = this;
-        self.$refs['NewDiaLog'].isShowDia(true,id);
-        },
-      sortData (request) {
-        for (let i = 0; i < request.length; i++) {
-          request[i]['product'] = [[], []];
-          let product = JSON.parse(request[i].productInfo);
-          for (let j = 0; j < product.length; j++) {
-            for (let key in product[j]) {
-              request[i].product[0].push(key);
-              request[i].product[1].push(product[j][key]);
-            }
-          }
-        }
-        return request;
+        self.$refs['NewDiaLog'].isShowDia(true);
       }
     }
   }
@@ -425,20 +372,20 @@
           margin-right: 7px;
           background-color: #074089;
         }
-        .flex-demo {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap
+        .flex-demo{
+          overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap
         }
-        p {
+        p{
           color: #888888;
           font-size: 13px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          .right {
+          overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap;
+          .right{
             margin-right: 30px;
-            img {
+            img{
               vertical-align: middle;
               margin-right: 5px;
             }
@@ -466,7 +413,7 @@
       .weui-dialog {
         border-radius: 8px;
         padding-bottom: 8px;
-      }
+        }
       .dialog-title {
         line-height: 30px;
         color: #666;
@@ -480,11 +427,9 @@
   .weui-grids:before, .weui-grid:after {
     content: none;
   }
-
   .weui-grid {
     text-decoration: none;
   }
-
   .slide {
     padding: 0;
     overflow: hidden;

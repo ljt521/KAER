@@ -2,7 +2,7 @@
 <template>
   <div class="divBox">
     <swipeout>
-      <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
+      <swipeout-item transition-mode="follow"  v-for="(item,i) of 3" :key="i">
         <div slot="right-menu">
           <swipeout-button type="primary" @click.native="onButtonClick('/new-consultation')">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
@@ -10,9 +10,9 @@
         <div slot="content" :class="{'vux-1px-b': i !== 3}" >
           <cell is-link>
             <span slot="title" >
-              <span class="spanCell">{{item.year}}：</span>
-              <div-span class="leftSpan" :dictCode="'SSJS'" :dictItemCode="item.roleInConsultation "></div-span>
-              <span >{{item.consultationVevolume}}</span>
+              <span class="spanCell">2019：</span>
+              <span class="leftSpan">全部主刀</span>
+              <span >30</span>
             </span>
           </cell>
         </div>
@@ -28,13 +28,7 @@
     name: 'ConsultationVolume',
     data () {
       return {
-        list:[]
       }
-    },
-    created(){
-      this.$get('/api/consultation',{customerId:this.personId}).then( val => {
-        this.list = val;
-      }).catch( err => {})
     },
     props:['personId'],
     methods: {
