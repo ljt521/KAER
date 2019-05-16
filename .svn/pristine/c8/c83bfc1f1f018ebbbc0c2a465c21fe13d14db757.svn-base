@@ -33,24 +33,25 @@ export default {
       this.languagesDto.languages = this.list.languages;
       this.languagesDto.proficiency = this.list.proficiency;
       this.languagesDto['id'] = this.list.id;
+      console.log(this.languagesDto);
     }
   },
   methods: {
     goEssentialInfo(){
       if(this.title === '新建语种'){
         this.$post('/api/languages', this.languagesDto).then(info => {
-          console.log('新建语种成功');
+          console.log(info);
         }).catch(error => {
           console.log(error);
         })
       }else if(this.title === '编辑语种'){
         this.$put('/api/languages', this.languagesDto).then(info => {
-          console.log('编辑语种成功');
+          console.log(info);
         }).catch(error => {
           console.log(error);
         })
       }
-      this.$router.push(`/userInfo/${this.languagesDto.customerId}/essential-info/${this.languagesDto.customerId}`);
+      this.$router.push('/userInfo/essential-info')
     }
   }
 }

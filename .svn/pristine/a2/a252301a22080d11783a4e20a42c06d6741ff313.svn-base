@@ -45,7 +45,6 @@
         this.$router.push('/new-lang/'+ this.personId)
       },
       deleteData(id){
-        let that = this;
         this.$vux.confirm.show({
           title: '操作提醒',
           content: '是否确认删除?',
@@ -59,7 +58,7 @@
           //   console.log('plugin cancel')
           // },
           onConfirm () {
-            that.$del('/api/languages/'+ id).then( val => {
+            this.$del('/api/languages/'+ id).then( val => {
 
             }).catch( err => {
 
