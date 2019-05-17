@@ -9,8 +9,7 @@ const sourceMapEnabled = isProduction
 module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: sourceMapEnabled,
-    extract: isProduction,
-    // usePostCSS: true //这里设置为true,否则vue引入css会报错
+    extract: isProduction
   }),
   cssSourceMap: sourceMapEnabled,
   cacheBusting: config.dev.cacheBusting,
@@ -19,6 +18,5 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
-  },
-  // postcss: [require('postcss-px2rem')({'remUnit': 75, 'baseDpr': 2})]
+  }
 }

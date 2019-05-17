@@ -5,15 +5,6 @@ module.exports = {
     "postcss-import": {},
     "postcss-url": {},
     // to edit target browsers: use "browserslist" field in package.json
-    "autoprefixer": {},
-    // "postcss-px2rem": {
-    //   "rootValue": 32,
-    //   "propList": ["*"],
-    //   "selectorBlackList": ["mint-"]
-    // }
-    "postcss-px2rem-exclude": {
-      "remUnit": 32,
-      "exclude": "/node_modules/i"
-    }
+    "autoprefixer": {}
   }
 }

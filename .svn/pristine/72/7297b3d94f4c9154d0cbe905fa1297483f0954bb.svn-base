@@ -32,23 +32,18 @@ Vue.use(VueWechatTitle)
 Vue.use(ConfirmPlugin)
 Vue.use(ToastPlugin)
 
-Vue.filter('formatDate',function(val) {
+Vue.filter('formatDate',function(val, info) {
   const value = new Date(val);
   const year = value.getFullYear();
   const month = value.getMonth() + 1;
   const day = value.getDate();
+  if(info) {
+    const hour = value.getHours();
+    const minutes = value.getMinutes();
+    const seconds = value.getSeconds();
+    return year + '-' + month + '-' + day + `${hour}:${minutes}:${seconds}`;
+  }
   return year + '-' + month + '-' + day;
-})
-
-Vue.filter('formatDates',function(val) {
-  const value = new Date(val);
-  const year = value.getFullYear();
-  const month = value.getMonth() + 1;
-  const day = value.getDate();
-  const hour = value.getHours();
-  const minutes = value.getMinutes();
-  const seconds = value.getSeconds();
-  return year + '-' + month + '-' + day + ' ' + `${hour}:${minutes}:${seconds}`;
 })
 
 /* eslint-disable no-new */
