@@ -3,7 +3,7 @@
     <swipeout>
       <swipeout-item transition-mode="follow" class="fo-tex" v-for="(academicJoin,index) in academicJoinData" :key="index" >
         <div slot="right-menu" >
-          <swipeout-button type="primary" @click.native="onButtonClick(academicJoin)">编辑</swipeout-button>
+          <swipeout-button type="primary" @click.native="onButtonClick(academicJoin.id)">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData(academicJoin.id)">删除</swipeout-button>
         </div>
         <div slot="content" :class="{'vux-1px-b': index !== academicJoinData.length}" >
@@ -56,16 +56,7 @@
               that.getAcademicJoin()
             }).catch( err => {})
           }
-        })},
-      onButtonClick(data){
-        this.$router.push({
-          name: 'NewLearning',
-          params: {
-            title: '编辑学术参与',
-            data:data
-          }
-        })
-      }
+        })}
 
     }
 

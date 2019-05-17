@@ -18,6 +18,7 @@ export default {
   data () {
     return {
       title:'新建语种',
+      list:{},
       languagesDto:{
         customerId :this.$route.params.id, //所属客户 ,
         languages : '', //语种 ,
@@ -38,13 +39,14 @@ export default {
     goEssentialInfo(){
       if(this.title === '新建语种'){
         this.$post('/api/languages', this.languagesDto).then(info => {
-          this.$vux.toast.text('新建语种成功', 'middle');
+          console.log('新建语种成功');
+          that.$vux.toast.text('新建语种成功', 'middle');
         }).catch(error => {
           console.log(error);
         })
       }else if(this.title === '编辑语种'){
         this.$put('/api/languages', this.languagesDto).then(info => {
-          this.$vux.toast.text('编辑语种成功', 'middle');
+          that.$vux.toast.text('编辑语种成功', 'middle');
         }).catch(error => {
           console.log(error);
         })

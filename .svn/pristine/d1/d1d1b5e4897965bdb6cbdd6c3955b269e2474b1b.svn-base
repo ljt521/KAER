@@ -32,15 +32,12 @@
       }
     },
     created(){
-      this.requestData()
+      this.$get('/api/consultation',{customerId:this.personId}).then( val => {
+        this.list = val;
+      }).catch( err => {})
     },
     props:['personId'],
     methods: {
-      requestData(){
-        this.$get('/api/consultation',{customerId:this.personId}).then( val => {
-          this.list = val;
-        }).catch( err => {})
-      },
       goNewConsultation() {
         this.$router.push('/new-consultation/'+this.personId)
       },
@@ -61,10 +58,8 @@
           onConfirm () {
             that.$del('/api/consultation/'+id).then( val => {
               that.$vux.toast.text('删除成功', 'middle');
-              that.requestData();
             }).catch( err => {
               that.$vux.toast.text('删除失败', 'middle');
-
             })
             console.log('plugin confirm')
           }

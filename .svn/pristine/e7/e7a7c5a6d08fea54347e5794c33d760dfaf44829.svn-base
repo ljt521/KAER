@@ -112,7 +112,6 @@
         } else {
           e.select = false;
         }
-        this.list  = JSON.parse(JSON.stringify(this.list))
       },
       goEssentialInfo(){
         this.operationDemoInfoDto.productInfo = JSON.stringify(this.operationDemoInfoDto.productInfo);

@@ -30,23 +30,23 @@
         </strong>&nbsp;&nbsp;
         <strong>{{personData.deptName}}</strong>
       </p>
-      <p style="margin: 5px 0 15px 0;text-align: center; color: #888888;">{{personData.hospitalName}}</p>
+      <p style="margin: 5px 0 15px 0;text-align: center">{{personData.hospitalName}}</p>
       <grid :show-lr-borders="false" :show-vertical-dividers="false">
         <grid-item :link="{ path: '/userInfo/'+id+'/essential-info/'+id}">
-          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_basic_data.png">
-          <span slot="label" style="color: #888888">基本资料</span>
+          <img slot="icon" src="../assets/image/client_details_basic_data.png">
+          <span slot="label">基本资料</span>
         </grid-item>
         <grid-item :link="{ path: '/userInfo/'+id+'/growth-archives/'+id}">
-          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_growth_archives.png">
-          <span slot="label" style="color: #888888">成长档案</span>
+          <img slot="icon" src="../assets/image/client_details_growth_archives.png">
+          <span slot="label">成长档案</span>
         </grid-item>
         <grid-item :link="{ path: '/userInfo/'+id+'/follow-details/'+id}">
-          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_follow_up.png">
-          <span slot="label" style="color: #888888">跟进详情</span>
+          <img slot="icon" src="../assets/image/client_details_follow_up.png">
+          <span slot="label">跟进详情</span>
         </grid-item>
         <grid-item :link="{ path: '/userInfo/'+id+'/dynamic-assembly/'+id}">
-          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_dynamic.png">
-          <span slot="label" style="color: #888888">动态</span>
+          <img slot="icon" src="../assets/image/client_details_dynamic.png">
+          <span slot="label">动态</span>
         </grid-item>
       </grid>
     </div>

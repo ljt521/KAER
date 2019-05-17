@@ -21,7 +21,7 @@
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData1" :key="index">
           <div slot="right-menu">
             <swipeout-button @click.native="onButtonClick('/new-consul-info',data)" type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo('/new-consul-info',data.id)">删除</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -74,7 +74,7 @@
         <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData2" :key="index">
           <div slot="right-menu">
             <swipeout-button @click.native="onButtonClick('/new-oper-demo',data)" type="primary">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo('/new-oper-demo',data.id)">删除</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="{'vux-1px-t}" style="padding:12px;">
             <div class="fo-tex">
@@ -128,7 +128,7 @@
         <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData3" :key="index">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture',data)">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo('/new-iecture',data.id)">删除</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -179,7 +179,7 @@
         <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData4" :key="index">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-topic',data)">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo('/new-topic',data.id)">删除</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -217,7 +217,7 @@
         <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData5" :key="index">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-paper',data)">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo('/new-paper',data.id)">删除</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -255,7 +255,7 @@
         <swipeout-item transition-mode="follow"  v-for="(data, index) in contentData.contentData6" :key="index">
           <div slot="right-menu">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-learning',data)">编辑</swipeout-button>
-            <swipeout-button type="warn" @click.native="deleteInfo('/new-learning',data.id)">删除</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -285,6 +285,7 @@
     name: 'FollowDetails',
     data () {
       return {
+        show8: '',
         customerId :this.$route.params.id,
         value5: '',
         showContent1: false,
@@ -312,63 +313,47 @@
       }
     },
     created() {
-      this.getConsultation()
-      this.getOperationDemoInfo()
-      this.getIectureInfo()
-      this.getPartakeResearch()
-      this.getPaperPublishInfo()
-      this.getAcademicJoin()
+    },
+    mounted () {
+      this.$search('/api/Consultation', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
+        this.contentData.contentData1 = this.$sortData(request);
+        this.sumData.data1 = this.$headers['x-total-count'];
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$search('/api/OperationDemoInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
+        this.contentData.contentData2 = this.$sortData(request);
+        this.sumData.data2 = this.$headers['x-total-count'];
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$search('/api/lectureInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
+        this.contentData.contentData3 = this.$sortData(request);
+        console.log(this.contentData.contentData3)
+        this.sumData.data3 = this.$headers['x-total-count'];
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$search('/api/partakeResearch', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
+        this.contentData.contentData4 = request;
+        this.sumData.data4 = this.$headers['x-total-count'];
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$search('/api/PaperPublishInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
+        this.contentData.contentData5 = request;
+        this.sumData.data5 = this.$headers['x-total-count'];
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$search('/api/AcademicJoin', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
+        this.contentData.contentData6 = request;
+        this.sumData.data6 = this.$headers['x-total-count'];
+      }).catch(error => {
+        console.log(error)
+      })
     },
     methods: {
-      getConsultation(){
-        this.$search('/api/Consultation', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-          this.contentData.contentData1 = this.$sortData(request);
-          this.sumData.data1 = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
-      },
-      getOperationDemoInfo(){
-        this.$search('/api/OperationDemoInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-          this.contentData.contentData2 = this.$sortData(request);
-          this.sumData.data2 = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
-      },
-      getIectureInfo(){
-        this.$search('/api/lectureInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-          this.contentData.contentData3 = this.$sortData(request);
-          console.log(this.contentData.contentData3)
-          this.sumData.data3 = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
-      },
-      getPartakeResearch(){
-        this.$search('/api/partakeResearch', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-          this.contentData.contentData4 = request;
-          this.sumData.data4 = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
-      },
-      getPaperPublishInfo(){
-        this.$search('/api/PaperPublishInfo', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-          this.contentData.contentData5 = request;
-          this.sumData.data5 = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
-      },
-      getAcademicJoin(){
-        this.$search('/api/AcademicJoin', {page: 0, size: 2}, {'customer.id': this.$route.params.id}).then(request => {
-          this.contentData.contentData6 = request;
-          this.sumData.data6 = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
-      },
       change (value) {
         console.log('change', value)
       },
@@ -423,7 +408,7 @@
             this.$router.push({
               name: 'NewLearning',
               params: {
-                title: '编辑学术参与',
+                title: '编辑手术参与',
                 data:data
               }
             })
@@ -432,84 +417,14 @@
             this.$router.push({path: e})
         }
       },
-      deleteInfo (path,id) {
-        let that=this
-        switch (path) {
-          case '/new-consul-info':
-            that.$vux.confirm.show({
-              title: '操作提醒',
-              content: '是否确认删除?',
-              onConfirm () {
-                that.$del('/api/Consultation/'+ id).then( val => {
-                  that.$vux.toast.text('删除成功', 'middle');
-                  that.getConsultation()
-                }).catch( err => {})
-              }
-            })
-            break
-          case '/new-oper-demo':
-            that.$vux.confirm.show({
-              title: '操作提醒',
-              content: '是否确认删除?',
-              onConfirm () {
-                that.$del('/api/OperationDemoInfo/'+ id).then( val => {
-                  that.$vux.toast.text('删除成功', 'middle');
-                  that.getOperationDemoInfo()
-                }).catch( err => {})
-              }
-            })
-            break
-          case '/new-iecture':
-            that.$vux.confirm.show({
-              title: '操作提醒',
-              content: '是否确认删除?',
-              onConfirm () {
-                that.$del('/api/lectureInfo/'+ id).then( val => {
-                  that.$vux.toast.text('删除成功', 'middle');
-                  that.getIectureInfo()
-                }).catch( err => {})
-              }
-            })
-            break
-          case '/new-paper':
-            that.$vux.confirm.show({
-              title: '操作提醒',
-              content: '是否确认删除?',
-              onConfirm () {
-                that.$del('/api/PaperPublishInfo/'+ id).then( val => {
-                  that.$vux.toast.text('删除成功', 'middle');
-                  that.getPaperPublishInfo()
-                }).catch( err => {})
-              }
-            })
-            break
-          case '/new-topic':
-            that.$vux.confirm.show({
-              title: '操作提醒',
-              content: '是否确认删除?',
-              onConfirm () {
-                that.$del('/api/partakeResearch/'+ id).then( val => {
-                  that.$vux.toast.text('删除成功', 'middle');
-                  that.getPartakeResearch()
-                }).catch( err => {})
-              }
-            })
-            break
-          case '/new-learning':
-            that.$vux.confirm.show({
-              title: '操作提醒',
-              content: '是否确认删除?',
-              onConfirm () {
-                that.$del('/api/AcademicJoin/'+ id).then( val => {
-                  that.$vux.toast.text('删除成功', 'middle');
-                  that.getAcademicJoin()
-                }).catch( err => {})
-              }
-            })
-            break
-
-        }
-
+      deleteInfo () {
+        this.$vux.confirm.show({
+          title: '操作提醒',
+          content: '是否确认删除?',
+          onConfirm () {
+            console.log('plugin confirm')
+          }
+        })
       },
       goToSeeAll (info) {
         this.$router.push({

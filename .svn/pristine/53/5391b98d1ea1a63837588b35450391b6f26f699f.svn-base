@@ -1,25 +1,25 @@
-<!--全部论文发表信息-->
+<!--全部参与课题-->
 <template>
   <div class="co-top" >
     <swipeout>
-      <swipeout-item transition-mode="follow" class="fo-tex" v-for="(paperPublish,index) in paperPublishData" :key="index" >
+      <swipeout-item transition-mode="follow" class="fo-tex" v-for="(partakeResearch,index) in partakeResearchData" :key="index" >
         <div slot="right-menu" >
-          <swipeout-button type="primary" @click.native="onButtonClick(paperPublish)">编辑</swipeout-button>
-          <swipeout-button type="warn" @click.native="deleteData(paperPublish.id)">删除</swipeout-button>
+          <swipeout-button type="primary" @click.native="onButtonClick(partakeResearch.id)">编辑</swipeout-button>
+          <swipeout-button type="warn" @click.native="deleteData(partakeResearch.id)">删除</swipeout-button>
         </div>
-        <div slot="content" :class="{'vux-1px-b': index !== paperPublishData.length}" >
+        <div slot="content" :class="{'vux-1px-b': index !== partakeResearchData.length}" >
 
-            <span class="fo-span"></span><span>{{paperPublish.paperName }}</span>
+            <span class="fo-span"></span><span>{{partakeResearch.researchName }}</span>
             <p style="margin: 10px 0">
         <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">
-          <div-span v-bind:dictCode="'SMFS'" v-bind:dictItemCode="paperPublish.signType"></div-span>
+          <div-span v-bind:dictCode="'KTLX'" v-bind:dictItemCode="partakeResearch.researchType"></div-span>
         </span>
               <span class="right"><img src="../assets/image/follow_up_role.png" alt="">
-          <div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="paperPublish.periodicalType"></div-span>
+          <div-span v-bind:dictCode="'CYFS'" v-bind:dictItemCode="partakeResearch.partakeMode"></div-span>
         </span>
               <span >
           <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
-          {{paperPublish.paperYear}}
+          {{partakeResearch.beginDate|formatDate}}
         </span>
             </p>
 
@@ -30,25 +30,23 @@
 
 
   </div>
-
 </template>
 <script>
   export default {
     name: 'AllPaper',
     data() {
       return{
-        paperPublishData:[]
+        partakeResearchData:[]
       }
     },
     props:['personId'],
     created(){
-      this.getPaperPublishInfo()
+      this.getPartakeResearch()
     },
-
     methods:{
-      getPaperPublishInfo(){
-        this.$search('/api/PaperPublishInfo', {page: 0, size: 20}, {'customer.id': this.personId}).then(request => {
-          this.paperPublishData = request;
+      getPartakeResearch(){
+        this.$search('/api/partakeResearch', {page: 0, size: 20}, {'customer.id': this.personId}).then(request => {
+          this.partakeResearchData = request;
         }).catch(error => {
           console.log(error)
         })
@@ -59,21 +57,12 @@
           title: '操作提醒',
           content: '是否确认删除?',
           onConfirm () {
-            that.$del('/api/PaperPublishInfo/'+ id).then( val => {
+            that.$del('/api/partakeResearch/'+ id).then( val => {
               that.$vux.toast.text('删除成功', 'middle');
-              that.getPaperPublishInfo()
+              that.getPartakeResearch()
             }).catch( err => {})
           }
-        })},
-      onButtonClick(data){
-        this.$router.push({
-          name: 'NewPaper',
-          params: {
-            title: '编辑论文发表',
-            data:data
-          }
-        })
-      }
+        })}
 
     }
   }
@@ -125,3 +114,4 @@
   }
 
 </style>
+

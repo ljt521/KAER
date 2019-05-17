@@ -4,7 +4,7 @@
     <swipeout>
       <swipeout-item transition-mode="follow" class="fo-tex"  v-for="(lectureInfo,index) in LectureInfoData" :key="index">
         <div slot="right-menu" >
-          <swipeout-button type="primary" @click.native="onButtonClick(lectureInfo)">编辑</swipeout-button>
+          <swipeout-button type="primary" @click.native="onButtonClick(lectureInfo.id)">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData(lectureInfo.id)">删除</swipeout-button>
         </div>
         <div slot="content" :class="{'vux-1px-b': index !== LectureInfoData.length}" >
@@ -18,11 +18,12 @@
             </p>
             <p style="margin: 10px 0">
         <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">
-          <template v-for="(data, i) in lectureInfo.product[0]">
-            <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
-            <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="lectureInfo.product[1][i]"></div-span>
+          <template v-for="dataList in LectureInfoData">
+                  <template v-for="(data, index) in dataList.product[0]">
+                    <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
+                    <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
+                  </template>
           </template>
-
         </span>
             </p>
             <p style="margin: 10px 0">
@@ -70,17 +71,6 @@
           }
         })}
 
-    },
-    methods:{
-      onButtonClick(data){
-        this.$router.push({
-          name: 'NewIecture',
-          params: {
-            title: '编辑讲课',
-            data:data
-          }
-        })
-      }
     }
 
   }

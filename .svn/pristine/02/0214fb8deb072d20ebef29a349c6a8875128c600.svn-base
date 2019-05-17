@@ -70,10 +70,7 @@
           this.lectureInfoDto.productInfo = JSON.parse(this.$route.params.data.productInfo);
           this.lectureInfoDto['id'] = this.$route.params.data.id;
       }
-    },
-    mounted () {
-      this.title = this.$route.params.title||this.$route.meta.title;
-      this.lectureInfoDto.customerId = this.$route.params.id;
+      console.log(this.$route.params.data.product,this.lectureInfoDto.productInfo)
       this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
         this.list = info.dictItems;
         this.list.forEach( val =>{
@@ -88,6 +85,10 @@
       }).catch(error => {
         console.log(error);
       });
+    },
+    mounted () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+      this.lectureInfoDto.customerId = this.$route.params.id;
     },
     methods:{
       getPlain (e) {
@@ -108,7 +109,6 @@
         } else {
           e.select = false;
         }
-        this.list  = JSON.parse(JSON.stringify(this.list))
       },
       goEssentialInfo(){
         this.lectureInfoDto.productInfo = JSON.stringify(this.lectureInfoDto.productInfo);

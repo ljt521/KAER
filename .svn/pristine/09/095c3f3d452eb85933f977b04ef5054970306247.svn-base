@@ -76,13 +76,15 @@
         this.crInfo.operativeRole = this.$route.params.data.operativeRole
         this.crInfo.productInfo =JSON.parse(this.$route.params.data.productInfo)
         this.crInfo['id'] = this.$route.params.data.id
+        console.log(this.crInfo.productInfo,this.$route.params.data.productInfo)
       }
+      console.log(this.crInfo.productInfo.length)
       this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
         this.list = info.dictItems
         this.list.forEach( val =>{
           let data = this.$route.params.data.product
           for(let i in data[0]){
-            if(val.code === data[0][i]) {
+            if(val.code === data[0][i]){
               val['select'] = true;
               val['proData'] = data[1][i]
             }
@@ -133,7 +135,7 @@
         } else {
           e.select = false;
         }
-        this.list  = JSON.parse(JSON.stringify(this.list))
+        console.log(e);
       }
     }
   }

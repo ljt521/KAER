@@ -4,7 +4,7 @@
     <swipeout>
       <swipeout-item transition-mode="follow" class="fo-tex" v-for="(paperPublish,index) in paperPublishData" :key="index" >
         <div slot="right-menu" >
-          <swipeout-button type="primary" @click.native="onButtonClick(paperPublish)">编辑</swipeout-button>
+          <swipeout-button type="primary" @click.native="onButtonClick(paperPublish.id)">编辑</swipeout-button>
           <swipeout-button type="warn" @click.native="deleteData(paperPublish.id)">删除</swipeout-button>
         </div>
         <div slot="content" :class="{'vux-1px-b': index !== paperPublishData.length}" >
@@ -64,16 +64,7 @@
               that.getPaperPublishInfo()
             }).catch( err => {})
           }
-        })},
-      onButtonClick(data){
-        this.$router.push({
-          name: 'NewPaper',
-          params: {
-            title: '编辑论文发表',
-            data:data
-          }
-        })
-      }
+        })}
 
     }
   }
