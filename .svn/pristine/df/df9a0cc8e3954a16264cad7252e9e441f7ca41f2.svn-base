@@ -30,33 +30,29 @@
             </flexbox>
             <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
               <div class="cu-content-top">
-                <div class="user-img" @click="goCustomerInfo(customer.id)">
+                <div class="userImg" @click="goCustomerInfo(customer.id)">
                   <img src="../assets/image/default_head.png" alt="dadada">
                 </div>
                 <div class="userImg-r">
-                  <p><span class="cu-span15">{{customer.name}}</span>
+                  <p><span style="font-size: 20px;padding-right: 10px;">{{customer.name}}</span>
                     <span style="font-size: 18px;padding-right: 10px;">
-                <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
-                          v-bind:dictItemCode="customer.title"></div-span>
+                <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="customer.title"></div-span>
               </span>
                     <span class="cu-title" v-show="customer.isFollowUp === 1">待跟进</span></p>
-                  <p style="margin-top: 8px"><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
-                    <span style="color: #888888;font-size: 13px">{{customer.hospitalName}}</span></p>
-                  <p style="margin-top: 5px"><img class="cu-img-size" src="../assets/image/client_department.png"
-                                                  alt="">
-                    <span style="color: #888888;font-size: 13px">
+                  <p style="margin-top: 8px"><img style="float: left;padding-right: 5px"
+                                                  src="../assets/image/client_hospital.png" alt="">
+                    <span style="color: #888888">{{customer.hospitalName}}</span></p>
+                  <p style="margin-top: 5px"><img style="float: left;padding-right: 5px"
+                                                  src="../assets/image/client_department.png" alt="">
+                    <span style="color: #888888">
                 <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
               </span>
                   </p>
                 </div>
                 <div class="cu-bottom">
-                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
-                                                src="../assets/image/client_dynamic.png" alt=""><span
-                    class="cu-span-top">动态</span></div>
-                  <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
-                                                                                 src="../assets/image/client_daily_follow_up.png"
-                                                                                 alt=""><span
-                    class="cu-span-top">日常跟进</span>
+                  <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+                  <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img
+                    src="../assets/image/client_daily_follow_up.png" alt="">日常跟进
                   </div>
                 </div>
               </div>
@@ -78,31 +74,29 @@
             </flexbox>
             <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
               <div class="cu-content-top">
-                <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
+                <div class="userImg" @click="goCustomerInfo(subCustomer.id)">
                   <img src="../assets/image/default_head.png" alt="dadada">
                 </div>
                 <div class="userImg-r">
-                  <p><span class="cu-span15">{{subCustomer.name}}</span>
+                  <p><span style="font-size: 20px;padding-right: 10px;">{{subCustomer.name}}</span>
                     <span style="font-size: 18px;padding-right: 10px;">
-                <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
+                <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
               </span>
                     <span class="cu-title" v-show="subCustomer.isFollowUp === 1">待跟进</span></p>
-                  <p style="margin-top: 8px"><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
-                    <span style="color: #888888;font-size: 13px">{{subCustomer.hospitalName}}</span></p>
-                  <p style="margin-top: 5px"><img class="cu-img-size" src="../assets/image/client_department.png"
-                                                  alt="">
-                    <span style="color: #888888;font-size: 13px">
+                  <p style="margin-top: 8px"><img style="float: left;padding-right: 5px"
+                                                  src="../assets/image/client_hospital.png" alt="">
+                    <span style="color: #888888">{{subCustomer.hospitalName}}</span></p>
+                  <p style="margin-top: 5px"><img style="float: left;padding-right: 5px"
+                                                  src="../assets/image/client_department.png" alt="">
+                    <span style="color: #888888">
                 <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
               </span>
                   </p>
                 </div>
                 <div class="cu-bottom">
-                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
-                                                src="../assets/image/client_dynamic.png" alt=""><span class="cu-span-top">动态</span>
-                  </div>
-                  <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
-                                                                                    src="../assets/image/client_daily_follow_up.png"
-                                                                                    alt=""><span class="cu-span-top">日常跟进</span></div>
+                  <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+                  <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r"><img
+                    src="../assets/image/client_daily_follow_up.png" alt=""><span>日常跟进</span></div>
                 </div>
               </div>
             </div>
@@ -293,9 +287,9 @@
         border-radius: 5px;
         .cu-content-top {
           padding-top: 15px;
-          .user-img {
-            width: 70px;
-            height: 70px;
+          .userImg {
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background: #e6e7ec;
             overflow: hidden;
@@ -332,9 +326,6 @@
               width: calc(50% - 1px);
               line-height: 28px;
               font-weight: 600;
-              font-size: 13px;
-              position: relative;
-              top: 3px;
               img {
                 position: relative;
                 top: 5px;
@@ -354,22 +345,5 @@
   p {
     margin: 0;
     text-align: left;
-  }
-
-  .cu-img-size {
-    float: left;
-    padding-right: 5px;
-    width: 15px;
-    height: 15px;
-    margin-top: 4px
-  }
-
-  .cu-span-top {
-    position: relative;
-    top: 2px
-  }
-  .cu-span15 {
-    font-size: 15px;
-    padding-right: 10px;
   }
 </style>

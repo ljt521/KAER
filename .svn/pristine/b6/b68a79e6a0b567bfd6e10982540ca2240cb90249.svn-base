@@ -34,7 +34,7 @@
                   <img src="../assets/image/default_head.png" alt="dadada">
                 </div>
                 <div class="userImg-r">
-                  <p><span class="cu-span15">{{customer.name}}</span>
+                  <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
                     <span style="font-size: 18px;padding-right: 10px;">
                 <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
                           v-bind:dictItemCode="customer.title"></div-span>
@@ -82,9 +82,9 @@
                   <img src="../assets/image/default_head.png" alt="dadada">
                 </div>
                 <div class="userImg-r">
-                  <p><span class="cu-span15">{{subCustomer.name}}</span>
+                  <p><span style="font-size: 20px;padding-right: 10px;">{{subCustomer.name}}</span>
                     <span style="font-size: 18px;padding-right: 10px;">
-                <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
+                <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
               </span>
                     <span class="cu-title" v-show="subCustomer.isFollowUp === 1">待跟进</span></p>
                   <p style="margin-top: 8px"><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
@@ -367,9 +367,5 @@
   .cu-span-top {
     position: relative;
     top: 2px
-  }
-  .cu-span15 {
-    font-size: 15px;
-    padding-right: 10px;
   }
 </style>
