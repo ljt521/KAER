@@ -23,12 +23,12 @@
       <x-dialog v-model="showToast" class="dialog-demo" hide-on-blur>
         <div style="padding:15px;">
           <p style="margin: 10px 0">
-            <span class="right"><img src="../assets/image/follow_up_role.png" alt="" style="height: 15px;">全程主刀</span>
+            <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
             <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
             <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
           </p>
           <p style="margin: 10px 0">
-            <span class="right"><img src="../assets/image/follow_up_role.png" alt="" style="height: 15px;">全程主刀</span>
+            <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
             <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
             <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
           </p>
@@ -121,9 +121,6 @@
         top: -2px;
       }
     }
-
-
-
 
 
   }

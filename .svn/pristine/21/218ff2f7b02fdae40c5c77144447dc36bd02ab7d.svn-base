@@ -20,17 +20,17 @@
           <img src="../assets/image/client_details_follow_s.png" alt=""><span style="color: #FFB532"> 已关注</span>
         </div>
       </div>
-      <h2 style="font-size:16px;margin: -40px 0 5px 0">{{personData.name}}</h2>
+      <h2 style="margin: -40px 0 5px 0">{{personData.name}}</h2>
       <p style="margin: 0;text-align: center">
         <strong>
-          <div-span style="font-size: 13px;" v-bind:dictCode="'ZW'" v-bind:dictItemCode="personData.administrative"></div-span>
+          <div-span v-bind:dictCode="'ZW'" v-bind:dictItemCode="personData.administrative"></div-span>
         </strong>&nbsp;&nbsp;
         <strong>
-          <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="personData.title"></div-span>
+          <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="personData.title"></div-span>
         </strong>&nbsp;&nbsp;
-        <strong style="font-size: 13px">{{personData.deptName}}</strong>
+        <strong>{{personData.deptName}}</strong>
       </p>
-      <p style="font-size:13px;margin: 5px 0 15px 0;text-align: center; color: #888888;">{{personData.hospitalName}}</p>
+      <p style="margin: 5px 0 15px 0;text-align: center; color: #888888;">{{personData.hospitalName}}</p>
       <grid :show-lr-borders="false" :show-vertical-dividers="false">
         <grid-item :link="{ path: '/userInfo/'+id+'/essential-info/'+id}">
           <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_basic_data.png">

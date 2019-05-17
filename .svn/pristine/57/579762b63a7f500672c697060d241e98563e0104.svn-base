@@ -96,7 +96,9 @@
 
   #app {
     font-family: 'PingFangSC-Light';
-    font-size: 13px;
+    .spanCell {
+      color: #A4A4A4;
+    }
     p {
       margin: 0;
     }

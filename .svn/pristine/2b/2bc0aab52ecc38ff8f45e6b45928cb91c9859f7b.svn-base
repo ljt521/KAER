@@ -23,12 +23,12 @@
       <x-dialog v-model="showToast" class="dialog-demo" hide-on-blur>
         <div style="padding:15px;">
           <p style="margin: 10px 0">
-            <span class="right"><img src="../assets/image/follow_up_role.png" alt="" style="height: 15px;">全程主刀</span>
+            <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
             <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
             <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
           </p>
           <p style="margin: 10px 0">
-            <span class="right"><img src="../assets/image/follow_up_role.png" alt="" style="height: 15px;">全程主刀</span>
+            <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
             <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
             <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
           </p>
@@ -75,8 +75,9 @@
 
 <style lang="less">
   #timeAx{
+
     .space {
-      padding: 12px 12px 0 12px;
+      padding: 12px;
       margin: 0 15px 10px;
       background-color: #fff;
       border-radius: 5px;
@@ -85,7 +86,7 @@
       max-height: 106px;
       .dy-div-icon {
         float: left;
-        height: 110px;
+        height: 140px;
       }
       .dy-div {
         padding-top: 5px;
@@ -113,7 +114,7 @@
       .weui-icon-waiting-circle::after {
         content: '';
         width: 1px;
-        height: calc(116px - 20px);
+        height: calc(116px - 9px);
         border-left: 1px solid #DDDDDD;
         display: block;
         position: relative;
@@ -121,9 +122,6 @@
         top: -2px;
       }
     }
-
-
-
 
 
   }

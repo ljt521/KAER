@@ -272,8 +272,6 @@
       }
       .cu-right {
         padding-left: 10px;
-        position: relative;
-        top: -1px;
       }
     }
     .cu-div {

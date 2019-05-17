@@ -1,7 +1,7 @@
-<!--作者：莫岭红 功能：会诊量-->
+<!--学会职务-->
 <template>
-  <div class="divBox">
-    <swipeout>
+  <div class="divBox ">
+    <swipeout class="vux-1px-tb">
       <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
         <div slot="right-menu">
           <swipeout-button type="primary" @click.native="onButtonClick(item)">编辑</swipeout-button>
@@ -10,45 +10,47 @@
         <div slot="content" :class="{'vux-1px-b': i !== 3}" >
           <cell is-link>
             <span slot="title" >
-              <span class="spanCell">{{item.year}}：</span>
-              <div-span class="leftSpan" :dictCode="'SSJS'" :dictItemCode="item.roleInConsultation "></div-span>
-              <span >{{item.consultationVevolume}}</span>
+              <div-span class="spanCell" :dictCode="'XHMC'" :dictItemCode="item.academyName"></div-span>：
+              <div-span class="leftSpan" :dictCode="'XHZW'" :dictItemCode="item.position"></div-span>
+              <div-span class="leftSpan" :dictCode="'XHJB'" :dictItemCode="item.academyLevel "></div-span>
             </span>
           </cell>
         </div>
       </swipeout-item>
     </swipeout>
-    <div class="cardFootIcon"  v-on:click="goNewConsultation">
-      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon>新建会诊量</p>
+    <div class="cardFootIcon"  v-on:click="goAacdemicTeam">
+      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建学术团队</p>
     </div>
   </div>
 </template>
 <script>
   export default {
-    name: 'ConsultationVolume',
+    name: 'AcademicDuty',
     data () {
       return {
-        list:[]
+        list: [],
       }
     },
+    props:['personId'],
     created(){
       this.requestData()
     },
-    props:['personId'],
-    methods: {
+    methods:{
       requestData(){
-        this.$get('/api/consultation',{customerId:this.personId}).then( val => {
-          this.list = val;
+        this.$get('/api/academicteam',{customerId:this.personId}).then((val) => {
+          this.list = val
         }).catch( err => {})
       },
-      goNewConsultation() {
-        this.$router.push('/new-consultation/'+this.personId)
+      goAacdemicTeam(){
+        this.$router.push({
+          path: '/academic-team/'+this.personId
+        })
       },
       onButtonClick(e) {
           this.$router.push({
-            name:"NewConsultation",
+            name:"AcademicTeam",
             params:{
-              title: '编辑会诊量',
+              title: '编辑学术团队',
               data:e
             }
           });
@@ -59,14 +61,10 @@
           title: '操作提醒',
           content: '是否确认删除?',
           onConfirm () {
-            that.$del('/api/consultation/'+id).then( val => {
-              that.$vux.toast.text('删除成功', 'middle');
-              that.requestData();
-            }).catch( err => {
-              that.$vux.toast.text('删除失败', 'middle');
+            that.$del('/api/academicteam/'+ id).then( val => {
+              that.requestData()
+            }).catch( err => {})
 
-            })
-            console.log('plugin confirm')
           }
         })
       },

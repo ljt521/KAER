@@ -1,4 +1,4 @@
-<!--作者：莫岭红 功能：会诊量-->
+<!--作者：莫岭红 功能：手术量-->
 <template>
   <div class="divBox">
     <swipeout>
@@ -11,45 +11,45 @@
           <cell is-link>
             <span slot="title" >
               <span class="spanCell">{{item.year}}：</span>
-              <div-span class="leftSpan" :dictCode="'SSJS'" :dictItemCode="item.roleInConsultation "></div-span>
-              <span >{{item.consultationVevolume}}</span>
+              <div-span class="leftSpan" :dictCode="'SSJS'" :dictItemCode="item.roleInSurgery "></div-span>
+              <span >{{item.surgeryVevolume }}</span>
             </span>
           </cell>
         </div>
       </swipeout-item>
     </swipeout>
-    <div class="cardFootIcon"  v-on:click="goNewConsultation">
-      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon>新建会诊量</p>
+    <div class="cardFootIcon"  v-on:click="goNewOperative">
+      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建手术量</p>
     </div>
   </div>
 </template>
 <script>
   export default {
-    name: 'ConsultationVolume',
+    name: 'OperativeVolume',
     data () {
       return {
         list:[]
       }
     },
+    props:['personId'],
     created(){
       this.requestData()
     },
-    props:['personId'],
     methods: {
       requestData(){
-        this.$get('/api/consultation',{customerId:this.personId}).then( val => {
-          this.list = val;
+        this.$get('/api/surgeryvolume',{customerId:this.personId}).then( val => {
+          this.list=val;
         }).catch( err => {})
       },
-      goNewConsultation() {
-        this.$router.push('/new-consultation/'+this.personId)
+      goNewOperative() {
+        this.$router.push('/new-operative/'+this.personId)
       },
       onButtonClick(e) {
           this.$router.push({
-            name:"NewConsultation",
+            name:"NewOperative",
             params:{
-              title: '编辑会诊量',
-              data:e
+              title: '编辑手术量',
+              data: e
             }
           });
       },
@@ -59,17 +59,14 @@
           title: '操作提醒',
           content: '是否确认删除?',
           onConfirm () {
-            that.$del('/api/consultation/'+id).then( val => {
+            that.$del('/api/surgeryvolume/'+ id).then( val => {
               that.$vux.toast.text('删除成功', 'middle');
               that.requestData();
-            }).catch( err => {
-              that.$vux.toast.text('删除失败', 'middle');
-
-            })
-            console.log('plugin confirm')
+            }).catch( err => {})
           }
         })
       },
+
 
     }
   }
@@ -95,5 +92,9 @@
       fill: #074089;
     }
   }
+  .spanCell{
+    color:#A4A4A4;
+  }
+
 
 </style>

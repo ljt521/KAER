@@ -265,15 +265,13 @@
       margin: 0;
       .cu-left {
         float: left;
-        width: 3px;
+        width: 6px;
         background-color: #073f89;
-        height: 15px;
+        height: 21px;
         border-radius: 3px;
       }
       .cu-right {
         padding-left: 10px;
-        position: relative;
-        top: -1px;
       }
     }
     .cu-div {
