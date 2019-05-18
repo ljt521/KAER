@@ -42,7 +42,7 @@
                     <span class="cu-title" v-if="index < 2">待跟进</span></p>
                   <p><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
                     <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      <div-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web" v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customer.hospitalCode"></div-span></span>
+                      <div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customer.hospitalCode"></div-span></span>
                   </p>
                   <p style="margin-top: 3px"><img class="cu-img-size" src="../assets/image/client_department.png"
                                                   alt="">
@@ -52,7 +52,7 @@
                   </p>
                 </div>
                 <div class="cu-bottom">
-                  <div class="cu-bottom-l" @click="goToDynamic(customer.id)"><img style="width: 16px;height: 16px;"
+                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
                                                 src="../assets/image/client_dynamic.png" alt=""><span
                     class="cu-span-top">动态</span></div>
                   <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
@@ -92,22 +92,23 @@
               </span>
                     <span class="cu-title" v-if="index < 2">待跟进</span>
                   </p>
-                  <p><img class="cu-img-size" style="position: relative;" src="../assets/image/client_hospital.png" alt="">
+                  <p><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
                     <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      <div-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web" v-bind:dictCode="'YYXX'" v-bind:dictItemCode="subCustomer.hospitalCode"></div-span>
+                      <div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="subCustomer.hospitalCode"></div-span>
                     </span></p>
-                  <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;top:-2px" src="../assets/image/client_department.png"
+                  <p style="margin-top: 3px"><img class="cu-img-size" src="../assets/image/client_department.png"
                                                   alt="">
                     <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                <div-span style="position: relative;top: -6px;" v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
+                <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
               </span>
-                    <img style="height: 13px;width: 13px;top: -2px;position: relative;"
+                    <img style="height: 13px;width: 13px; position: relative;top: 3px;margin: 0 3px 0 5px;"
                          src="../assets/image/client_responsible_person.png" alt="">
-                    <span style="color: #888888;display:inline-block;max-width: calc(100% - 110px);" class="span-web">{{subCustomer.leaderName}}</span>
+                    <span style="color: #888888;position: relative;top: 2px;">{{subCustomer.leaderName}}</span>
                   </p>
+                  <div class="cu-gz"><img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;" src="../assets/image/client_follow_s.png" alt=""></div>
                 </div>
                 <div class="cu-bottom">
-                  <div class="cu-bottom-l" @click="goToDynamic(customer.id)"><img style="width: 16px;height: 16px;"
+                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
                                                 src="../assets/image/client_dynamic.png" alt=""><span
                     class="cu-span-top">动态</span>
                   </div>
@@ -116,8 +117,6 @@
                                                                                     alt=""><span class="cu-span-top">日常跟进</span>
                   </div>
                 </div>
-                <div class="cu-gz"><img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;"
-                                        src="../assets/image/client_follow_s.png" alt=""></div>
               </div>
             </div>
           </div>
@@ -183,11 +182,6 @@
       openDiaLog (id) {
         let self = this
         self.$refs['NewDiaLogDom'].isShowDia(true, id)
-      },
-      goToDynamic(id) {
-        this.$router.push({
-          path: '/userInfo/' + id + '/dynamic-assembly/' + id
-        })
       },
       goCustomerInfo (id) {
         this.$router.push({
@@ -326,7 +320,6 @@
         border-radius: 5px;
         box-shadow: 0 0 2px 2px #eee;
         .cu-content-top {
-          position: relative;
           padding-top: 10px;
           .user-img {
             width: 50px;
@@ -343,7 +336,8 @@
             }
           }
           .userImg-r {
-            width: calc(100% - 115px);
+            width: calc(100% - 80px);
+            padding-right: 10px;
             margin-left: 70px;
             position: relative;
             .cu-title {
@@ -414,14 +408,8 @@
     position: absolute;
     background-color: #fff;
     border: 0;
-    top: 30px;
-    right: 5px;
+    top: 10px;
+    right: 10px;
     overflow: hidden;
-  }
-
-  .span-web {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 </style>

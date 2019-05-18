@@ -52,7 +52,7 @@
                   </p>
                 </div>
                 <div class="cu-bottom">
-                  <div class="cu-bottom-l" @click="goToDynamic(customer.id)"><img style="width: 16px;height: 16px;"
+                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
                                                 src="../assets/image/client_dynamic.png" alt=""><span
                     class="cu-span-top">动态</span></div>
                   <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
@@ -107,7 +107,7 @@
                   </p>
                 </div>
                 <div class="cu-bottom">
-                  <div class="cu-bottom-l" @click="goToDynamic(customer.id)"><img style="width: 16px;height: 16px;"
+                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
                                                 src="../assets/image/client_dynamic.png" alt=""><span
                     class="cu-span-top">动态</span>
                   </div>
@@ -183,11 +183,6 @@
       openDiaLog (id) {
         let self = this
         self.$refs['NewDiaLogDom'].isShowDia(true, id)
-      },
-      goToDynamic(id) {
-        this.$router.push({
-          path: '/userInfo/' + id + '/dynamic-assembly/' + id
-        })
       },
       goCustomerInfo (id) {
         this.$router.push({
