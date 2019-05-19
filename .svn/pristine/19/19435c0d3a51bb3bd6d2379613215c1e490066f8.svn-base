@@ -300,9 +300,6 @@
     .weui-search-bar {
       background-color: #073f89;
     }
-    .weui-search-bar__label {
-      top: 5px;
-    }
     .weui-search-bar__box .weui-search-bar__input {
       /*height: 24px;*/
     }

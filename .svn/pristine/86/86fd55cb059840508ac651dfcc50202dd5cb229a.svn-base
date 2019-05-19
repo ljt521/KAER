@@ -2,7 +2,7 @@
   <div class="cu-app">
     <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 80px">
       <search position="absolute" auto-fixed ref="searchData" placeholder="搜索关键字"></search>
-      <div style="position: fixed;top:40px;background-color: #fff;width: 100%;">
+      <div style="position: fixed;top:45px;background-color: #fff;width: 100%;">
         <div class="cu-type2">
           <div-selector v-bind:dictCode="'KSLX'" v-bind:tilteValue="'科室类型'"
                         v-on:listenSelect="departmentChange"></div-selector>
@@ -38,8 +38,7 @@
                     <span class="cu-title" v-if="index < 2">待跟进</span></p>
                   <p><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
                     <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      <div-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web"
-                                v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customer.hospitalCode"></div-span></span>
+                      <div-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web" v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customer.hospitalCode"></div-span></span>
                   </p>
                   <p style="margin-top: 3px"><img class="cu-img-size" src="../assets/image/client_department.png"
                                                   alt="">
@@ -50,8 +49,7 @@
                 </div>
                 <div class="cu-bottom">
                   <div class="cu-bottom-l" @click="goToDynamic(customer.id)"><img style="width: 16px;height: 16px;"
-                                                                                  src="../assets/image/client_dynamic.png"
-                                                                                  alt=""><span
+                                                src="../assets/image/client_dynamic.png" alt=""><span
                     class="cu-span-top">动态</span></div>
                   <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
                                                                                  src="../assets/image/client_daily_follow_up.png"
@@ -84,49 +82,39 @@
                 </div>
                 <div class="userImg-r">
                   <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
-                    <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
-                              v-bind:dictItemCode="subCustomer.title"></div-span>
+                    <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
                     <span class="cu-title" v-if="index < 2">待跟进</span>
-                    <img style="height: 13px;width: 13px;margin-left: 5px;position: relative;"
-                         src="../assets/image/client_responsible_person.png" alt=""/>
-                    <span style="color: #888888;display:inline-block;margin-bottom: -2px;max-width: calc(100% - 180px);"
-                          class="span-web">{{subCustomer.leaderName}}</span>
+                    <img style="height: 13px;width: 13px;margin-left: 5px;position: relative;" src="../assets/image/client_responsible_person.png" alt="" />
+                    <span style="color: #888888;display:inline-block;margin-bottom: -2px;max-width: calc(100% - 180px);" class="span-web">{{subCustomer.leaderName}}</span>
                   </p>
-                  <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
-                                                  src="../assets/image/client_hospital.png" alt="">
+                  <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;" src="../assets/image/client_hospital.png" alt="">
                     <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      <div-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web"
-                                v-bind:dictCode="'YYXX'" v-bind:dictItemCode="subCustomer.hospitalCode"></div-span>
+                      <div-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web" v-bind:dictCode="'YYXX'" v-bind:dictItemCode="subCustomer.hospitalCode"></div-span>
                     </span></p>
                   <p style="margin-top: 3px">
-                    <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
-                         alt=""/>
-                    <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;"
-                          class="cu-span-top">
-                      <div-span style="position: relative;display: inline-block;line-height: 19px;"
-                                v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
+                    <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png" alt="" />
+                    <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;" class="cu-span-top">
+                      <div-span style="position: relative;display: inline-block;line-height: 19px;" v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
                     </span>
                   </p>
                 </div>
                 <div class="cu-bottom">
                   <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt="" />
                     <span class="cu-span-top">动态</span>
                   </div>
                   <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png"alt="" />
                     <span class="cu-span-top">日常跟进</span>
                   </div>
                 </div>
                 <div class="cu-gz">
-                  <img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;"
-                       src="../assets/image/client_follow_s.png" alt=""/>
+                  <img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;"src="../assets/image/client_follow_s.png" alt="" />
                 </div>
               </div>
             </div>
-            <div style="height: 60px;"></div>
           </div>
-          <load-more v-if="!onFetching" tip="loading"></load-more>
+          <load-more tip="loading"></load-more>
         </div>
       </scroller>
       <new-dia-log ref="NewDiaLogDom"></new-dia-log>
@@ -149,6 +137,7 @@
         deptCode: '',
         customerData: [],
         subCustomerData: [],
+        department: '',
         onFetching: false,
         sizeData: 5,
         orderHight: ''
@@ -160,9 +149,8 @@
       }).catch(error => {
         console.log(error)
       })
-      this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10},{isSubData: 'true'}).then(info => {
+      this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}).then(info => {
         this.subCustomerData = info
-        this.onFetching = info.length == 0
       }).catch(error => {
         console.log(error)
       })
@@ -189,7 +177,7 @@
         let self = this
         self.$refs['NewDiaLogDom'].isShowDia(true, id)
       },
-      goToDynamic (id) {
+      goToDynamic(id) {
         this.$router.push({
           path: '/userInfo/' + id + '/dynamic-assembly/' + id
         })
@@ -220,6 +208,7 @@
         })
       },
       departmentChange (e) {
+        this.department = e.code
         this.deptCode = e.code
         this.$search('/api/customer', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, {
           area: this.area,
@@ -235,33 +224,22 @@
           deptCode: this.deptCode
         }).then(info => {
           this.subCustomerData = info
-          this.onFetching = info.length == 0
         }).catch(error => {
           console.log(error)
         })
       },
       onScrollBottom () {
         let _this = this
-        if(!_this.$headers) {
-          return
-        }
         if (_this.$headers['x-total-count'] == _this.subCustomerData.length) {
-          _this.onFetching = true
-          if (_this.$headers['x-total-count'] == 0) {
-            _this.$vux.toast.text('下属无数据', 'middle')
-          } else {
-            _this.$vux.toast.text('已经是全部数据', 'middle')
-          }
+          _this.$vux.toast.text('已经是全部数据', 'middle')
           return
-        } else {
-          _this.onFetching = false
         }
         if (_this.onFetching) {
         } else {
+          _this.onFetching = true
           setTimeout(() => {
             _this.$nextTick(() => {
               if (_this.$refs.scrollerBottom) {
-                _this.onFetching = true
                 _this.$refs.scrollerBottom.reset()
               }
             })
@@ -270,10 +248,6 @@
               sort: 'isFocusOn,isFollowUp,name,DESC',
               page: 0,
               size: this.sizeData
-            }, {
-              isSubData: 'true',
-              area: this.area,
-              deptCode: this.deptCode
             }).then(info => {
               _this.subCustomerData = info
             }).catch(error => {
@@ -292,19 +266,7 @@
       border-radius: 50%;
     }
     .weui-search-bar {
-      padding: 4px 10px;
-    }
-    .weui-search-bar__input {
-      padding: 5px 2px !important;
-    }
-    .weui-search-bar {
       background-color: #073f89;
-    }
-    .weui-search-bar__label {
-      top: 5px;
-    }
-    .weui-search-bar__box .weui-search-bar__input {
-      /*height: 24px;*/
     }
     .cu-type1, .cu-type2 {
       display: inline-block;
@@ -455,7 +417,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-
   .weui-search-bar__input {
     padding: 2px 2px !important;
   }

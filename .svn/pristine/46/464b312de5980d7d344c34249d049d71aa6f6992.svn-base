@@ -38,7 +38,7 @@
     },
     methods: {
       requestData(){
-        this.$search('/api/surgeryvolume',{},{'customer.id':this.personId}).then( val => {
+        this.$get('/api/surgeryvolume',{customerId:this.personId}).then( val => {
           this.list=val;
         }).catch( err => {})
       },

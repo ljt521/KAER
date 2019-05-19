@@ -160,7 +160,7 @@
       }).catch(error => {
         console.log(error)
       })
-      this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10},{isSubData: 'true'}).then(info => {
+      this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}).then(info => {
         this.subCustomerData = info
         this.onFetching = info.length == 0
       }).catch(error => {
@@ -210,7 +210,6 @@
           console.log(error)
         })
         this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}, {
-          isSubData: 'true',
           area: this.area,
           deptCode: this.deptCode
         }).then(info => {
@@ -242,9 +241,6 @@
       },
       onScrollBottom () {
         let _this = this
-        if(!_this.$headers) {
-          return
-        }
         if (_this.$headers['x-total-count'] == _this.subCustomerData.length) {
           _this.onFetching = true
           if (_this.$headers['x-total-count'] == 0) {
@@ -258,10 +254,10 @@
         }
         if (_this.onFetching) {
         } else {
+          _this.onFetching = true
           setTimeout(() => {
             _this.$nextTick(() => {
               if (_this.$refs.scrollerBottom) {
-                _this.onFetching = true
                 _this.$refs.scrollerBottom.reset()
               }
             })
@@ -270,7 +266,7 @@
               sort: 'isFocusOn,isFollowUp,name,DESC',
               page: 0,
               size: this.sizeData
-            }, {
+            }, {}, {
               isSubData: 'true',
               area: this.area,
               deptCode: this.deptCode
@@ -291,17 +287,11 @@
     .weui-search-bar__form {
       border-radius: 50%;
     }
-    .weui-search-bar {
-      padding: 4px 10px;
-    }
     .weui-search-bar__input {
       padding: 5px 2px !important;
     }
     .weui-search-bar {
       background-color: #073f89;
-    }
-    .weui-search-bar__label {
-      top: 5px;
     }
     .weui-search-bar__box .weui-search-bar__input {
       /*height: 24px;*/

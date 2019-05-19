@@ -12,7 +12,8 @@
           <i class="dy-size">{{item.createdDate|formatDate}}</i>
           <i class="dy-size2">{{item.personName}}</i>
           <i class="dy-size3">
-            <span>{{item.direction}}</span><div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="item.hospitalCode"></div-span>
+            <span>{{item.direction}}</span>
+            <div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="item.hospitalCode"></div-span>
             <span class="router-link" @click="goDiaLog">@{{item.customerName}}@</span>{{item.obj}}
             <span class="router-link" @click="goDiaLog">#{{item.content}}#</span>
           </i>

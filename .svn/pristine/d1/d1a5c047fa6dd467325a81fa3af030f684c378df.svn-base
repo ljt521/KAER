@@ -41,7 +41,7 @@
     props:['personId'],
     methods: {
       requestData(){
-        this.$search('/api/consultation',{},{'customer.id':this.personId}).then( val => {
+        this.$get('/api/consultation',{customerId:this.personId}).then( val => {
           this.list = val;
         }).catch( err => {})
       },

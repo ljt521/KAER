@@ -10,11 +10,9 @@
         </div>
         <div class="dy-div">
           <i class="dy-size">{{item.createdDate|formatDate}}</i>
-          <i class="dy-size2">{{item.personName}}</i>
-          <i class="dy-size3">
-            <span>{{item.direction}}</span><div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="item.hospitalCode"></div-span>
-            <span class="router-link" @click="goDiaLog">@{{item.customerName}}@</span>{{item.obj}}
-            <span class="router-link" @click="goDiaLog">#{{item.content}}#</span>
+          <h4 class="dy-size2">{{item.personName}}</h4>
+          <i class="dy-size3">新增了<span class="router-link" @click="goDiaLog">@{{item.customerName}}@</span>{{item.obj}}
+            <span class="router-link" @click="goDiaLog">#1{{item.content}}</span>
           </i>
         </div>
       </div>
@@ -80,38 +78,34 @@
       background-color: #fff;
       border-radius: 5px;
       text-align: left;
-      position: relative;
+      height: 106px;
+      max-height: 106px;
       .dy-div-icon {
-        position:absolute;
+        float: left;
+        height: 110px;
       }
       .dy-div {
         padding-top: 5px;
-        padding-left: 33px;
         font-size: 15px;
         .dy-size{
-          display: inline-block;
           color:#888888;
           font-style: normal;
         }
         .dy-size2{
-          display: block;
-          font-size: 13px;
-          color:#888888;
-          float: right;
-          font-style: normal;
+          color:#000000;
+          margin:12px 0 7px 0;
         }
         .dy-size3{
           font-style: normal;
           font-size: 13px;
-          display: block;
-          padding: 10px 0;
-          span {
-          }
         }
         .router-link {
           color: #1D679D;
           text-decoration: none;
         }
+      }
+      .weui-icon-waiting-circle {
+        color: #a3a3a3;
       }
       .weui-icon-waiting-circle::after {
         content: '';

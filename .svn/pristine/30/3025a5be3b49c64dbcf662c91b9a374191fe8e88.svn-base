@@ -35,16 +35,15 @@
     created(){
       this.requestData()
     },
+    activated() {
+      this.requestData()
+    },
     props:['personId'],
     methods: {
       requestData(){
-        this.$search('/api/languages',{},{'customer.id':this.personId}).then( (value) => {
+        this.$get('/api/languages',{customerId:this.personId}).then( (value) => {
           this.list = value;
           console.log(this.list);
-        }).catch(err => {
-        }).catch(err => {
-        }).catch(err => {
-        }).catch(err => {
         }).catch(err => {
           console.log(err)
         })

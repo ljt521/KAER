@@ -39,7 +39,7 @@
     },
     methods:{
       requestData(){
-        this.$search('/api/academicteam',{},{'customer.id':this.personId}).then((val) => {
+        this.$get('/api/academicteam',{customerId:this.personId}).then((val) => {
           this.list = val
         }).catch( err => {})
       },

@@ -32,10 +32,10 @@
       </cell>
       <div class="slide" :class="showContent004?'animate':''">
         <!--<cell>-->
-        <!--<check-icon slot="icon" :value.sync="demo1" type="plain"> 产品</check-icon>-->
-        <!--<template v-slot="value">-->
-        <!--<span style="margin-right: 15px;">品牌</span>-->
-        <!--</template>-->
+          <!--<check-icon slot="icon" :value.sync="demo1" type="plain"> 产品</check-icon>-->
+          <!--<template v-slot="value">-->
+            <!--<span style="margin-right: 15px;">品牌</span>-->
+          <!--</template>-->
         <!--</cell>-->
         <cell v-for="(item,i) of myData" :key="i">
           <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)">
@@ -111,18 +111,17 @@
         if (this.title === '编辑手术演示') {
           this.$put('/api/OperationDemoInfo', this.operationDemoInfoDto).then(info => {
             this.$vux.toast.text('编辑手术演示成功', 'middle')
-            this.$router.push(`/userInfo/${this.operationDemoInfoDto.customerId }/follow-details/${this.operationDemoInfoDto.customerId }`)
           }).catch(error => {
             this.$vux.toast.text('编辑手术演示失败', 'middle')
           })
         } else if (this.title === '新建手术演示') {
           this.$post('/api/OperationDemoInfo', this.operationDemoInfoDto).then(info => {
             this.$vux.toast.text('新建手术演示成功', 'middle')
-            this.$router.push(`/userInfo/${this.operationDemoInfoDto.customerId }/follow-details/${this.operationDemoInfoDto.customerId }`)
           }).catch(error => {
             this.$vux.toast.text('新建手术演示失败', 'middle')
           })
         }
+        this.$router.push(`/userInfo/${this.operationDemoInfoDto.customerId }/follow-details/${this.operationDemoInfoDto.customerId }`)
       },
       getPlain (e) {
         if (e.hasOwnProperty('proData')) {

@@ -291,17 +291,11 @@
     .weui-search-bar__form {
       border-radius: 50%;
     }
-    .weui-search-bar {
-      padding: 4px 10px;
-    }
     .weui-search-bar__input {
       padding: 5px 2px !important;
     }
     .weui-search-bar {
       background-color: #073f89;
-    }
-    .weui-search-bar__label {
-      top: 5px;
     }
     .weui-search-bar__box .weui-search-bar__input {
       /*height: 24px;*/
