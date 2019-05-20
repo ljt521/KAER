@@ -4,7 +4,7 @@
               :dialog-style="{'max-width': '90%', width: '90%', height: '80%'}">
       <div style="height: 18%"></div>
       <div class="img-box">
-        <p style="text-align: center;color: #888888;">请点击下面图标新增业务对象</p>
+        <p style="text-align: center">请点击下面图标新增业务对象</p>
         <div class="fo-line">
           <grid :show-lr-borders="false" :show-vertical-dividers="false">
             <grid-item :link="{ path: `/new-consul-info/${id}`}">
