@@ -1,0 +1,63 @@
+// The Vue build version to load with the `import` command
+// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
+import Vue from 'vue'
+import App from './App'
+import router from './router'
+import VueRouter from 'vue-router'
+
+import {ConfirmPlugin, ToastPlugin} from 'vux'
+
+import {get, patch, post, put, getCookies, setCookies, search, del, sortData} from './providers/http-service' // 定义全局变量
+import VueWechatTitle from 'vue-wechat-title' // 定义全局变量
+
+// 全局api接口
+Vue.prototype.$get = get
+Vue.prototype.$patch = patch
+Vue.prototype.$post = post
+Vue.prototype.$put = put
+Vue.prototype.$search = search
+Vue.prototype.$del = del
+Vue.prototype.$sortData = sortData
+Vue.prototype.$getCookies = getCookies
+Vue.prototype.$setCookies = setCookies
+
+// 全局设置分辨率(devicePixelRatio)
+Vue.prototype.$devicePixelRatio = 2
+
+Vue.config.productionTip = false
+const FastClick = require('fastclick')
+FastClick.attach(document.body)
+Vue.use(VueRouter)
+Vue.use(VueWechatTitle)
+Vue.use(ConfirmPlugin)
+Vue.use(ToastPlugin)
+
+Vue.filter('formatDate',function(val, info) {
+  const value = new Date(val);
+  const year = value.getFullYear();
+  const month = value.getMonth() + 1;
+  const day = value.getDate();
+  if(info) {
+    const hour = value.getHours();
+    const minutes = value.getMinutes();
+    const seconds = value.getSeconds();
+    return year + '-' + month + '-' + day + `${hour}:${minutes}:${seconds}`;
+  }
+  return year + '-' + month + '-' + day;
+})
+
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: {App},
+  template: '<App/>'
+})
+
+router.beforeEach((to, from, next) => {
+  /* 路由发生变化修改页面title */
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  next()
+})

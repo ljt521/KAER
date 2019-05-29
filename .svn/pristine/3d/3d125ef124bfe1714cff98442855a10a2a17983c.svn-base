@@ -1,0 +1,71 @@
+
+<!--作者：莫岭红 功能：新建（编辑）手术参与-->
+<template>
+  <div v-wechat-title="title" >
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="AcademicJoinDto.academicDate"
+        @on-change="changeTime"
+        title="日期"
+        placeholder="请选择"></datetime>
+      <x-input title="学术活动类型" v-model="AcademicJoinDto.academicActivityType" placeholder="请填写" text-align="right"></x-input>
+      <x-input title="活动名称" v-model="AcademicJoinDto.activityName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"  v-on:listenSelect="jsChange"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewLearning',
+    data () {
+      return {
+        title:'新建手术参与',
+        AcademicJoinDto:{
+          academicDate:'',
+          academicActivityType:'',
+          activityName:'',
+          participantRoles:''
+        }
+
+
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+    },
+    methods:{
+      goEssentialInfo () {
+        if(this.$route.params.title) {
+          console.log('编辑');
+        } else {
+          this.$post('/api/AcademicJoin', this.AcademicJoinDto).then(info => {
+            console.log(info);
+          }).catch(error => {
+            console.log(error);
+          })
+        }
+        this.$router.push('/userInfo/essential-info')
+      },
+
+      jsChange(data) {
+        this.AcademicJoinDto.participantRoles = data.code;
+      },
+      changeTime(value) { // 获取日期
+        this.AcademicJoinDto.academicDate = value;
+      },
+    }
+  }
+</script>
+
+
+<style lang="less" >
+  .cellBox{
+    height: 20px;
+  }
+
+
+</style>

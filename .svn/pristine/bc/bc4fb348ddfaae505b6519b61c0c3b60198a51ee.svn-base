@@ -1,0 +1,16 @@
+<template>
+  <div class="dy-top">
+    <x-header class="x-header" slot="header" :left-options="{backText: ''}">新建论文发表<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'NewPaper',
+    data() {
+      return {}
+    }
+  }
+</script>
+
+<style lang="less"></style>

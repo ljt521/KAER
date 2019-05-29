@@ -1,0 +1,196 @@
+<template>
+  <div class="us-top">
+    <x-header></x-header>
+    <div class="us-img">
+    </div>
+    <div class="us-z-top">
+      <div style="position: relative;">
+        <img v-if="imgSrc" class="us-img-1" :src="imgSrc" alt="">
+        <img v-if="!imgSrc" class="us-img-1" src="../assets/image/default_head.png" alt="">
+        <label class="img-up" for="female">img</label>
+        <input ref="female" type="file" @change="loadImg" id="female"
+               accept="image/png,image/jpeg,image/jpg"
+               class="addBorder">
+      </div>
+      <div class="us-care" @click="careData">
+        <div class="us-center" v-if="personData.isFocusOn">
+          <img src="../assets/image/client_details_follow.png" alt=""><span> 关注</span>
+        </div>
+        <div class="us-center" v-if="!personData.isFocusOn">
+          <img src="../assets/image/client_details_follow_s.png" alt=""><span style="color: #FFB532"> 已关注</span>
+        </div>
+      </div>
+      <h2 style="margin: -40px 0 5px 0">{{personData.name}}</h2>
+      <p style="margin: 0;text-align: center">
+        <strong>
+          <div-span v-bind:dictCode="'ZW'" v-bind:dictItemCode="personData.administrative"></div-span>
+        </strong>&nbsp;&nbsp;
+        <strong>
+          <div-span v-bind:dictCode="'ZC'" v-bind:dictItemCode="personData.title"></div-span>
+        </strong>&nbsp;&nbsp;
+        <strong>{{personData.deptName}}</strong>
+      </p>
+      <p style="margin: 5px 0 15px 0;text-align: center; color: #888888;">{{personData.hospitalName}}</p>
+      <grid :show-lr-borders="false" :show-vertical-dividers="false">
+        <grid-item :link="{ path: '/userInfo/'+id+'/essential-info/'+id}">
+          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_basic_data.png">
+          <span slot="label" style="color: #888888">基本资料</span>
+        </grid-item>
+        <grid-item :link="{ path: '/userInfo/'+id+'/growth-archives/'+id}">
+          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_growth_archives.png">
+          <span slot="label" style="color: #888888">成长档案</span>
+        </grid-item>
+        <grid-item :link="{ path: '/userInfo/'+id+'/follow-details/'+id}">
+          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_follow_up.png">
+          <span slot="label" style="color: #888888">跟进详情</span>
+        </grid-item>
+        <grid-item :link="{ path: '/userInfo/'+id+'/dynamic-assembly/'+id}">
+          <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_dynamic.png">
+          <span slot="label" style="color: #888888">动态</span>
+        </grid-item>
+      </grid>
+    </div>
+    <div class="us-bottom-commont">
+      <router-view></router-view>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {Grid, GridItem} from 'vux'
+
+  export default {
+    name: 'UserInfo',
+    components: {
+      Grid,
+      GridItem
+    },
+    data () {
+      return {
+        care: true,
+        id: this.$route.params.id,
+        personData: {},
+        imgSrc: ''
+      }
+    },
+    created () {
+      this.getPerson(this.id)
+    },
+    methods: {
+      careData () {
+        this.personData.isFocusOn = !this.personData.isFocusOn
+
+      },
+      getPerson (id) {
+        this.$get('/api/customer/' + id).then(info => {
+          this.personData = info
+        })
+      },
+      loadImg (e) {
+        //获取文件
+        const file = this.$refs.female
+        const fil = file.files
+        let size = Math.floor(fil[0].size / 1024)
+        if (size > 5 * 1024 * 1024) {
+          this.$vux.toast.text('请选择5M以内的图片', 'middle')
+          return false
+        }
+        const reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0]) // 读出 base64
+        reader.onloadend = () => {
+          // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+          const dataURL = reader.result//base64
+          this.imgSrc = dataURL
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .us-top {
+    .vux-header, .us-img {
+      background-color: #074089;
+    }
+    .us-img {
+      position: relative;
+      height: 120px;
+      top: -1px;
+    }
+    .us-z-top {
+      height: 200px;
+      margin: 0 15px -80px;
+      position: relative;
+      top: -115px;
+      background-color: #fff;
+      border-radius: 5px;
+      .us-img-1 {
+        position: relative;
+        top: -45px;
+        width: 75px;
+        height: 75px;
+        border-radius: 50%;
+      }
+      .addBorder {
+        opacity: 0;
+        /*filter: alpha(opacity=0);*/
+        height: 100px;
+        width: 100px;
+        z-index: 9;
+        position: absolute;
+        left: 50%;
+        transform: translate(-50%, 0);
+        opacity: 0;
+      }
+      .img-up {
+        display: inline-block;
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        background-color: pink;
+        top: -40px;
+        transform: translate(-110%, 0);
+        opacity: 0;
+      }
+      .us-care {
+        width: 67px;
+        height: 30px;
+        position: absolute;
+        top: 11px;
+        right: -3px;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+        background: #F2F3F5;
+        text-align: center;
+        font-size: 13px;
+        color: #A4A4A4;
+        .us-center {
+          margin-top: 4px;
+          img {
+            vertical-align: bottom;
+          }
+        }
+
+      }
+      .weui-grid {
+        padding: 0;
+      }
+      .weui-grids::before {
+        border: none;
+      }
+      .weui-grid::after {
+        content: none;
+      }
+      .weui-grid {
+        text-decoration: none;
+      }
+    }
+    .us-bottom-commont {
+      position: relative;
+      top: -30px;
+      .scrollable .vux-tab-item {
+        flex: 0 0 20%;
+      }
+    }
+  }
+</style>

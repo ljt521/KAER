@@ -1,0 +1,40 @@
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header>{{title}}</x-header>
+    </div>
+    <AllConsultation v-if="title === '全部会诊信息'" :personId="personId">{{title}}</AllConsultation>
+    <AllOperDemo v-if="title === '全部手术演示信息'" :personId="personId">{{title}}</AllOperDemo>
+    <AllIecture v-if="title === '全部讲课信息'" :personId="personId">{{title}}</AllIecture>
+    <AllTopic v-if="title === '全部参与课题信息'" :personId="personId">{{title}}</AllTopic>
+    <AllPaper v-if="title === '全部论文发表信息'" :personId="personId">{{title}}</AllPaper>
+    <AllLearning v-if="title === '全部学术参与信息'" :personId="personId">{{title}}</AllLearning>
+  </div>
+</template>
+<script>
+  import AllConsultation from '@/components/AllConsultation'
+  import AllOperDemo from '@/components/AllOperDemo'
+  import AllIecture from '@/components/AllIecture'
+  import AllTopic from '@/components/AllTopic'
+  import AllPaper from '@/components/AllPaper'
+  import AllLearning from '@/components/AllLearning'
+  export default {
+    name: 'SeeAll',
+    data() {
+      return{
+        title: '',
+        personId:''
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title || this.$route.meta.title;
+      this.personId=this.$route.params.id
+    },
+    methods: {
+    },
+    components: {AllConsultation, AllOperDemo, AllIecture, AllPaper, AllTopic,AllLearning},
+
+  }
+</script>
+
+<style lang="less"></style>

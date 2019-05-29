@@ -1,0 +1,147 @@
+<!--作者：吕俊涛 功能：动态组件-->
+<template>
+  <div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<span class="router-link" @click="goDiaLog">@丁一@</span>论文信息
+          <span class="router-link" @click="goDiaLog">#1浅谈临床医学小儿科质量中和花单声道是的是的</span>
+        </i>
+      </div>
+    </div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<span class="router-link" @click="goDiaLog">@丁一@</span>论文信息
+          <span class="router-link" @click="goDiaLog">#1浅谈临床医学小儿科质量中和花单声道是的是的</span>
+        </i>
+      </div>
+    </div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<span class="router-link" >@丁一@</span>论文信息
+          <span class="router-link" >#1浅谈临床医学小儿科质量中和花单声道是的是的</span>
+        </i>
+      </div>
+    </div>
+    <div class="space">
+      <div class="dy-div-icon">
+        <icon type="waiting-circle"></icon>
+      </div>
+      <div class="dy-div">
+        <i>2019/4/30 11:56:50</i>
+        <h4>李峰</h4>
+        <i>新增了<span class="router-link" >@丁一@</span>论文信息
+          <span class="router-link" >#1浅谈临床医学小儿科质量中和花单声道是的是的</span>
+        </i>
+      </div>
+    </div>
+    <div v-transfer-dom>
+      <x-dialog v-model="showToast" class="dialog-demo" hide-on-blur>
+        <div style="padding:15px;">
+          <p style="margin: 10px 0">
+            <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+            <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+            <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
+          </p>
+          <p style="margin: 10px 0">
+            <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+            <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+            <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
+          </p>
+        </div>
+      </x-dialog>
+    </div>
+  </div>
+
+</template>
+
+<script>
+  import { XDialog } from 'vux'
+  import { TransferDom } from 'vux'
+  export default {
+    name: 'TimeAxis',
+    directives: {
+      TransferDom
+    },
+    components: {
+      XDialog
+    },
+    data () {
+      return {
+        list:[],
+        showToast:false,
+      }
+    },
+    created(){
+     this.getDynamic()
+    },
+    methods: {
+      getDynamic(){
+        this.$get('/api/customerDynamic').then(info => {
+          console.log(info)
+          this.list = info;
+        })
+      },
+      goDiaLog(){
+        this.showToast=!this.showToast;
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .space {
+    padding: 12px;
+    margin: 0 12px 15px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: left;
+    height: 120px;
+    max-height: 120px;
+    .dy-div-icon {
+      float: left;
+      height: 140px;
+    }
+    .dy-div {
+      padding-top: 5px;
+      i {
+        font-style: normal;
+        color: #a3a3a3;
+      }
+      h4 {
+        line-height: 0;
+      }
+      .router-link {
+        color: #1c689c;
+        text-decoration: none;
+      }
+    }
+    .weui-icon-waiting-circle {
+      color: #a3a3a3;
+    }
+    .weui-icon-waiting-circle::after {
+      content: '';
+      width: 1px;
+      height: calc(110px + 12px);
+      border-left: 1px solid #a3a3a3;
+      display: block;
+      position: relative;
+      left: 16px;
+      top: -2px;
+    }
+  }
+</style>

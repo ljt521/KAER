@@ -1,0 +1,158 @@
+<!--作者：莫岭红 功能：新建（编辑）讲课-->
+<template>
+  <div  v-wechat-title="title" >
+    <div class="dy-top" >
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="lectureInfoDto.lessonDate"
+        title="日期"
+        placeholder="请选择"></datetime>
+      <x-input title="讲课名称" v-model="lectureInfoDto.lessonName" placeholder="请填写" text-align="right"></x-input>
+      <x-input title="术式类型" v-model="lectureInfoDto.operativeType" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'讲课场合'" :dictCode="'CH'"  v-on:listenSelect="(value) => {lectureInfoDto.lectureLocal  = value.code}" :anyData="lectureInfoDto.lectureLocal"></div-selector>
+      <x-input title="活动名称" v-model="lectureInfoDto.activityName" placeholder="请填写" text-align="right"></x-input>
+      <cell
+        title="产品信息"
+        value="请选择"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent004 ? 'up' : 'down'"
+        @click.native="showContent004 = !showContent004">
+      </cell>
+      <div class="slide" :class="showContent004?'animate':''">
+        <cell>
+          <check-icon  slot="icon" :value.sync="demo1" type="plain"> 产品 </check-icon>
+          <template v-slot="value">
+            <span  style="margin-right: 15px;" >品牌</span>
+          </template>
+        </cell>
+        <cell v-for="(item,i) of list" :key="i">
+          <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)"> {{item.value}}</check-icon>
+          <template v-slot="value">
+            <div class="new-select">
+              <div-selector :dictCode="'CPPP'" v-model="item['proData']" v-on:listenSelect="(value) => {item['proData'] = value.code}" :anyData="item.proData"></div-selector>
+            </div>
+          </template>
+        </cell>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewIecture',
+    data () {
+      return {
+        lectureInfoDto:{
+          lessonDate:'', //日期
+          lessonName:'', //讲课名称
+          operativeType:'', //术式类型
+          lectureLocal:'', //讲课场合
+          activityName:'', //活动名称
+          productInfo:[], //产品信息
+        },
+        title:'新建讲课',
+        showContent004: false,
+        demo1: false,
+        list: []
+      }
+    },
+    created() {
+      if(this.$route.params.data){
+          this.lectureInfoDto.lessonDate = this.$route.params.data.lessonDate.slice(0,10);
+          this.lectureInfoDto.lessonName = this.$route.params.data.lessonName;
+          this.lectureInfoDto.operativeType = this.$route.params.data.operativeType;
+          this.lectureInfoDto.lectureLocal = this.$route.params.data.lectureLocal;
+          this.lectureInfoDto.activityName = this.$route.params.data.activityName;
+          this.lectureInfoDto.productInfo = JSON.parse(this.$route.params.data.productInfo);
+          this.lectureInfoDto['id'] = this.$route.params.data.id;
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+      this.lectureInfoDto.customerId = this.$route.params.id;
+      this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
+        this.list = info.dictItems;
+        this.list.forEach( val =>{
+          let data = this.$route.params.data.product
+          for(let i in data[0]){
+            if(val.code === data[0][i]){
+              val['select'] = true;
+              val['proData'] = data[1][i]
+            }
+          }
+        })
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+    methods:{
+      getPlain (e) {
+        if(e.hasOwnProperty('proData')) {
+          if(e.select && e.proData){
+            const obj = {};
+            obj[e.code] = e.proData;
+            this.lectureInfoDto.productInfo.push(obj);
+          } else {
+            if(this.lectureInfoDto.productInfo.length > 0) {
+              this.lectureInfoDto.productInfo.forEach((item, index) => {
+                if(item[e.code]) {
+                  this.lectureInfoDto.productInfo.splice(index, 1);
+                }
+              })
+            }
+          }
+        } else {
+          e.select = false;
+        }
+        this.list  = JSON.parse(JSON.stringify(this.list))
+      },
+      goEssentialInfo(){
+        this.lectureInfoDto.productInfo = JSON.stringify(this.lectureInfoDto.productInfo);
+        if(this.title === '编辑讲课') {
+          this.$put('/api/lectureInfo', this.lectureInfoDto).then(info => {
+            this.$vux.toast.text('编辑讲课成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('编辑讲课失败', 'middle');
+          })
+        } else if(this.title === '新建讲课'){
+          this.$post('/api/lectureInfo', this.lectureInfoDto).then(info => {
+            this.$vux.toast.text('新建讲课成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('新建讲课失败', 'middle');
+          })
+        }
+        this.$router.push(`/userInfo/${this.lectureInfoDto.customerId }/essential-info/${this.lectureInfoDto.customerId }`)
+      }
+    }
+  }
+</script>
+
+
+<style lang="less" >
+  .cellBox{
+    height: 20px;
+  }
+  .slide {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+    .new-select {
+      height: 0;
+      position: relative;
+      top: -20px;
+    }
+  }
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+
+
+</style>
+

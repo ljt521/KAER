@@ -1,0 +1,73 @@
+
+<!--作者：莫岭红 功能：新建(编辑)参与课题-->
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="PartakeResearchDto.beginDate"
+        @on-change="changeTime"
+        title="开始年度"
+        placeholder="请选择"></datetime>
+      <x-input title="课题名称" v-model="PartakeResearchDto.researchName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'课题类型'" :dictCode="'KTLX'" v-on:listenSelect="lxChange"></div-selector>
+      <div-selector :tilteValue="'参与方式'" :dictCode="'CYFS'" v-on:listenSelect="fsChange"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewTopic',
+    data () {
+      return {
+        title:'新建参与课题',
+        PartakeResearchDto:{
+          beginDate:'',
+          researchName:'',
+          researchType:'',
+          partakeMode:''
+        }
+
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+    },
+    methods:{
+      goEssentialInfo () {
+        if(this.$route.params.title) {
+          console.log('编辑');
+        } else {
+          this.$post('/api/partakeResearch', this.PartakeResearchDto).then(info => {
+            console.log(info);
+          }).catch(error => {
+            console.log(error);
+          })
+        }
+        this.$router.push('/userInfo/essential-info')
+      },
+      lxChange(data) {
+        this.PartakeResearchDto.researchType = data.code;
+      },
+      fsChange(data) {
+        this.PartakeResearchDto.partakeMode = data.code;
+      },
+      changeTime(value) { // 获取日期
+        this.PartakeResearchDto.beginDate = value;
+      },
+    }
+  }
+</script>
+
+
+<style lang="less" >
+  .cellBox{
+    height: 20px;
+  }
+
+
+</style>
+

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x5-fullscreen" content="true">
+    <meta name='apple-mobile-web-app-capable' content='yes' />
+    <meta name='full-screen' content='true' />
+    <meta name='360-fullscreen' content='true' />
+    <title>卡尔项目</title>
+  </head>
+  <body style="margin: 0; padding: 0;">
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>
+<style>
+  html {
+    background-color: #f2f3f5;
+  }
+</style>

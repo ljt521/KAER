@@ -1,0 +1,256 @@
+<template>
+  <div class="cu-app">
+    <search
+      position="absolute"
+      auto-fixed
+      placeholder="搜索关键字"
+      ref="search"></search>
+    <div class="clearfix">
+      <div class="cu-type1">
+        <selector ref="region" title="区域" :options="regionType" v-model="region" @on-change="onChange"></selector>
+      </div>
+      <div class="cu-type2">
+        <selector ref="departments" title="科室类型" :options="departmentsType" v-model="departments" @on-change="onTyChange"></selector>
+      </div>
+    </div>
+    <div class="cu-con">
+      <flexbox>
+        <flexbox-item><div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span></p></div></flexbox-item>
+        <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item>
+      </flexbox>
+      <div class="cu-content">
+        <div class="cu-content-top">
+          <div class="userImg">
+            <img src="../assets/image/default_head.png" alt="dadada">
+          </div>
+          <div class="userImg-r">
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
+              <span class="cu-title">待跟进</span></p>
+            <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
+              <span style="color: #888888">中国人民解放军第三军区医院</span></p>
+            <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
+              <span style="color: #888888">骨科</span></p>
+          </div>
+          <div class="cu-bottom">
+            <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+          </div>
+        </div>
+      </div>
+      <div class="cu-content">
+        <div class="cu-content-top">
+          <div class="userImg">
+            <img src="../assets/image/default_head.png" alt="dadada">
+          </div>
+          <div class="userImg-r">
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
+              <span class="cu-title">待跟进</span></p>
+            <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
+              <span style="color: #888888">中国人民解放军第三军区医院</span></p>
+            <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
+              <span style="color: #888888">骨科</span></p>
+          </div>
+          <div class="cu-bottom">
+            <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="cu-con">
+      <flexbox>
+        <flexbox-item><div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">下属的</span></p></div></flexbox-item>
+        <flexbox-item><div class="flex-demo"><div class="cu-div" v-on:click="goAllSubordinates"> <span><x-icon type="ios-arrow-forward" size="21"></x-icon></span><span>全部下属</span></div></div></flexbox-item>
+      </flexbox>
+      <div class="cu-content">
+        <div class="cu-content-top">
+          <div class="userImg">
+            <img src="../assets/image/default_head.png" alt="dadada">
+          </div>
+          <div class="userImg-r">
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
+              <span class="cu-title">待跟进</span></p>
+            <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
+              <span style="color: #888888">中国人民解放军第三军区医院</span></p>
+            <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
+              <span style="color: #888888">骨科</span></p>
+          </div>
+          <div class="cu-bottom">
+            <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+          </div>
+        </div>
+      </div>
+      <div class="cu-content">
+        <div class="cu-content-top">
+          <div class="userImg">
+            <img src="../assets/image/default_head.png" alt="dadada">
+          </div>
+          <div class="userImg-r">
+            <p><span style="font-size: 20px;padding-right: 10px;">赵静</span>
+              <span style="font-size: 18px;padding-right: 10px;">主治医师</span>
+              <span class="cu-title">待跟进</span></p>
+            <p style="margin-top: 8px"><img style="float: left;padding-right: 5px" src="../assets/image/client_hospital.png" alt="">
+              <span style="color: #888888">中国人民解放军第三军区医院</span></p>
+            <p style="margin-top: 5px"><img style="float: left;padding-right: 5px" src="../assets/image/client_department.png" alt="">
+              <span style="color: #888888">骨科</span></p>
+          </div>
+          <div class="cu-bottom">
+            <div class="cu-bottom-l"><img src="../assets/image/client_dynamic.png" alt="">动态</div>
+            <div class="cu-bottom-r"><img src="../assets/image/client_daily_follow_up.png" alt="">日常跟进</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+export default {
+  name: 'Customer',
+  data () {
+    return {
+      region: '',
+      departments: '',
+      regionType: [],
+      departmentsType: ['外科', '内科', '急诊']
+    }
+  },
+  mounted() {
+    this.$get('/api/dict-tables/search-with-list', {dictCode: 'QY'}).then((info) => {
+      this.regionType = info.dictItems;
+    }).catch(error => {
+      console.log(error);
+    })
+    this.$get('/api/customer', {page: 0, size: 10}).then(info => {
+    }).catch(error => {
+      console.log(error);
+    })
+  },
+  methods: {
+    onChange (val) {
+      console.log(val)
+    },
+    onTyChange () {
+    },
+    goAllSubordinates() {
+      this.$router.push('/all-subordinates')
+    },
+    goNewCustomer(){
+      this.$router.push('/new-custom')
+    }
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style lang="less">
+  .cu-app {
+    .weui-search-bar {
+      background-color: #073f89;
+    }
+    .cu-type1, .cu-type2 {
+     width: 50%;
+      float: left;
+      .vux-selector.weui-cell_select-after {
+        background-color: #fff;
+      }
+      .weui-label {
+        width: 70px;
+      }
+    }
+    .cu-span {
+      margin: 0;
+      .cu-left {
+        float: left;
+        width: 6px;
+        background-color: #073f89;
+        height: 21px;
+        border-radius: 3px;
+      }
+      .cu-right {
+        padding-left: 10px;
+      }
+    }
+    .cu-div {
+      text-align: right;
+      color: #19498b;
+      span {
+        float: right;
+      }
+      svg {
+        fill: #19498b;
+      }
+    }
+    .cu-con {
+      padding: 0 15px;
+      margin: 18px 0;
+      .cu-content {
+        background-color: #fff;
+        margin-top: 15px;
+        border-radius: 5px;
+        .cu-content-top {
+          padding-top: 15px;
+          .userImg{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #e6e7ec;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+            margin-left: 10px;
+          }
+          .userImg-r {
+            width: calc(100% - 100px);
+            padding-right: 10px;
+            margin-left: 100px;
+            .cu-title {
+              font-size: 11px;
+              width: 42px;
+              height: 18px;
+              background-color: #f6be07;
+              display: inline-block;
+              border-radius: 5px;
+              color: #ffffff;
+              text-align: center;
+              line-height: 20px;
+              position: relative;
+              top: -5px;
+            }
+          }
+          .cu-bottom {
+            height: 32px;
+            width: 100%;
+            background-color: #F7F8F9;
+            border-radius: 0 0 5px 5px;
+            margin-top: 8px;
+            .cu-bottom-l, .cu-bottom-r {
+              float: left;
+              width: calc(50% - 1px);
+              line-height: 28px;
+              font-weight: 600;
+              img {
+                position: relative;
+                top: 5px;
+                right: 3px;
+              }
+            }
+            .cu-bottom-r {
+              border-left: 1px solid #ccc;
+            }
+          }
+        }
+
+      }
+    }
+  }
+  p {
+    margin: 0;
+    text-align: left;
+  }
+</style>

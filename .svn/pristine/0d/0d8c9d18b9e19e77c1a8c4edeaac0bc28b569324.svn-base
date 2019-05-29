@@ -1,0 +1,99 @@
+
+<!--作者：莫岭红 功能：新建（编辑）手术参与-->
+<template>
+  <div v-wechat-title="title" class="newLearn">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="academicJoinDto.academicDate"
+        title="日期"
+        placeholder="请选择"></datetime>
+      <x-input title="学术活动类型" v-model="academicJoinDto.academicActivityType" placeholder="请填写" text-align="right"></x-input>
+      <x-input title="活动名称" v-model="academicJoinDto.activityName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"  v-on:listenSelect="academicJoinDto.participantRoles = value.code" :anyData="academicJoinDto.participantRoles"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewLearning',
+    data () {
+      return {
+        title:'新建学术参与',
+        academicJoinDto:{
+          customerId:'',//所属客户
+          academicDate:'',//日期
+          academicActivityType:'',//学术活动类型
+          activityName:'',//活动名称
+          participantRoles:''//参与角色
+        }
+
+
+      }
+    },
+    created () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+      this.academicJoinDto.customerId = this.$route.params.id;
+      if(this.$route.params.data){
+        this.academicJoinDto.academicDate = this.$route.params.data.academicDate;
+        this.academicJoinDto.activityName = this.$route.params.data.activityName;
+        this.academicJoinDto.academicActivityType = this.$route.params.data.academicActivityType;
+        this.academicJoinDto.participantRoles = this.$route.params.data.participantRoles;
+        this.academicJoinDto['id'] = this.$route.params.data.id;
+      }
+    },
+    methods:{
+      goEssentialInfo () {
+        if(this.title === '编辑学术参与') {
+          this.$put('/api/AcademicJoin', this.academicJoinDto).then(info => {
+            this.$vux.toast.text('编辑学术参与成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('编辑学术参与失败', 'middle');
+          })
+        } else if(this.title === '新建学术参与'){
+          this.$post('/api/AcademicJoin', this.academicJoinDto).then(info => {
+            this.$vux.toast.text('新建学术参与成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('新建学术参与失败', 'middle');
+          })
+        }
+        this.$router.push(`/userInfo/${this.academicJoinDto.customerId }/essential-info/${this.academicJoinDto.customerId }`)
+      }
+    },
+    beforeRouteLeave(to,from,next){
+      if(!to.params.id){
+        to.params.title='全部学术参与信息';
+        to.params.id=this.academicJoinDto.customerId;
+      }
+      next()
+    },
+  }
+</script>
+
+
+<style lang="less" >
+  .newLearn{
+    .dy-top{
+      .x-header{
+        h1.vux-header-title{
+          font-size: 19px;
+        }
+        .vux-header-right{
+          font-size: 15px;
+        }
+      }
+    }
+    .cellBox{
+      height: 20px;
+    }
+    .backgroundStyle{
+      font-size: 16px;
+    }
+  }
+
+
+
+</style>

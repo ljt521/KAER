@@ -1,0 +1,263 @@
+<!--作者：莫岭红 功能：新建（编辑）会诊-->
+<template>
+  <div v-wechat-title="title" class="newConsul">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right"
+                                                                                          @click="goEssentialInfo()">完成</a>
+      </x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime v-model="crInfo.consultationDate" title="会诊日期" placeholder="请选择"></datetime>
+      <cell
+        title="产品信息"
+        value="请选择"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent004 ? 'up' : 'down'"
+        @click.native="showContent004 = !showContent004">
+      </cell>
+      <div class="slide" :class="showContent004?'animate':''">
+        <!--<cell>-->
+        <!--<check-icon slot="icon" :value.sync="demo1" type="plain"> 产品</check-icon>-->
+        <!--<template v-slot="value">-->
+        <!--<span style="margin-right: 15px;">品牌</span>-->
+        <!--</template>-->
+        <!--</cell>-->
+        <cell v-for="(item,i) of list" :key="i">
+          <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)">
+            {{item.value}}
+          </check-icon>
+          <template v-slot="value">
+            <div class="new-select">
+              <div-selector :placeholder="'请选择品牌'" :dictCode="'CPPP'" v-model="item['proData']"
+                            v-on:listenSelect="(value) => {item['proData'] = value.code}"
+                            :anyData="item.proData"></div-selector>
+            </div>
+          </template>
+        </cell>
+      </div>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
+                    v-on:listenSelect="(value) => {crInfo.operativeRole = value.code}"
+                    :anyData="crInfo.operativeRole"></div-selector>
+      <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
+                    v-on:listenSelect="(value) => {crInfo.operationName = value.code}"
+                    :anyData="crInfo.operationName"></div-selector>
+      <div-selector :tilteValue="'会诊地点'" :dictCode="'YYXX'"
+                    v-on:listenSelect="(value) => {crInfo.operationLocal = value.code}"
+                    :anyData="crInfo.operationLocal"></div-selector>
+      <x-address title="会议地点" v-model="addressValue" raw-value :list="addressData" label-align="justify"></x-address>
+    </div>
+  </div>
+</template>
+<script>
+  import {ChinaAddressData} from 'vux'
+
+  export default {
+    name: 'NewConsulInfo',
+    data () {
+      return {
+        title: '新建会诊',
+        showContent004: false,
+        demo1: false,
+        list: [],
+        ppData: '', // 品牌code
+        addressValue: ['广东省', '深圳市', '南山区'],
+        addressData: ChinaAddressData,
+        crInfo: {
+          consultationDate: '',// 会诊日期
+          customerId: '',// 所属客户
+          operationLocal: '',// 手术地点
+          operationName: '',// 手术名称
+          operativeRole: '',// 手术中的角色
+          productInfo: []//产品信息
+        }
+      }
+    },
+    created () {
+      if (this.$route.params.data) {
+        this.crInfo.consultationDate = this.$route.params.data.consultationDate.slice(0, 10)
+        this.crInfo.customerId = this.$route.params.data.customerId
+        this.crInfo.operationLocal = this.$route.params.data.operationLocal
+        this.crInfo.operationName = this.$route.params.data.operationName
+        this.crInfo.operativeRole = this.$route.params.data.operativeRole
+        this.crInfo.productInfo = JSON.parse(this.$route.params.data.productInfo)
+        this.crInfo['id'] = this.$route.params.data.id
+      }
+      this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
+        this.list = info.dictItems
+        this.list.forEach(val => {
+          let data = this.$route.params.data.product
+          for (let i in data[0]) {
+            if (val.code === data[0][i]) {
+              val['select'] = true
+              val['proData'] = data[1][i]
+            }
+          }
+        })
+      }).catch(error => {
+      })
+    },
+    mounted () {
+      this.title = this.$route.params.title || this.$route.meta.title
+      if (this.$route.params) {
+        this.crInfo.customerId = this.$route.params.id
+      }
+    },
+    methods: {
+      goEssentialInfo () {
+        if (this.title === '编辑会诊') {
+          this.crInfo.productInfo = JSON.stringify(this.crInfo.productInfo)
+          this.$put('/api/Consultation', this.crInfo).then(info => {
+            this.$vux.toast.text('编辑会诊成功', 'middle')
+            this.$router.push(`/userInfo/${this.crInfo.customerId }/follow-details/${this.crInfo.customerId }`)
+          }).catch(error => {
+            this.$vux.toast.text('编辑会诊失败', 'middle')
+          })
+        } else if (this.title === '新建会诊') {
+          this.crInfo.productInfo = JSON.stringify(this.crInfo.productInfo)
+          this.$post('/api/Consultation', this.crInfo).then(info => {
+            this.$vux.toast.text('新建会诊成功', 'middle')
+            this.$router.push(`/userInfo/${this.crInfo.customerId }/follow-details/${this.crInfo.customerId }`)
+          }).catch(error => {
+            this.$vux.toast.text('新建会诊失败', 'middle')
+          })
+        }
+      },
+      getPlain (e) {
+        if (e.hasOwnProperty('proData')) {
+          if (e.select && e.proData) {
+            const obj = {}
+            obj[e.code] = e.proData
+            this.crInfo.productInfo.push(obj)
+          } else {
+            if (this.crInfo.productInfo.length > 0) {
+              this.crInfo.productInfo.forEach((item, index) => {
+                if (item[e.code]) {
+                  this.crInfo.productInfo.splice(index, 1)
+                }
+              })
+            }
+          }
+        } else {
+          e.select = false
+        }
+        this.list = JSON.parse(JSON.stringify(this.list))
+      }
+    },
+    beforeRouteLeave (to, from, next) {
+      if (!to.params.id) {
+        to.params.title = '全部会诊信息'
+        to.params.id = this.crInfo.customerId
+      }
+      next()
+    },
+
+  }
+</script>
+<style lang="less">
+  .newConsul {
+    .dy-top {
+      .x-header {
+        .left-arrow:before {
+          width: 10px;
+          height: 10px;
+        }
+        h1 {
+          font-size: 18px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 1);
+        }
+        .vux-header-right {
+          a {
+            margin-right: 16px;
+            font-size: 15px;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+          }
+        }
+      }
+    }
+    .cellBox {
+      height: 20px;
+    }
+    .backgroundStyle {
+      a.weui-cell {
+        padding: 0 5px 0 0;
+        div:first-child {
+          padding-left: 16px;
+          p {
+            padding: 14px 0;
+            font-size: 16px;
+            font-weight: 400;
+            color: rgba(0, 0, 0, 1);
+          }
+        }
+        .vux-cell-value {
+          font-size: 16px;
+        }
+      }
+      div.vux-tap-active {
+        padding: 0 5px 0 0;
+        .vux-cell-primary {
+          p {
+            padding: 14px 0 14px 16px;
+            .vux-label {
+              font-size: 16px;
+            }
+          }
+        }
+        .weui-cell__ft {
+          font-size: 16px;
+        }
+      }
+      div.weui-cell_select {
+        padding: 0;
+        div.weui-cell__hd {
+          padding: 14px 0 14px 16px;
+          label.weui-label {
+            font-size: 16px;
+            width: 190px;
+          }
+        }
+        div.weui-cell__bd {
+          font-size: 16px;
+        }
+      }
+      div.vux-cell-box {
+        div.weui-cell_access {
+          div.weui-cell__hd {
+            padding: 14px 0 14px 16px;
+            label.weui-label {
+              font-size: 16px;
+            }
+          }
+          div.vux-cell-primary {
+            div.vux-popup-picker-select {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .slide {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+    .new-select {
+      height: 0;
+      position: relative;
+      top: -20px;
+    }
+  }
+
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+
+</style>

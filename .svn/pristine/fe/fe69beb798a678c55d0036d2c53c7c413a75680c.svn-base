@@ -1,0 +1,140 @@
+<!--作者：莫岭红 功能：手术量-->
+<template>
+  <div class="operative">
+    <swipeout>
+      <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
+        <div slot="right-menu">
+          <swipeout-button type="primary" @click.native="onButtonClick(item)">编辑</swipeout-button>
+          <swipeout-button type="warn" @click.native="deleteData(item.id)">删除</swipeout-button>
+        </div>
+        <div slot="content" >
+          <cell >
+            <span slot="title" class="content">
+              <span class="spanCell">{{item.year}}：</span>
+              <div-span class="leftSpan" :dictCode="'SSJS'" :dictItemCode="item.roleInSurgery "></div-span>
+              <span class="rightSpan">{{item.surgeryVevolume }}</span>
+              <i></i>
+            </span>
+          </cell>
+        </div>
+      </swipeout-item>
+    </swipeout>
+    <div class="cardFootIcon vux-1px-t"  v-on:click="goNewOperative">
+      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建手术量</p>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'OperativeVolume',
+    data () {
+      return {
+        list:[]
+      }
+    },
+    props:['personId'],
+    created(){
+      this.requestData()
+    },
+    methods: {
+      requestData(){
+        this.$search('/api/surgeryvolume',{},{'customer.id':this.personId}).then( val => {
+          this.list=val;
+        }).catch( err => {})
+      },
+      goNewOperative() {
+        this.$router.push('/new-operative/'+this.personId)
+      },
+      onButtonClick(e) {
+          this.$router.push({
+            name:"NewOperative",
+            params:{
+              title: '编辑手术量',
+              data: e
+            }
+          });
+      },
+      deleteData(id){
+        let that = this
+        this.$vux.confirm.show({
+          title: '操作提醒',
+          content: '是否确认删除?',
+          onConfirm () {
+            that.$del('/api/surgeryvolume/'+ id).then( val => {
+              that.$vux.toast.text('删除成功', 'middle');
+              that.requestData();
+            }).catch( err => {})
+          }
+        })
+      },
+
+
+    }
+  }
+</script>
+<style lang="less" >
+  .operative{
+    background-color: white;
+    margin: 0 15px;
+    border-radius:  0 0 5px 5px;;
+    box-shadow: 0 0 2px 2px #eee;
+    font-size: 13px;
+    text-align: left;
+    .content{
+      font-size: 13px;
+      text-overflow:ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      .spanCell{
+        color:#A4A4A4;
+        margin-right: 15px;
+      }
+      .leftSpan{
+        color:#282828 ;
+        display: inline-block;
+        min-width: 54px;
+        margin-right:15px;
+
+      }
+      .rightSpan{
+        color:#282828 ;
+        text-overflow:ellipsis;
+
+      }
+      i:after {
+        content: " ";
+        display: inline-block;
+        height: 6px;
+        width: 6px;
+        position: absolute;
+        border-width: 2px 2px 0 0;
+        border-color: #C8C8CD;
+        border-style: solid;
+        transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+        margin-top: 6px;
+        right: 5px;
+        margin-right: 15px;
+      }
+
+    }
+    .vux-1px-t{
+      &:before{
+        border-color: #DDDDDD;
+      }
+    }
+
+    .cardFootIcon{
+      height: 35px;
+      line-height: 38px;
+      p {
+        text-align: center;
+        color: #074089;
+      }
+      .x-icon {
+        position: relative;
+        top: 5px;
+        fill: #074089;
+      }
+    }
+  }
+</style>

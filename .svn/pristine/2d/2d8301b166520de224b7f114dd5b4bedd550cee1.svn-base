@@ -58,11 +58,6 @@ export default {
       background-color: white;
       margin: 0 15px;
     }
-    .weui-cell{
-      padding: 7px 15px;
-      font-size: 14px;
-      text-align: left;
-    }
     .weui-cell:before{
       border: none;
     }

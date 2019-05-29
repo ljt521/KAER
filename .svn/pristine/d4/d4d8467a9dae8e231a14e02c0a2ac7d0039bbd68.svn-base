@@ -1,0 +1,121 @@
+<template>
+  <div class="co-top" >
+    <swipeout>
+      <swipeout-item transition-mode="follow" class="fo-tex" v-for="(academicJoin,index) in academicJoinData" :key="index" >
+        <div slot="right-menu" >
+          <swipeout-button type="primary" @click.native="onButtonClick(academicJoin)">编辑</swipeout-button>
+          <swipeout-button type="warn" @click.native="deleteData(academicJoin.id)">删除</swipeout-button>
+        </div>
+        <div slot="content" :class="{'vux-1px-b': index !== academicJoinData.length}" >
+            <span class="fo-span"></span><span>{{academicJoin.activityName}}</span>
+            <p style="margin: 10px 0">
+              <span class="right"><img class="cu-img-size" src="../assets/image/follow_up_role.png" alt="">{{academicJoin.academicActivityType}}</span>
+              <span class="right"><img class="cu-img-size" src="../assets/image/follow_up_operation.png" alt="">
+          <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="academicJoin.participantRoles"></div-span>
+        </span>
+            </p>
+
+
+        </div>
+      </swipeout-item>
+    </swipeout>
+
+
+  </div>
+
+
+</template>
+<script>
+  export default {
+    name: 'AllLearning',
+    data() {
+      return{
+        academicJoinData:[]
+      }
+    },
+    props:['personId'],
+    created(){
+      this.getAcademicJoin()
+    },
+    methods:{
+      getAcademicJoin(){
+        this.$search('/api/AcademicJoin', {page: 0, size: 20}, {'customer.id': this.personId}).then(request => {
+          this.academicJoinData = request;
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      deleteData(id){
+        let that=this
+        that.$vux.confirm.show({
+          title: '操作提醒',
+          content: '是否确认删除?',
+          onConfirm () {
+            that.$del('/api/AcademicJoin/'+ id).then( val => {
+              that.$vux.toast.text('删除成功', 'middle');
+              that.getAcademicJoin()
+            }).catch( err => {})
+          }
+        })},
+      onButtonClick(data){
+        this.$router.push({
+          name: 'NewLearning',
+          params: {
+            title: '编辑学术参与',
+            data:data
+          }
+        })
+      }
+
+    }
+
+  }
+</script>
+
+<style lang="less">
+  .co-top{
+    padding:0 15px;
+    text-align: left;
+    background: white;
+    .fo-span {
+      display: inline-block;
+      width: 2px;
+      height: 13px;
+      margin-right: 5px;
+      background-color: #074089;
+      position: relative;
+      top: 2px;
+    }
+    .fo-tex {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #C7C7C7;
+      p{
+        color: #888888;
+        font-size: 13px;
+        .right{
+          margin-right: 30px;
+          img{
+            vertical-align: middle;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+    .vux-1px-b:after{
+      border: none;
+    }
+  }
+  .slide {
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+  }
+
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+</style>

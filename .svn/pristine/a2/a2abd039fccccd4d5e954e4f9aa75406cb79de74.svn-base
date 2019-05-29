@@ -1,0 +1,53 @@
+<!--作者：莫岭红 功能：新建会诊量-->
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime v-model="value5" :title="'年度'" :min-year=2000 :max-year=2099 placeholder="请选择" format="YYYY" @on-change="change"
+                year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+      <selector ref="defaultValueRef" title="会诊中的角色" direction="rtl" :options="list" v-model="defaultValue"></selector>
+      <x-input title="会诊量" v-model="value" placeholder="请填写" text-align="right"></x-input>
+    </div>
+  </div>
+</template>
+<script>
+
+  export default {
+    name: 'NewConsultation',
+    data () {
+      return {
+        value:'',
+        value5:'',
+        defaultValue: 'eh',
+        list: [{key: 'eh', value: '英语'}, {key: 'gx', value: '广西'}],
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title;
+    },
+    methods: {
+      goEssentialInfo(){
+        this.$router.push('/userInfo/essential-info')
+      },
+      change (value) {
+        console.log('change', value)
+      }
+
+    }
+  }
+</script>
+
+<style lang="less">
+  .backgroundStyle{
+    background-color: white;
+    text-align: left;
+    font-size: 14px;
+  }
+  .cellBox{
+    height: 20px;
+  }
+
+</style>

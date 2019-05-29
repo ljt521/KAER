@@ -1,0 +1,124 @@
+<template>
+  <div id="app">
+    <router-view></router-view>
+    <div class="app-top" v-show="$route.path == '/mine' ||
+      $route.path == '/customer' || $route.path == '/'" >      <tabbar class="x-bottom">        <tabbar-item selected link="/dynamic">
+          <img slot="icon" src="./assets/image/tab_dynamic_n.png">
+          <img slot="icon-active" src="./assets/image/tab_dynamic_s.png">
+          <span slot="label">动态</span>
+        </tabbar-item>
+        <tabbar-item show-dot link="/customer">
+          <img slot="icon" src="./assets/image/tab_client_n.png">
+          <img slot="icon-active" src="./assets/image/tab_client_s.png">
+          <span slot="label">客户</span>
+        </tabbar-item>
+        <tabbar-item link="/mine">
+          <img slot="icon" src="./assets/image/tab_mine_n.png">
+          <img slot="icon-active" src="./assets/image/tab_mine_s.png">
+          <span slot="label">我的</span>
+        </tabbar-item>
+      </tabbar>
+    </div>
+
+  </div>
+</template>
+
+<script>
+import Vue from 'vue'
+import {Tabbar, Swipeout, SwipeoutItem,Checker, CheckerItem,
+  SwipeoutButton,Group,Cell,TabbarItem, XHeader,Checklist,
+  XButton, Flexbox, FlexboxItem, Icon,Datetime,XInput,XAddress,
+  Selector, Search, Tab, TabItem, CellBox, GridItem} from 'vux'
+
+Vue.component('cell-box', CellBox)
+Vue.component('tabbar', Tabbar)
+Vue.component('tabbarItem', TabbarItem)
+Vue.component('x-header', XHeader)
+Vue.component('flexbox', Flexbox)
+Vue.component('flexbox-item', FlexboxItem)
+Vue.component('icon', Icon)
+Vue.component('x-button', XButton)
+Vue.component('search', Search)
+Vue.component('selector', Selector)
+Vue.component('tab', Tab)
+Vue.component('tab-item', TabItem)
+Vue.component('group', Group)
+Vue.component('cell', Cell)
+Vue.component('swipeout', Swipeout)
+Vue.component('swipeout-item', SwipeoutItem)
+Vue.component('swipeout-button', SwipeoutButton)
+Vue.component('grid-item', GridItem)
+Vue.component('datetime', Datetime)
+Vue.component('x-input', XInput)
+Vue.component('x-address', XAddress)
+Vue.component('checklist', Checklist)
+Vue.component('checker', Checker)
+Vue.component('checker-item', CheckerItem)
+
+export default {
+  name: 'APP',
+  data () {
+    return {
+      select: 'customer'
+    }
+  },
+  mounted: function () {
+    this.$router.push({
+      path: '/dynamic'
+    })
+  }
+}
+</script>
+
+<style lang="less">
+  @import '~vux/src/styles/1px.less';
+  #app {
+    p {
+      margin: 0;
+    }
+    font-family: PingFangSC-Regular;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 0;
+    .clearfix:after,.clearfix:before{
+      content:"";/*加一段内容*/
+      display:table;/*创建匿名的表格单元，触发bfc*/
+    }
+    .clearfix:after{
+      clear:both;/*清除浮动*/
+    }
+    .clearfix{zoom:1;/*为IE6，7的兼容性设置*/}
+    .app-top {
+      width: 100%;
+      height: 60px;
+    }
+    .x-bottom {
+      position: fixed;
+      z-index: 500;
+      bottom: 0;
+      width: 100%;
+      background-color: #f7f7fa;
+    }
+  }
+  .leftSpan{
+    width: 25%;
+  }
+  .visible{
+    visibility:hidden
+  }
+  .weui-grid:after {
+    content: none;
+  }
+  .weui-grids:before {
+    content: none;
+  }
+  .weui-tabbar{
+    a{
+      text-decoration: none;
+    }
+  }
+
+
+</style>

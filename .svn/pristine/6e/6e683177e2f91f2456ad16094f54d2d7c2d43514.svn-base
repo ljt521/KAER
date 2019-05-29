@@ -1,0 +1,197 @@
+<!--作者：莫岭红 功能：新建（编辑）手术演示-->
+<template>
+  <div v-wechat-title="title" class="newOperD">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right"
+                                                                                          @click="goEssentialInfo()">完成</a>
+      </x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="operationDemoInfoDto.demoDate"
+        title="日期"
+        placeholder="请选择"></datetime>
+      <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
+                    v-on:listenSelect="(value) => {operationDemoInfoDto.operationName = value.code}"
+                    :anyData="operationDemoInfoDto.operationName"></div-selector>
+      <div-selector :tilteValue="'演示场合'" :dictCode="'CH'"
+                    v-on:listenSelect="(value) => {operationDemoInfoDto.demoOccasion = value.code}"
+                    :anyData="operationDemoInfoDto.demoOccasion"></div-selector>
+      <x-input title="活动名称" v-model="operationDemoInfoDto.activityName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
+                    v-on:listenSelect="(value) => {operationDemoInfoDto.roleinOperation  = value.code}"
+                    :anyData="operationDemoInfoDto.roleinOperation"></div-selector>
+      <cell
+        title="产品信息"
+        value="请选择"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent004 ? 'up' : 'down'"
+        @click.native="showContent004 = !showContent004">
+      </cell>
+      <div class="slide" :class="showContent004?'animate':''">
+        <!--<cell>-->
+          <!--<check-icon slot="icon" :value.sync="demo1" type="plain"> 产品</check-icon>-->
+          <!--<template v-slot="value">-->
+            <!--<span style="margin-right: 15px;">品牌</span>-->
+          <!--</template>-->
+        <!--</cell>-->
+        <cell v-for="(item,i) of myData" :key="i">
+          <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)">
+            {{item.value}}
+          </check-icon>
+          <template v-slot="value">
+            <div class="new-select">
+              <div-selector :placeholder="'请选择品牌'" :dictCode="'CPPP'" v-model="item['proData']"
+                            v-on:listenSelect="(value) => {item['proData'] = value.code}"
+                            :anyData="item.proData"></div-selector>
+            </div>
+          </template>
+        </cell>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewOperDemo',
+    data () {
+      return {
+        operationDemoInfoDto: {
+          customerId: '',
+          demoDate: '',// 日期
+          operationName: '',//手术名称
+          activityName: '',//活动名称
+          demoOccasion: '',//演示场合
+          roleinOperation: '',//手术中的角色
+          productInfo: []//产品信息
+        },
+        myData: [],
+        title: '新建手术演示',
+        demo1: false,
+        showContent004: false
+      }
+    },
+    created () {
+      if (this.$route.params.data) {
+        this.operationDemoInfoDto.customerId = this.$route.params.data.customerId
+        this.operationDemoInfoDto.demoDate = this.$route.params.data.demoDate
+        this.operationDemoInfoDto.operationName = this.$route.params.data.operationName
+        this.operationDemoInfoDto.activityName = this.$route.params.data.activityName
+        this.operationDemoInfoDto.demoOccasion = this.$route.params.data.demoOccasion
+        this.operationDemoInfoDto.roleinOperation = this.$route.params.data.roleinOperation
+        this.operationDemoInfoDto['id'] = this.$route.params.data.id
+        this.operationDemoInfoDto.productInfo = JSON.parse(this.$route.params.data.productInfo)
+      }
+      this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
+        this.myData = info.dictItems
+        this.myData.forEach(val => {
+          let data = this.$route.params.data.product
+          for (let i in data[0]) {
+            if (val.code === data[0][i]) {
+              val['select'] = true
+              val['proData'] = data[1][i]
+            }
+          }
+        })
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    mounted () {
+      this.title = this.$route.params.title || this.$route.meta.title
+      if (this.$route.params) {
+        this.operationDemoInfoDto.customerId = this.$route.params.id
+      }
+    },
+    methods: {
+      goEssentialInfo () {
+        this.operationDemoInfoDto.productInfo = JSON.stringify(this.operationDemoInfoDto.productInfo)
+        if (this.title === '编辑手术演示') {
+          this.$put('/api/OperationDemoInfo', this.operationDemoInfoDto).then(info => {
+            this.$vux.toast.text('编辑手术演示成功', 'middle')
+          }).catch(error => {
+            this.$vux.toast.text('编辑手术演示失败', 'middle')
+          })
+        } else if (this.title === '新建手术演示') {
+          this.$post('/api/OperationDemoInfo', this.operationDemoInfoDto).then(info => {
+            this.$vux.toast.text('新建手术演示成功', 'middle')
+          }).catch(error => {
+            this.$vux.toast.text('新建手术演示失败', 'middle')
+          })
+        }
+        this.$router.push(`/userInfo/${this.operationDemoInfoDto.customerId }/follow-details/${this.operationDemoInfoDto.customerId }`)
+      },
+      getPlain (e) {
+        if (e.hasOwnProperty('proData')) {
+          if (e.select && e.proData) {
+            const obj = {}
+            obj[e.code] = e.proData
+            this.operationDemoInfoDto.productInfo.push(obj)
+          } else {
+            if (this.operationDemoInfoDto.productInfo.length > 0) {
+              this.operationDemoInfoDto.productInfo.forEach((item, index) => {
+                if (item[e.code]) {
+                  this.operationDemoInfoDto.productInfo.splice(index, 1)
+                }
+              })
+            }
+          }
+        } else {
+          e.select = false
+        }
+        this.myData = JSON.parse(JSON.stringify(this.myData))
+      }
+    },
+    beforeRouteLeave (to, from, next) {
+      if (!to.params.id) {
+        to.params.title = '全部手术演示信息'
+        to.params.id = this.operationDemoInfoDto.customerId
+      }
+      next()
+    },
+  }
+</script>
+<style lang="less">
+  .newOperD {
+    .dy-top {
+      .vux-header.x-header {
+        h1.vux-header-title {
+          font-size: 19px;
+        }
+        .vux-header-left {
+          .left-arrow:before {
+            width: 10px;
+            height: 10px;
+          }
+        }
+        .vux-header-right {
+          font-size: 15px;
+        }
+      }
+    }
+    .cellBox {
+      height: 20px;
+    }
+    .backgroundStyle {
+      font-size: 16px;
+    }
+    .slide {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+      .new-select {
+        height: 0;
+        position: relative;
+        top: -20px;
+      }
+    }
+
+    .animate {
+      max-height: 9999px;
+      transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+      transition-delay: 0s;
+    }
+  }
+</style>

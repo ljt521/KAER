@@ -1,0 +1,160 @@
+<!--作者：莫岭红 功能：新建（编辑）会诊-->
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right"
+                                                                                          @click="goEssentialInfo()">完成</a>
+      </x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="value1"
+        @on-change="changeTime"
+        title="会诊日期"
+        placeholder="请选择"></datetime>
+      <cell
+        title="产品信息"
+        value="请选择"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent004 ? 'up' : 'down'"
+        @click.native="showContent004 = !showContent004">
+      </cell>
+      <div class="slide" :class="showContent004?'animate':''">
+        <cell>
+          <check-icon slot="icon" :value.sync="demo1" type="plain"> 产品</check-icon>
+          <template v-slot="value">
+            <span style="margin-right: 15px;">品牌</span>
+          </template>
+        </cell>
+        <cell v-for="(item,i) of list" :key="i">
+          <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)"> {{item.value}}</check-icon>
+          <template v-slot="value">
+            <div class="new-select">
+              <div-selector :dictCode="'CPPP'" v-model="item['proData']" v-on:listenSelect="(value) => {item['proData'] = value.code}"></div-selector>
+            </div>
+          </template>
+        </cell>
+      </div>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'" v-on:listenSelect="jsChange"></div-selector>
+      <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'" v-on:listenSelect="mcChange"></div-selector>
+      <div-selector :tilteValue="'会诊地点'" :dictCode="'YYXX'" v-on:listenSelect="xxChange"></div-selector>
+      <x-address title="会议地点" v-model="addressValue" raw-value :list="addressData" label-align="justify"></x-address>
+    </div>
+  </div>
+</template>
+<script>
+  import {ChinaAddressData} from 'vux'
+
+  export default {
+    name: 'NewConsulInfo',
+    data () {
+      return {
+        title: '新建会诊',
+        showContent004: false,
+        demo2: true,
+        demo1: false,
+        list: [],
+        value1: '',
+        addressValue: ['广东省', '深圳市', '南山区'],
+        addressData: ChinaAddressData,
+        ppData: '',
+        crInfo: {
+          consultationDate: '' ,
+          customerId: '' ,
+          operationLocal: '' ,
+          operationName: '' ,
+          operativeRole: '' ,
+          productInfo: '',
+          productInfoArr: []
+        }
+      }
+    },
+    created () {
+      this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
+        this.list = info.dictItems
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    mounted () {
+      this.title = this.$route.params.title || this.$route.meta.title
+      if(this.$route.params) {
+        this.crInfo.customerId = this.$route.params.id;
+      }
+    },
+    methods: {
+      goEssentialInfo () {
+        if(this.$route.params.title) {
+          console.log('编辑');
+        } else {
+          this.crInfo.productInfo = JSON.stringify(this.crInfo.productInfoArr);
+          this.$post('/api/Consultation', this.crInfo).then(info => {
+            console.log(info);
+          }).catch(error => {
+            console.log(error);
+          })
+        }
+        this.$router.push('/userInfo/essential-info')
+      },
+      changeTime(value) { // 获取日期
+        this.crInfo.consultationDate = value;
+      },
+      getPlain (e) {
+        if(e.hasOwnProperty('proData')) {
+          if(e.select && e.proData){
+            const obj = {};
+            obj[e.code] = e.proData;
+            this.crInfo.productInfoArr.push(obj);
+          } else {
+            if(this.crInfo.productInfoArr.length > 0) {
+              this.crInfo.productInfoArr.forEach((item, index) => {
+                if(item[e.code]) {
+                 this.crInfo.productInfoArr.splice(index, 1);
+                }
+              })
+            }
+          }
+        } else {
+          e.select = false;
+        }
+      },
+      jsChange(data) {
+       this.crInfo.operativeRole = data.code;
+      },
+      mcChange(data) {
+        this.crInfo.operationName = data.code;
+      },
+      xxChange(data) {
+        this.crInfo.operationLocal = data.code;
+      },
+    }
+  }
+</script>
+
+
+<style lang="less">
+  .cellBox {
+    height: 20px;
+  }
+
+  .slide {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+    .new-select {
+      height: 0;
+      position: relative;
+      top: -20px;
+    }
+  }
+
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+
+</style>

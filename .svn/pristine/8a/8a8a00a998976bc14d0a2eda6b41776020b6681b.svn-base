@@ -1,0 +1,77 @@
+<!--作者：莫岭红 功能：个人信息-->
+<template>
+ <div class="perInfo" >
+   <div class="divBox" >
+     <cell-box>
+       <span class="spanCell">编号:</span>YS1000254
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">姓名:</span>丁一
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">出生年月:</span>1980-03-22
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">年龄:</span>39
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">医院:</span>第三医院
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">科室:</span>骨科
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">职称:</span>主治医师
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">行政职务:</span>科室主任
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">最高学历:</span>本科
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">学校名称:</span>同济大学
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">导师姓名:</span>张磊
+     </cell-box>
+     <cell-box style="margin-bottom: 8px">
+       <span class="spanCell">专业领域:</span>骨科
+     </cell-box>
+   </div>
+
+ </div>
+</template>
+<script>
+export default {
+  name: 'PersonalInfo',
+  data () {
+    return {
+      list: this.personData,
+
+    }
+  },
+  props:['personData'],
+  mounted() {
+    console.log(this.list)
+    console.log(this.$props)
+  }
+
+}
+</script>
+<style lang="less" >
+  .perInfo{
+    .divBox{
+      background-color: white;
+      margin: 0 15px;
+
+    }
+    span{
+      &:after{
+        content: '';
+        margin-right: 5px;
+      }
+    }
+  }
+
+</style>

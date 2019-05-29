@@ -1,0 +1,16 @@
+<template>
+  <div class="dy-top">
+    <x-header class="x-header" slot="header" :left-options="{backText: ''}">新建手术演示<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'NewOperDemo',
+    data() {
+      return {}
+    }
+  }
+</script>
+
+<style lang="less"></style>

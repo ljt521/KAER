@@ -1,0 +1,76 @@
+
+<!--作者：莫岭红 功能：新建（编辑）论文发表-->
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="PaperPublishInfoDto.paperYear"
+        @on-change="changeTime"
+        title="年度"
+        placeholder="请选择"></datetime>
+      <x-input title="论文名称" v-model="PaperPublishInfoDto.paperName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'期刊类型'" :dictCode="'QK'" v-on:listenSelect="qkChange"></div-selector>
+      <div-selector :tilteValue="'署名方式'" :dictCode="'SMFS'" v-on:listenSelect="fsChange"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewPaper',
+    data () {
+      return {
+        title:'新建论文发表',
+        PaperPublishInfoDto:{
+          customerId :'',
+          paperYear:'',
+          paperName:'',
+          periodicalType:'',
+          signType:''
+        }
+
+
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+      this.PaperPublishInfoDto.customerId =this.$route.params.id;
+    },
+    methods:{
+      goEssentialInfo () {
+        if(this.$route.params.title) {
+          console.log('编辑');
+        } else {
+          this.$post('/api/partakeResearch', this.PartakeResearchDto).then(info => {
+            console.log(info);
+          }).catch(error => {
+            console.log(error);
+          })
+        }
+        this.$router.push(`/userInfo/${this.PaperPublishInfoDto.customerId }/essential-info/${this.PaperPublishInfoDto.customerId }`)
+      },
+      qkChange(data) {
+        this.PaperPublishInfoDto.periodicalType = data.code;
+      },
+      fsChange(data) {
+        this.PaperPublishInfoDto.signType = data.code;
+      },
+      changeTime(value) { // 获取日期
+        this.PaperPublishInfoDto.paperYear = value;
+      },
+    }
+  }
+</script>
+
+
+<style lang="less" >
+  .cellBox{
+    height: 20px;
+  }
+
+
+</style>
+

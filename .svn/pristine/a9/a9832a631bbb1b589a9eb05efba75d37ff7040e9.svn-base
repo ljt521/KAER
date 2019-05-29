@@ -1,0 +1,371 @@
+<template>
+  <div class="cu-app">
+    <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 80px">
+      <search
+        position="absolute"
+        auto-fixed
+        ref="searchData"
+        placeholder="搜索关键字"></search>
+      <div class="clearfix">
+        <div class="cu-type1">
+          <div-selector v-bind:dictCode="'QY'" v-bind:tilteValue="'区域'" v-on:listenSelect="areaChange"></div-selector>
+        </div>
+        <div class="cu-type2">
+          <div-selector v-bind:dictCode="'KSLX'" v-bind:tilteValue="'科室类型'"
+                        v-on:listenSelect="departmentChange"></div-selector>
+        </div>
+      </div>
+    </div>
+    <div class="" style="height: 80px"></div>
+    <div>
+      <scroller lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom" :scroll-bottom-offst="100">
+        <div>
+          <div class="cu-con" v-if="customerData.length > 0">
+            <flexbox>
+              <flexbox-item>
+                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span>
+                </p></div>
+              </flexbox-item>
+              <!-- <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item> -->
+            </flexbox>
+            <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
+              <div class="cu-content-top">
+                <div class="user-img" @click="goCustomerInfo(customer.id)">
+                  <img src="../assets/image/default_head.png" alt="dadada">
+                </div>
+                <div class="userImg-r">
+                  <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
+                    <span style="font-size: 18px;padding-right: 10px;">
+                <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
+                          v-bind:dictItemCode="customer.title"></div-span>
+              </span>
+                    <span class="cu-title" v-show="customer.isFollowUp === 1">待跟进</span></p>
+                  <p style="margin-top: 8px"><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
+                    <span style="color: #888888;font-size: 13px">{{customer.hospitalName}}</span></p>
+                  <p style="margin-top: 5px"><img class="cu-img-size" src="../assets/image/client_department.png"
+                                                  alt="">
+                    <span style="color: #888888;font-size: 13px">
+                <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
+              </span>
+                  </p>
+                </div>
+                <div class="cu-bottom">
+                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
+                                                src="../assets/image/client_dynamic.png" alt=""><span
+                    class="cu-span-top">动态</span></div>
+                  <div @click="openDiaLog(customer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
+                                                                                 src="../assets/image/client_daily_follow_up.png"
+                                                                                 alt=""><span
+                    class="cu-span-top">日常跟进</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="cu-con">
+            <flexbox>
+              <flexbox-item>
+                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">下属的</span>
+                </p></div>
+              </flexbox-item>
+              <flexbox-item>
+                <div class="flex-demo">
+                  <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward"
+                                                                                   size="21"></x-icon></span><span>全部下属</span>
+                  </div>
+                </div>
+              </flexbox-item>
+            </flexbox>
+            <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
+              <div class="cu-content-top">
+                <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
+                  <img src="../assets/image/default_head.png" alt="dadada">
+                </div>
+                <div class="userImg-r">
+                  <p><span style="font-size: 15px;padding-right: 10px;">{{subCustomer.name}}</span>
+                    <span style="font-size: 18px;padding-right: 10px;">
+                <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="subCustomer.title"></div-span>
+              </span>
+                    <span class="cu-title" v-show="subCustomer.isFollowUp === 1">待跟进</span></p>
+                  <p style="margin-top: 8px"><img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
+                    <span style="color: #888888;font-size: 13px">{{subCustomer.hospitalName}}</span></p>
+                  <p style="margin-top: 5px"><img class="cu-img-size" src="../assets/image/client_department.png"
+                                                  alt="">
+                    <span style="color: #888888;font-size: 13px">
+                <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
+              </span>
+                  </p>
+                </div>
+                <div class="cu-bottom">
+                  <div class="cu-bottom-l"><img style="width: 16px;height: 16px;"
+                                                src="../assets/image/client_dynamic.png" alt=""><span class="cu-span-top">动态</span>
+                  </div>
+                  <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r"><img style="width: 16px;height: 16px;"
+                                                                                    src="../assets/image/client_daily_follow_up.png"
+                                                                                    alt=""><span class="cu-span-top">日常跟进</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <load-more tip="loading"></load-more>
+        </div>
+      </scroller>
+      <new-dia-log ref="NewDiaLogDom"></new-dia-log>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {Scroller, LoadMore} from 'vux'
+
+  export default {
+    name: 'Customer',
+    components: {
+      Scroller,
+      LoadMore
+    },
+    data () {
+      return {
+        area: '',
+        deptCode: '',
+        customerData: [],
+        subCustomerData: [],
+        department: '',
+        onFetching: false,
+        sizeData: 5
+      }
+    },
+    mounted () {
+      this.$get('/api/customer', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}).then(info => {
+        this.customerData = info
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 1}).then(info => {
+        this.subCustomerData = info
+      }).catch(error => {
+        console.log(error)
+      })
+      this.$nextTick(() => {
+        if (this.$refs.scrollerBottom) {
+          this.$refs.scrollerBottom.reset({top: 0})
+        }
+      })
+    },
+    methods: {
+      onChange (val) {
+        console.log(val)
+      },
+      onTyChange () {
+      },
+      goAllSubordinates () {
+        this.$router.push('/all-subordinates')
+      },
+      goNewCustomer () {
+        this.$router.push('/new-custom')
+      },
+      openDiaLog (id) {
+        let self = this
+        self.$refs['NewDiaLogDom'].isShowDia(true, id)
+      },
+      goCustomerInfo (id) {
+        this.$router.push({
+          path: '/userInfo/' + id + '/essential-info/' + id
+        })
+      },
+      areaChange (e) {
+        this.area = e.code
+        this.$search('/api/customer', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, {
+          area: this.area,
+          deptCode: this.deptCode
+        }).then(info => {
+          this.customerData = info
+        }).catch(error => {
+          console.log(error)
+        })
+        this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}, {
+          isSubData: 'true',
+          area: this.area,
+          deptCode: this.deptCode
+        }).then(info => {
+          this.subCustomerData = info
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      departmentChange (e) {
+        this.department = e.code
+        this.deptCode = e.code
+        this.$search('/api/customer', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, {
+          area: this.area,
+          deptCode: this.deptCode
+        }).then(info => {
+          this.customerData = info
+        }).catch(error => {
+          console.log(error)
+        })
+        this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}, {
+          isSubData: 'true',
+          area: this.area,
+          deptCode: this.deptCode
+        }).then(info => {
+          this.subCustomerData = info
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+      onScrollBottom () {
+        let _this = this
+        if (_this.$headers['x-total-count'] == _this.subCustomerData.length) {
+          _this.$vux.toast.text('已经是全部数据', 'middle')
+          return
+        }
+        if (_this.onFetching) {
+        } else {
+          _this.onFetching = true
+          setTimeout(() => {
+            _this.$nextTick(() => {
+              if (_this.$refs.scrollerBottom) {
+                _this.$refs.scrollerBottom.reset()
+              }
+            })
+            _this.sizeData += 5
+            _this.$search('/api/customer', {
+              sort: 'isFocusOn,isFollowUp,name,DESC',
+              page: 0,
+              size: this.sizeData
+            }).then(info => {
+              _this.subCustomerData = info
+            }).catch(error => {
+              console.log(error)
+            })
+            _this.onFetching = false
+          }, 2000)
+        }
+      }
+    }
+  }
+</script>
+<style lang="less">
+  .cu-app {
+    .weui-search-bar {
+      background-color: #073f89;
+    }
+    .cu-type1, .cu-type2 {
+      width: 50%;
+      float: left;
+      .vux-selector.weui-cell_select-after {
+        background-color: #fff;
+      }
+      .weui-label {
+        width: 70px;
+      }
+    }
+    .cu-span {
+      margin: 0;
+      .cu-left {
+        float: left;
+        width: 6px;
+        background-color: #073f89;
+        height: 21px;
+        border-radius: 3px;
+      }
+      .cu-right {
+        padding-left: 10px;
+      }
+    }
+    .cu-div {
+      text-align: right;
+      color: #19498b;
+      span {
+        float: right;
+      }
+      svg {
+        fill: #19498b;
+      }
+    }
+    .cu-con {
+      padding: 0 15px;
+      margin: 18px 0;
+      .cu-content {
+        background-color: #fff;
+        margin-top: 5px;
+        border-radius: 5px;
+        .cu-content-top {
+          padding-top: 10px;
+          .user-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: #e6e7ec;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+            margin-left: 10px;
+          }
+          .userImg-r {
+            width: calc(100% - 100px);
+            padding-right: 10px;
+            margin-left: 100px;
+            .cu-title {
+              font-size: 11px;
+              width: 42px;
+              height: 18px;
+              background-color: #f6be07;
+              display: inline-block;
+              border-radius: 5px;
+              color: #ffffff;
+              text-align: center;
+              line-height: 20px;
+              position: relative;
+              top: -5px;
+            }
+          }
+          .cu-bottom {
+            height: 32px;
+            width: 100%;
+            background-color: #F7F8F9;
+            border-radius: 0 0 5px 5px;
+            margin-top: 8px;
+            .cu-bottom-l, .cu-bottom-r {
+              float: left;
+              width: calc(50% - 1px);
+              line-height: 28px;
+              font-weight: 600;
+              font-size: 13px;
+              position: relative;
+              top: 3px;
+              img {
+                position: relative;
+                top: 5px;
+                right: 3px;
+              }
+            }
+            .cu-bottom-r {
+              border-left: 1px solid #ccc;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .cu-img-size {
+    float: left;
+    padding-right: 5px;
+    width: 15px;
+    height: 15px;
+    margin-top: 4px
+  }
+
+  .cu-span-top {
+    position: relative;
+    top: 2px
+  }
+</style>

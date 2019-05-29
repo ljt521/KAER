@@ -1,0 +1,438 @@
+<template>
+  <div class="fo-top">
+    <div class="fo-div" style="position: relative">
+      <datetime style="width: 40%" v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY" @on-change="change"
+                year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+      <span style="position: absolute;top: 12px;right: 20px;font-size: 13px;">共 108条跟进信息</span>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'会诊信息（22）'"
+        :border-intent="false"
+        is-link
+        :arrow-direction="showContent1 ? 'up' : 'down'"
+        @click.native="showContent1 = !showContent1">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;"
+             src="../assets/image/follow_up_consultation.png" alt="">
+      </cell>
+      <swipeout class="slide" :class="showContent1?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button @click.native="onButtonClick('/new-consul-info')" type="primary">编辑</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
+              </p>
+            </div>
+
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div @click="goToSeeAll('全部会诊信息')" style="color: #074089;">查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'手术演示信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent2 ? 'up' : 'down'"
+        @click.native="showContent2 = !showContent2">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;"
+             src="../assets/image/follow_up_operation_demonstration.png" alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent2?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button @click.native="onButtonClick('/new-oper-demo')" type="primary">编辑</swipeout-button>
+            <swipeout-button type="warn"  @click.native="deleteInfo()">删除</swipeout-button>
+          </div>
+          <div slot="content" class="{'vux-1px-t}" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_activity.png" alt="">华西腹腔镜胰腺手术，高级研修班手术演示</span>
+              </p>
+            </div>
+
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div @click="goToSeeAll('全部手术演示信息')" style="color: #074089;">查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'讲课信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent3 ? 'up' : 'down'"
+        @click.native="showContent3 = !showContent3">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_lecture.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent3?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture')">编辑</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>基于3D生物打印技术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">品牌名称 产品名称 | 品牌名称 产品名称</span>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_activity.png" alt="">华西腹腔镜胰腺手术，高级研修班手术演示</span>
+              </p>
+            </div>
+
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div @click="goToSeeAll('全部讲课信息')" style="color: #074089;">查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'参与课题信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent4 ? 'up' : 'down'"
+        @click.native="showContent4 = !showContent4">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_research.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent4?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-topic')">编辑</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_topic_type.png" alt="">国际合作</span>
+                <span class="right"><img src="../assets/image/follow_up_participation_mode.png" alt="">研究负责人</span>
+                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
+              </p>
+            </div>
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div @click="goToSeeAll('全部参与课题信息')" style="color: #074089;">查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'论文发表信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent5 ? 'up' : 'down'"
+        @click.native="showContent5 = !showContent5">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_paper.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent5?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-paper')">编辑</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>胃十二指肠吻合术</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+                <span class="right"><img src="../assets/image/follow_up_position.png" alt="">上海</span>
+              </p>
+            </div>
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div @click="goToSeeAll('全部论文发表信息')" style="color: #074089;">查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'学术参与信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent6 ? 'up' : 'down'"
+        @click.native="showContent6 = !showContent6">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_learning.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent6?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-learning')">编辑</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteInfo()">删除</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>浅析我国人体器官制度完善</span><span style="float: right;font-size: 12px;color: #BFBFBF;">2019/02/07</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</span>
+                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>
+                <span class="right"><icon style="color: #888888;font-size: 15px;" type="waiting-circle"  ></icon>2019</span>
+              </p>
+            </div>
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div @click="goToSeeAll('全部学术参与信息')" style="color: #074089;">查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-add" @click="openDiaLog">+</div>
+    <new-dia-log ref="NewDiaLog"></new-dia-log>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'FollowDetails',
+    data () {
+      return {
+        show8:'',
+        value5: '',
+        showContent1: false,
+        showContent2: false,
+        showContent3: false,
+        showContent4: false,
+        showContent5: false,
+        showContent6: false
+      }
+    },
+    methods: {
+      change (value) {
+        console.log('change', value)
+      },
+      onButtonClick(e) {
+        switch (e) {
+          case '/new-consul-info':
+            this.$router.push({
+              name:"NewConsulInfo",
+              params:{
+                title: '编辑会诊'
+              }
+            });
+            break;
+          case '/new-oper-demo':
+            this.$router.push({
+              name:"NewOperDemo",
+              params:{
+                title: '编辑手术演示'
+              }
+            });
+            break;
+          case '/new-iecture':
+            this.$router.push({
+              name:"NewIecture",
+              params:{
+                title: '编辑讲课'
+              }
+            });
+            break;
+          case '/new-paper':
+            this.$router.push({
+              name:"NewPaper",
+              params:{
+                title: '编辑论文发表'
+              }
+            });
+            break;
+          case '/new-topic':
+            this.$router.push({
+              name:"NewTopic",
+              params:{
+                title: '编辑参与课题'
+              }
+            });
+            break;
+          case '/new-learning':
+            this.$router.push({
+              name:"NewLearning",
+              params:{
+                title: '编辑手术参与'
+              }
+            });
+            break;
+          default:
+            this.$router.push({path: e})
+        }
+      },
+      deleteInfo(){
+        this.$vux.confirm.show({
+          title: '操作提醒',
+          content: '是否确认删除?',
+          onShow () {
+            console.log('plugin show')
+          },
+          onHide () {
+            console.log('plugin hide')
+          },
+          onCancel () {
+            console.log('plugin cancel')
+          },
+          onConfirm () {
+            console.log('plugin confirm')
+          }
+        })
+      },
+      goToSeeAll(info) {
+        this.$router.push({
+          name: "SeeAll",
+          params:{
+            title: info
+          }
+        });
+      },
+      openDiaLog() {
+        let self = this;
+        self.$refs['NewDiaLog'].isShowDia(true);
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  @import '~vux/src/styles/close';
+
+  .fo-top {
+    margin: 0 15px;
+    p {
+      margin: 0;
+      text-align: left;
+    }
+    .fo-div {
+      background-color: #fff;
+      margin-bottom: 5px;
+      .fo-tex {
+        text-align: left;
+        .fo-span {
+          display: inline-block;
+          width: 3px;
+          height: 15px;
+          margin-right: 7px;
+          background-color: #074089;
+        }
+        .flex-demo{
+          overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap
+        }
+        p{
+          color: #888888;
+          font-size: 13px;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          white-space:nowrap;
+          .right{
+            margin-right: 30px;
+            img{
+              vertical-align: middle;
+              margin-right: 5px;
+            }
+          }
+        }
+
+      }
+    }
+    .fo-add {
+      width: 70px;
+      height: 70px;
+      background-color: #fff;
+      border-radius: 50%;
+      position: fixed;
+      right: 15px;
+      bottom: 20px;
+      /*transform: translateX(35px);*/
+      margin-bottom: 10px;
+      box-shadow: 1px 1px 1px 1px #ccc;
+      color: #073f89;
+      line-height: 70px;
+      font-size: 50px;
+    }
+    .dialog-demo {
+      .weui-dialog {
+        border-radius: 8px;
+        padding-bottom: 8px;
+        }
+      .dialog-title {
+        line-height: 30px;
+        color: #666;
+      }
+      .img-box {
+        overflow: hidden;
+      }
+    }
+  }
+
+  .weui-grids:before, .weui-grid:after {
+    content: none;
+  }
+  .weui-grid {
+    text-decoration: none;
+  }
+  .slide {
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+  }
+
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+</style>

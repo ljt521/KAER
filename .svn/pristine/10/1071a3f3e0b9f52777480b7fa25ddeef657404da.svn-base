@@ -1,0 +1,16 @@
+<template>
+  <div class="dy-top">
+    <x-header class="x-header" slot="header" :left-options="{backText: ''}">新建讲课<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'NewIecture',
+    data() {
+      return {}
+    }
+  }
+</script>
+
+<style lang="less"></style>

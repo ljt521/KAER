@@ -1,0 +1,61 @@
+<template>
+  <div class="co-top" >
+    <div class="fo-tex" v-for="(academicJoin,index) in academicJoinData" :key="index" >
+      <span class="fo-span"></span><span>{{academicJoin.activityName}}</span>
+      <p style="margin: 10px 0">
+        <span class="right"><img src="../assets/image/follow_up_role.png" alt="">{{academicJoin.academicActivityType}}</span>
+        <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">{{academicJoin.participantRoles}}</span>
+      </p>
+    </div>
+
+  </div>
+</template>
+<script>
+  export default {
+    name: 'AllLearning',
+    data() {
+      return{
+        academicJoinData:[]
+      }
+    },
+    mounted() {
+      this.$get('/api/AcademicJoin', {sort:'academicDate,DESC',page: 0, size: 10}).then(info => {
+        this.academicJoinData = info;
+      }).catch(error => {
+        console.log(error);
+      });
+    }
+
+  }
+</script>
+
+<style lang="less">
+  .co-top{
+    padding:0 15px;
+    text-align: left;
+    background: white;
+    .fo-span {
+      display: inline-block;
+      width: 3px;
+      height: 15px;
+      margin-right: 7px;
+      background-color: #074089;
+    }
+    .fo-tex {
+      border-bottom:1px solid #dddddd;
+      margin-bottom: 10px;
+      p{
+        color: #888888;
+        font-size: 13px;
+        .right{
+          margin-right: 30px;
+          img{
+            vertical-align: middle;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+
+  }
+</style>

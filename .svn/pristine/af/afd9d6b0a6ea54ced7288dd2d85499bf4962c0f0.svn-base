@@ -1,0 +1,73 @@
+<!--作者：莫岭红 功能：个人信息-->
+<template>
+ <div class="perInfo" >
+   <div class="divBox" >
+     <cell-box>
+       <span class="spanCell">编号:</span>{{persondata.code}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">姓名:</span>{{persondata.name}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">出生年月:</span>{{persondata.birthday}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">年龄:</span>{{persondata.age}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">医院:</span>{{persondata.hospitalName}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">科室:</span>{{persondata.deptName}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">职称:</span>{{persondata.title}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">行政职务:</span>{{persondata.administrative}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">最高学历:</span>{{persondata.education}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">学校名称:</span>{{persondata.schoolName}}
+     </cell-box>
+     <cell-box>
+       <span class="spanCell">导师姓名:</span>{{persondata.tutorName}}
+     </cell-box>
+     <cell-box style="margin-bottom: 8px">
+       <span class="spanCell">专业领域:</span>{{persondata.expertiseArea}}
+     </cell-box>
+   </div>
+
+ </div>
+</template>
+<script>
+export default {
+  name: 'PersonalInfo',
+  data () {
+    return {
+
+    }
+  },
+  props:['persondata'],
+
+
+}
+</script>
+<style lang="less" >
+  .perInfo{
+    .divBox{
+      background-color: white;
+      margin: 0 15px;
+
+    }
+    span{
+      &:after{
+        content: '';
+        margin-right: 5px;
+      }
+    }
+  }
+
+</style>

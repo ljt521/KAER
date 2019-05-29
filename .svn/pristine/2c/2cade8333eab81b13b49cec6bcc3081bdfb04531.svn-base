@@ -1,0 +1,206 @@
+<!--全部下属-->
+<template>
+  <div id="allSub">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :right-options="{showMore: true}" @on-click-more="showMenus = true">
+        全部下属
+      </x-header>
+    </div>
+    <div class="tree-box">
+      <div v-for="(data, index) in subPersons">
+        <ul class="tree-ul">
+          <li class="tree-li">
+            <div class="tree-button" @click="addData(data['select'], data.id,data.level,index)"><span
+              class="tree-button-span">
+              <x-icon v-if="!data.select" style="fill: blue" type="ios-plus-empty" size="40"></x-icon>
+              <x-icon v-if="data.select" style="fill: blue" type="ios-minus-empty" size="40"></x-icon>
+            </span></div>
+            <div class="tree-name"><span class="tree-name-span">{{data.name.slice(0,1)}}</span></div>
+            <div class="tree-after"><h3 class="tree-after-h3">
+              {{data.name}}</h3>&nbsp;&nbsp;<span>{{data.depName}}</span></div>
+          </li>
+        </ul>
+        <div v-if="data['childData']">
+          <ul class="tree-ul" v-for="(child, i) in data.childData">
+            <li class="tree-li" :style="'left:'+ child.level * 20 +'px;'" v-if="child.select">
+              <div class="tree-button" @click="addData(child['select'], child.id, child.level,index, i)"><span
+                class="tree-button-span"><x-icon
+                style="fill: blue" type="ios-plus-empty" size="40"></x-icon></span></div>
+              <div class="tree-name"><span class="tree-name-span">{{child.name.slice(0,1)}}</span></div>
+              <div class="tree-after"><h3 class="tree-after-h3">
+                {{child.name}}</h3>&nbsp;&nbsp;<span>{{child.depName}}</span></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div v-transfer-dom>
+      <actionsheet :menus="menus" v-model="showMenus" show-cancel></actionsheet>
+    </div>
+  </div>
+</template>
+
+<script>
+  import {Actionsheet, TransferDom} from 'vux'
+
+  export default {
+    name: 'AllSubordinates',
+    directives: {
+      TransferDom
+    },
+    components: {
+      Actionsheet
+    },
+    data () {
+      return {
+        menus: {
+          menu1: 'Take Photo',
+          menu2: 'Choose from photos'
+        },
+        showMenus: false,
+        subPersons: []
+      }
+    },
+    mounted () {
+      this.$get('/api/customer/subPersons', {personId: 0}).then(info => {
+        for (let i = 0; i < info.length; i++) {
+          info[i]['level'] = 0;
+          info[i]['select'] = false;
+          info[i]['father'] = info[i].id;
+        }
+        this.subPersons = info
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    methods: {
+      addData (select, value, level, index, indexLs) {
+        const selectData = !select
+        this.$get('/api/customer/subPersons', {personId: value}).then(info => {
+          if (indexLs != null) {
+            let arr = this.subPersons
+            for (let k = 0; k < info.length; k++) {
+              info[k]['level'] = level + 1;
+              info[i]['select'] = false;
+              info[i]['father'] = value;
+              arr[index].childData.splice(indexLs, 0, info[k]);
+            }
+            this.subPersons = JSON.parse(JSON.stringify(arr));
+          } else {
+            let arr = this.subPersons;
+            arr[index]['childData'] = [];
+            for (let i = 0; i < info.length; i++) {
+              info[i]['level'] = level + 1;
+              info[i]['select'] = false;
+              info[i]['father'] = value;
+              arr[index].childData.push(info[i]);
+            }
+            this.subPersons = JSON.parse(JSON.stringify(arr))
+          }
+          if (selectData) {
+            if (indexLs != null) {
+              this.subPersons[index].childData[indexLs].select = true
+              if (this.subPersons[index].childData[indexLs]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  if (this.subPersons[index].childData[indexLs].level - this.subPersons[index].childData[i].level === 1
+                  && this.subPersons[index].childData[i].father == value) {
+                    this.subPersons[index].childData[i].select = true
+                  }
+                }
+              }
+            } else {
+              this.subPersons[index].select = true
+              if (this.subPersons[index]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  if (this.subPersons[index].childData[i].level - this.subPersons[index].level === 1) {
+                    this.subPersons[index].childData[i].select = true
+                  }
+                }
+              }
+            }
+          } else {
+            if (indexLs != null) {
+              this.subPersons[index].select = false
+              if (this.subPersons[index]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  if (this.subPersons[index].childData[i].level - this.subPersons[index].level >= 1 && this.subPersons[index].childData[i].father == value) {
+                    this.subPersons[index].childData[i].select = false
+                  }
+                }
+              }
+            } else {
+              this.subPersons[index].select = false
+              if (this.subPersons[index]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  this.subPersons[index].childData[i].select = false
+                }
+              }
+            }
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  #allSub {
+    .tree-box {
+      .tree-li {
+        position: relative;
+        text-align: left;
+        margin: 5px 0 0 0;
+      }
+      .tree-ul {
+        text-align: right;
+        overflow: hidden;
+        margin: 0;
+      }
+      .tree-ul, .tree-li {
+        padding: 0;
+        list-style: none;
+        div, p {
+          padding: 0;
+          margin: 0;
+          text-align: left;
+          display: inline-block;
+        }
+        .tree-button, .tree-name {
+          width: 50px;
+          height: 50px;
+          position: relative;
+          .tree-button-span {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+          }
+        }
+        .tree-name {
+          border-radius: 50%;
+          line-height: 50px;
+          background-color: #10aeff;
+          color: #ffffff;
+          .tree-name-span {
+            position: absolute;
+            display: block;
+            width: 50px;
+            text-align: center;
+          }
+        }
+        .tree-after {
+          width: calc(100% - 110px);
+          border-bottom: 1px solid #ccc;
+          line-height: 50px;
+          position: absolute;
+          right: 0;
+          .tree-after-h3 {
+            margin: 0;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+</style>

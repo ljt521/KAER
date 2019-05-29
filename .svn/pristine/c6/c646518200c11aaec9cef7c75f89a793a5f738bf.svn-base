@@ -1,0 +1,110 @@
+<template>
+  <div class="divBox ">
+    <swipeout class="vux-1px-tb">
+      <swipeout-item transition-mode="follow"  v-for="(item,i) of 3" :key="i">
+        <div slot="right-menu">
+          <swipeout-button type="primary" @click.native="onButtonClick('/academic-team')">编辑</swipeout-button>
+          <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
+        </div>
+        <div slot="content" :class="{'vux-1px-b': i !== 3}" style="padding: 0 12px;">
+          <cell is-link>
+            <span slot="title" >
+              <span class="spanCell">全<span class="visible">全</span>国：</span>
+              <span class="leftSpan">常委</span>
+              青委副主任
+            </span>
+          </cell>
+        </div>
+      </swipeout-item>
+    </swipeout>
+    <div class="cardFootIcon"  v-on:click="goAacdemicTeam">
+      <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建学术团队</p>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'AcademicDuty',
+    data () {
+      return {
+        list: [{key: 'eh', value: '熟悉'}, {key: 'fh', value: '一般'}],
+      }
+    },
+
+    methods:{
+      goAacdemicTeam(){
+        this.$router.push({
+          path: '/academic-team'
+        })
+      },
+      onButtonClick(e) {
+        if(e=='/academic-team'){
+          this.$router.push({
+            name:"AcademicTeam",
+            params:{
+              title: '编辑学术团队'
+            }
+          });
+        }else{
+          this.$router.push({path:e})
+        }
+
+
+
+      },
+      deleteData(){
+        this.$vux.confirm.show({
+          title: '操作提醒',
+          content: '是否确认删除?',
+          onShow () {
+            console.log('plugin show')
+          },
+          onHide () {
+            console.log('plugin hide')
+          },
+          onCancel () {
+            console.log('plugin cancel')
+          },
+          onConfirm () {
+            console.log('plugin confirm')
+          }
+        })
+      },
+
+    }
+  }
+</script>
+<style lang="less" >
+  .divBox{
+    background-color: white;
+    margin: 0 15px;
+    padding-bottom: 10px;
+  }
+  .weui-cell{
+    padding: 7px 15px;
+    font-size: 14px;
+    text-align: left;
+  }
+  .weui-cell:before{
+    border: none ;
+  }
+  .spanCell{
+    width: 20%;
+    color:#A4A4A4;
+  }
+
+  .cardFootIcon{
+    height: 35px;
+    line-height: 45px;
+    p {
+      text-align: center;
+      color: #074089;
+    }
+    .x-icon {
+      position: relative;
+      top: 4px;
+      fill: #074089;
+    }
+  }
+
+</style>

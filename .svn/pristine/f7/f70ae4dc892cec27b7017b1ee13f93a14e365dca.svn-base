@@ -1,0 +1,72 @@
+<!--作者：莫岭红 功能：新建手术量-->
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right"
+                                                                                          @click="goEssentialInfo()">完成</a>
+      </x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime v-model="surgeryVolumeDto.year" :title="'年度'" :min-year=2000 :max-year=2099 placeholder="请选择"
+                format="YYYY" year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
+                    v-on:listenSelect="(value) => {surgeryVolumeDto.roleInSurgery  = value.code}"
+                    :anyData="surgeryVolumeDto.roleInSurgery"></div-selector>
+      <x-input title="手术量" v-model="surgeryVolumeDto.surgeryVevolume" placeholder="请填写" text-align="right"></x-input>
+    </div>
+  </div>
+</template>
+<script>
+
+  export default {
+    name: 'NewOperative',
+    data () {
+      return {
+        title: '新建手术量',
+        list: {},
+        surgeryVolumeDto: {
+          customerId: this.$route.params.id,// 所属客户 ,
+          roleInSurgery: '',// 手术中角色 ,
+          surgeryVevolume: '',// 手术量 ,
+          year: '' // 年度
+        }
+      }
+    },
+    created () {
+      this.title = this.$route.params.title || this.$route.meta.title;
+      this.list = this.$route.params.data;
+      if (this.list) {
+        this.surgeryVolumeDto.year = this.list.year;
+        this.surgeryVolumeDto.roleInSurgery = this.list.roleInSurgery;
+        this.surgeryVolumeDto.surgeryVevolume = this.list.surgeryVevolume;
+        this.surgeryVolumeDto.id = this.list.id;
+      }
+    },
+    methods: {
+      goEssentialInfo () {
+        if(this.title === '新建手术量'){
+          this.$post('/api/surgeryvolume', this.surgeryVolumeDto).then(info => {
+            this.$vux.toast.text('新建手术量成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('新建手术量失败', 'middle');
+          })
+        } else if (this.title === '编辑手术量'){
+          this.$put('/api/surgeryvolume', this.surgeryVolumeDto).then(info => {
+            this.$vux.toast.text('编辑手术量成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('编辑手术量失败', 'middle');
+          })
+        }
+        this.$router.push(`/userInfo/${this.surgeryVolumeDto.customerId}/essential-info/${this.surgeryVolumeDto.customerId}`);
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .cellBox {
+    height: 20px;
+  }
+
+</style>

@@ -1,0 +1,123 @@
+<!--作者：莫岭红 功能：外语能力-->
+<template>
+    <div class="foregn" >
+      <swipeout>
+        <swipeout-item transition-mode="follow"  v-for="(item,i) of list" :key="i">
+          <div slot="right-menu" >
+            <swipeout-button type="primary" @click.native="onButtonClick(item)">编辑</swipeout-button>
+            <swipeout-button type="warn" @click.native="deleteData(item.id)">删除</swipeout-button>
+          </div>
+          <div slot="content" :class="{'vux-1px-b': i !== list.length}" >
+            <cell is-link>
+              <span slot="title" >
+                <div-span :dictCode="'YZ'" :dictItemCode="item.languages" class="leftData"></div-span>:
+                <div-span :dictCode="'YZCD'" :dictItemCode="item.proficiency" class="rightData"></div-span>
+                <i></i>
+              </span>
+            </cell>
+          </div>
+        </swipeout-item>
+      </swipeout>
+      <div class="cardFootIcon"  v-on:click="goNewLang">
+        <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建语种</p>
+      </div>
+    </div>
+</template>
+<script>
+  export default {
+    name: 'ForeignAbility',
+    data () {
+      return {
+        title:'',
+        list: []
+      }
+    },
+    created(){
+      this.requestData()
+    },
+    props:['personId'],
+    methods: {
+      requestData(){
+        this.$get('/api/languages',{customerId:this.personId}).then( (value) => {
+          this.list = value;
+        }).catch(err => {
+          console.log(err)
+        })
+      },
+      goNewLang() {
+        this.$router.push('/new-lang/'+ this.personId)
+      },
+      deleteData(id){
+        let that = this;
+        this.$vux.confirm.show({
+          title: '操作提醒',
+          content: '是否确认删除?',
+          onConfirm () {
+            that.$del('/api/languages/'+ id).then( val => {
+              that.$vux.toast.text('删除成功', 'middle');
+              that.requestData()
+            }).catch( err => {})
+          }
+        })
+      },
+      onButtonClick(e) {
+          this.$router.push({
+            name:"NewLang",
+            params:{
+              title: '编辑语种',
+              data: e
+            }
+          });
+      },
+    }
+  }
+</script>
+<style lang="less" >
+  .foregn{
+    background-color: white;
+    margin: 0 15px;
+    padding-bottom: 10px;
+    font-size: 13px;
+    text-align: left;
+    .leftData{
+      font-size: 14px;
+      color:#A4A4A4;
+    }
+    .rightData{
+      font-size: 14px;
+      margin-left: 22px;
+      color:#282828;
+    }
+    i:after {
+      content: " ";
+      display: inline-block;
+      height: 6px;
+      width: 6px;
+      border-width: 2px 2px 0 0;
+      border-color: #C8C8CD;
+      border-style: solid;
+      transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+      position: relative;
+      top: -2px;
+      position: absolute;
+      top: 50%;
+      margin-top: -4px;
+      right: 2px;
+      margin-right: 15px;
+    }
+    .cardFootIcon{
+      height: 35px;
+      line-height: 45px;
+      p {
+        font-size: 14px;
+        text-align: center;
+        color: #074089;
+      }
+      .x-icon {
+        position: relative;
+        top: 4px;
+        fill: #074089;
+      }
+    }
+  }
+</style>

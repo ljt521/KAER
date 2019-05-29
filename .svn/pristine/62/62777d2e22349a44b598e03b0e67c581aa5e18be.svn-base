@@ -1,0 +1,117 @@
+<!--全部会诊信息-->
+<template>
+<div class="allco-top" >
+  <swipeout>
+    <swipeout-item transition-mode="follow" class="fo-tex" v-for="(consultation,index) in consultationData" :key="index">
+      <div slot="right-menu" >
+        <swipeout-button type="primary" @click.native="onButtonClick(consultation.id)">编辑</swipeout-button>
+        <swipeout-button type="warn" @click.native="deleteData()">删除</swipeout-button>
+      </div>
+      <div slot="content" :class="{'vux-1px-b': index !== consultationData.length}" >
+          <span class="fo-span"></span><span><div-span v-bind:dictCode="'SSMC'" v-bind:dictItemCode="consultation.operationName"></div-span>
+</span>
+          <p style="margin: 10px 0">
+        <span class="right"><img src="../assets/image/follow_up_role.png" alt="">
+          <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="consultation.operativeRole"></div-span>
+        </span>
+            <span class="right"><img src="../assets/image/follow_up_position.png" alt=""><div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="consultation.operationLocal"></div-span></span>
+            <span >
+          <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
+          {{consultation.consultationDate|formatDate}}
+        </span>
+          </p>
+          <p style="margin: 10px 0">
+            <span class="right"><img src="../assets/image/follow_up_product_information.png" alt="">
+              <template v-for="dataList in consultationData">
+                  <template v-for="(data, index) in dataList.product[0]">
+                    <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
+                    <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
+                  </template>
+                </template>
+            </span>
+          </p>
+      </div>
+    </swipeout-item>
+  </swipeout>
+
+
+</div>
+</template>
+<script>
+  export default {
+    name: 'AllConsultation',
+    data() {
+      return{
+        consultationData:[],
+      }
+    },
+    props:['personId'],
+    created() {
+      this.$search('/api/Consultation', {page: 0, size: 20}, {'customer.id': this.personId}).then(request => {
+        this.consultationData = this.$sortData(request);
+        console.log(this.consultationData)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    methods:{
+      onButtonClick(id){
+        this.$router.push({
+          name: 'NewConsulInfo',
+          params: {
+            title: '编辑会诊',
+          }
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .allco-top{
+    padding:0 15px;
+    text-align: left;
+    background: white;
+    .fo-span {
+      display: inline-block;
+      width: 3px;
+      height: 15px;
+      margin-right: 7px;
+      background-color: #074089;
+    }
+    .fo-tex {
+      margin-bottom: 10px;
+      border-bottom: 1px solid #C7C7C7;
+
+      p{
+        color: #888888;
+        font-size: 13px;
+        .right{
+          margin-right: 30px;
+          img{
+            vertical-align: middle;
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+    .vux-1px-b:after{
+      border: none;
+    }
+  }
+  .slide {
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+  }
+
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+
+
+
+</style>

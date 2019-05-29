@@ -1,0 +1,100 @@
+<!--作者：莫岭红 功能：新建（编辑）论文发表-->
+<template>
+  <div v-wechat-title="title" class="newPap">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right"
+                                                                                          @click="goEssentialInfo()">完成</a>
+      </x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime v-model="paperPublishInfoDto.paperYear" :title="'年度'" :min-year=2000 :max-year=2099 format="YYYY"
+                year-row="{value}年" placeholder="请选择"></datetime>
+      <x-input title="论文名称" v-model="paperPublishInfoDto.paperName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'期刊类型'" :dictCode="'QK'"
+                    v-on:listenSelect="(value) => {paperPublishInfoDto.periodicalType = value.code}"
+                    :anyData="paperPublishInfoDto.periodicalType "></div-selector>
+      <div-selector :tilteValue="'署名方式'" :dictCode="'SMFS'"
+                    v-on:listenSelect="(value) => {paperPublishInfoDto.signType = value.code}"
+                    :anyData="paperPublishInfoDto.signType"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewPaper',
+    data () {
+      return {
+        title: '新建论文发表',
+        paperPublishInfoDto: {
+          customerId: '',//所属客户
+          paperYear: '',//年度
+          paperName: '',//论文名称
+          periodicalType: '',//期刊类型
+          signType: ''//署名方式
+        }
+      }
+    },
+    created () {
+      this.title = this.$route.params.title || this.$route.meta.title
+      this.paperPublishInfoDto.customerId = this.$route.params.id
+      if (this.$route.params.data) {
+        this.paperPublishInfoDto.customerId = this.$route.params.data.customerId
+        this.paperPublishInfoDto.paperYear = this.$route.params.data.paperYear
+        this.paperPublishInfoDto.paperName = this.$route.params.data.paperName
+        this.paperPublishInfoDto.periodicalType = this.$route.params.data.periodicalType
+        this.paperPublishInfoDto.signType = this.$route.params.data.signType
+        this.paperPublishInfoDto['id'] = this.$route.params.data.id
+      }
+    },
+    methods: {
+      goEssentialInfo () {
+        if (this.title === '编辑论文发表') {
+          this.$put('/api/PaperPublishInfo', this.paperPublishInfoDto).then(info => {
+            this.$vux.toast.text('编辑论文发表成功', 'middle')
+            this.$router.push(`/userInfo/${this.paperPublishInfoDto.customerId }/follow-details/${this.paperPublishInfoDto.customerId }`)
+          }).catch(error => {
+            this.$vux.toast.text('编辑论文发表失败', 'middle')
+          })
+        } else if (this.title === '新建论文发表') {
+          this.$post('/api/PaperPublishInfo', this.paperPublishInfoDto).then(info => {
+            this.$vux.toast.text('新建论文发表成功', 'middle')
+            this.$router.push(`/userInfo/${this.paperPublishInfoDto.customerId }/follow-details/${this.paperPublishInfoDto.customerId }`)
+          }).catch(error => {
+            this.$vux.toast.text('新建论文发表失败', 'middle')
+          })
+        }
+      },
+    },
+    beforeRouteLeave (to, from, next) {
+      if (!to.params.id) {
+        to.params.title = '全部讲课信息'
+        to.params.id = this.paperPublishInfoDto.customerId
+      }
+      next()
+    },
+  }
+</script>
+<style lang="less">
+  .newPap {
+    .dy-top {
+      .x-header {
+        h1.vux-header-title {
+          font-size: 19px;
+        }
+        .vux-header-right {
+          font-size: 15px;
+        }
+      }
+    }
+    .cellBox {
+      height: 20px;
+    }
+    .backgroundStyle {
+      font-size: 16px;
+    }
+  }
+
+
+</style>
+

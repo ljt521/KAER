@@ -1,0 +1,82 @@
+<!--作者：莫岭红 功能：新建会诊量-->
+<template>
+  <div v-wechat-title="title" class="newConsulta">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime v-model="consultationDto.year" :title="'年度'" :min-year=2000 :max-year=2099 placeholder="请选择" format="YYYY" year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+      <div-selector :tilteValue="'会诊中角色'" :dictCode="'SSJS'" v-on:listenSelect="(value) => {consultationDto.roleInConsultation  = value.code}" :anyData="consultationDto.roleInConsultation"></div-selector>
+      <x-input title="会诊量" v-model="consultationDto.consultationVevolume" placeholder="请填写" text-align="right"></x-input>
+    </div>
+  </div>
+</template>
+<script>
+
+  export default {
+    name: 'NewConsultation',
+    data () {
+      return {
+        title:'',
+        list:{},
+        consultationDto:{
+          customerId:this.$route.params.id,// 所属客户 ,
+          year:'',//  年度,
+          roleInConsultation:'',// 会诊中角色
+          consultationVevolume:'',//会诊量 ,
+        }
+      }
+    },
+    created () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+      this.list = this.$route.params.data
+      if(this.list){
+        this.consultationDto.year = this.list.year;
+        this.consultationDto.roleInConsultation = this.list.roleInConsultation;
+        this.consultationDto.consultationVevolume = this.list.consultationVevolume;
+        this.consultationDto.id = this.list.id;
+      }
+    },
+    methods: {
+      goEssentialInfo(){
+        if(this.title === '新建会诊量'){
+          this.$post('/api/consultation', this.consultationDto).then(info => {
+            this.$vux.toast.text('新建手术量成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('新建手术量失败', 'middle');
+          })
+        }else if(this.title === '编辑会诊量'){
+          this.$put('/api/consultation', this.consultationDto).then(info => {
+            this.$vux.toast.text('编辑手术量成功', 'middle');
+          }).catch(error => {
+            this.$vux.toast.text('编辑手术量失败', 'middle');
+          })
+        }
+
+        this.$router.push(`/userInfo/${this.consultationDto.customerId}/essential-info/${this.consultationDto.customerId}`)
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .newConsulta{
+    .dy-top{
+      .x-header{
+        h1.vux-header-title{
+          font-size: 19px;
+        }
+        .vux-header-right{
+          font-size: 15px;
+        }
+      }
+    }
+    .cellBox{
+      height: 20px;
+    }
+    .backgroundStyle{
+      font-size: 16px;
+    }
+  }
+</style>

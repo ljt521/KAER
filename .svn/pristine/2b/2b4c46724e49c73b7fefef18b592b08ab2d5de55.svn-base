@@ -1,0 +1,103 @@
+<!--作者：莫岭红 功能：新建(编辑)参与课题-->
+<template>
+  <div v-wechat-title="title" class="newTop">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right"
+                                                                                          @click="goEssentialInfo()">完成</a>
+      </x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="partakeResearchDto.beginDate"
+        title="开始年度"
+        placeholder="请选择"></datetime>
+      <x-input title="课题名称" v-model="partakeResearchDto.researchName" placeholder="请填写" text-align="right"></x-input>
+      <div-selector :tilteValue="'课题类型'" :dictCode="'KTLX'"
+                    v-on:listenSelect="(value) => {partakeResearchDto.researchType = value.code}"
+                    :anyData="partakeResearchDto.researchType"></div-selector>
+      <div-selector :tilteValue="'参与方式'" :dictCode="'CYFS'"
+                    v-on:listenSelect="(value) => {partakeResearchDto.partakeMode = value.code}"
+                    :anyData="partakeResearchDto.partakeMode"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewTopic',
+    data () {
+      return {
+        title: '新建参与课题',
+        partakeResearchDto: {
+          customerId: '',//所属客户
+          beginDate: '',//开始年度
+          researchName: '',//课题名称
+          researchType: '',//课题类型
+          partakeMode: ''//参与方式
+        }
+
+      }
+    },
+    created () {
+      this.title = this.$route.params.title || this.$route.meta.title
+      this.partakeResearchDto.customerId = this.$route.params.id
+      if (this.$route.params.data) {
+        this.partakeResearchDto.beginDate = this.$route.params.data.beginDate.slice(0, 10)
+        this.partakeResearchDto.researchName = this.$route.params.data.researchName
+        this.partakeResearchDto.researchType = this.$route.params.data.researchType
+        this.partakeResearchDto.partakeMode = this.$route.params.data.partakeMode
+        this.partakeResearchDto['id'] = this.$route.params.data.id
+
+      }
+
+    },
+    methods: {
+      goEssentialInfo () {
+        if (this.title === '编辑参与课题') {
+          this.$put('/api/partakeResearch', this.partakeResearchDto).then(info => {
+            this.$vux.toast.text('编辑参与课题成功', 'middle')
+            this.$router.push(`/userInfo/${this.partakeResearchDto.customerId }/follow-details/${this.partakeResearchDto.customerId }`)
+          }).catch(error => {
+            this.$vux.toast.text('编辑参与课题失败', 'middle')
+          })
+        } else if (this.title === '新建参与课题') {
+          this.$post('/api/partakeResearch', this.partakeResearchDto).then(info => {
+            this.$vux.toast.text('新建参与课题成功', 'middle')
+            this.$router.push(`/userInfo/${this.partakeResearchDto.customerId }/follow-details/${this.partakeResearchDto.customerId }`)
+          }).catch(error => {
+            this.$vux.toast.text('新建参与课题失败', 'middle')
+          })
+        }
+      },
+    },
+    beforeRouteLeave (to, from, next) {
+      if (!to.params.id) {
+        to.params.title = '全部参与课题信息'
+        to.params.id = this.partakeResearchDto.customerId
+      }
+      next()
+    },
+
+  }
+</script>
+<style lang="less">
+  .newTop {
+    .dy-top {
+      .x-header {
+        h1.vux-header-title {
+          font-size: 19px;
+        }
+        .vux-header-right {
+          font-size: 15px;
+        }
+      }
+    }
+    .cellBox {
+      height: 20px;
+    }
+    .backgroundStyle {
+      font-size: 16px;
+    }
+  }
+</style>
+

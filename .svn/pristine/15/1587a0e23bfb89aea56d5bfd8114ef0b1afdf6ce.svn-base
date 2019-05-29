@@ -1,0 +1,44 @@
+<template>
+  <selector ref="region" :title="tilteValue" :options="list" v-model="region" direction="rtl"  @on-change="onChange" :placeholder="placeholder || '请选择'"></selector>
+</template>
+<script>
+  export default {
+  name: 'DivSelector',
+    data(){
+      return {
+        region: '',
+        list:[],
+        listData: []
+      }
+    },
+    props:['dictCode','tilteValue','anyData', 'placeholder'],
+    created() {
+      this.$get('/api/dict-tables/search-with-list', {dictCode: this.dictCode}).then((info) => {
+        this.listData = info.dictItems;
+        info.dictItems.forEach((item) => {
+          this.list.push(item.value);
+          if (this.anyData && item.code === this.anyData) {
+            this.region = item.value
+          }
+        })
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+    methods:{
+      onChange() {
+        if(this.region) {
+         this.listData.forEach((item) => {
+            if (item.value === this.region) {
+              this.$emit('listenSelect', item);
+            }
+          })
+        }
+      }
+    }
+  }
+
+</script>
+<style>
+
+</style>

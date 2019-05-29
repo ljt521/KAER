@@ -1,0 +1,100 @@
+<template>
+  <div>
+    <div class="dy-top">
+      <x-header slot="header" :left-options="{showBack: false}">登录</x-header>
+    </div>
+    <div class="login-input-box">
+      <group>
+        <x-input title="账号" v-model="userName" placeholder="请输入"></x-input>
+        <x-input title="密码" v-model="userPassWord" type="password" placeholder="请输入"></x-input>
+      </group>
+      <div class="login-bo">
+        <x-button @click.native="loginWx" type="primary">登录</x-button>
+      </div>
+    </div>
+  </div>
+
+</template>
+
+<script>
+  export default {
+    name: 'Login',
+    data () {
+      return {
+        userName: '',
+        userPassWord: '',
+        fwWechatId: '',
+        qyWechatId: ''
+      }
+    },
+    mounted () {
+      let href = window.location.href
+      let fwIndex = href.lastIndexOf('fwOpenId=')
+      if (fwIndex > 0) {
+        let suf = href.substring(fwIndex + 9, href.length)
+        this.fwWechatId = suf
+      }
+
+      let qyIndex = href.lastIndexOf('qyOpenId=')
+      if (qyIndex > 0) {
+        let suf = href.substring(qyIndex + 9, href.length)
+        this.qyWechatId = suf
+      }
+
+      let loginIndex = href.lastIndexOf('Authorization=')
+      if (loginIndex > 0) {
+        let suf = href.substring(loginIndex + 14, href.length)
+        this.$setCookies('token', 'Bearer ' + suf)
+      }
+    },
+    methods: {
+      loginWx () {
+        const data = {
+          password: this.userPassWord,
+          username: this.userName,
+          fwOpenid: this.fwWechatId || null,
+          qyOpenid: this.qyWechatId || null
+        }
+        this.$post('/api/authenticate/?_allow_anonymous=true', data).then(info => {
+          if (info.status === 'login') {
+            this.$setCookies('token', 'Bearer ' + info.msg.id_token);
+            // '我的菜单', '动态菜单', '客户菜单'
+            switch (window.localStorage.getItem('meSet')) {
+              case '我的菜单':
+                this.$router.push({
+                  path: '/mine'
+                })
+                break
+              case '动态菜单':
+                this.$router.push({
+                  path: '/dynamic'
+                })
+                break
+              case '客户菜单':
+                this.$router.push({
+                  path: '/customer'
+                })
+                break
+              default:
+                this.$router.push({
+                  path: '/dynamic'
+                });
+                break
+            }
+          }
+        }).catch(error => {
+          console.log(error)
+        })
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .login-input-box {
+    margin: 20% 15px;
+    .login-bo {
+      margin-top: 10px;
+    }
+  }
+</style>

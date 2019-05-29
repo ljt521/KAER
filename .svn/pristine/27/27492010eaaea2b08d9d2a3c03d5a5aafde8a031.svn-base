@@ -1,0 +1,77 @@
+<template>
+  <div id="setInfo">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :right-options="{showMore: true}" @on-click-more="showMenus = true">
+        我的设置
+      </x-header>
+    </div>
+    <div class="set-top">
+      <span class="fo-span"></span>
+      <h3>我的默认设置</h3>
+    </div>
+    <div class="set-radio">
+      <group>
+        <radio :options="radio001" v-model="value" @on-change="change"></radio>
+      </group>
+    </div>
+    <div v-transfer-dom>
+      <actionsheet :menus="menus" v-model="showMenus" show-cancel></actionsheet>
+    </div>
+  </div>
+</template>
+<script>
+  import {Actionsheet, TransferDom, Radio} from 'vux'
+
+  export default {
+    name: 'SetInfo',
+    directives: {
+      TransferDom
+    },
+    components: {
+      Actionsheet,
+      Radio
+    },
+    data () {
+      return {
+        menus: {
+          menu1: 'Take Photo',
+          menu2: 'Choose from photos'
+        },
+        showMenus: false,
+        radio001: ['我的菜单', '动态菜单', '客户菜单'],
+        value: '我的菜单'
+      }
+    },
+    methods: {
+      change (value, label) {
+        console.log('change:', value, label)
+      }
+    }
+  }
+</script>
+<style lang="less">
+  #setInfo {
+    .set-top {
+      text-align: left;
+      padding-left: 15px;
+      height: 45px;
+      line-height: 45px;
+      .fo-span {
+        display: inline-block;
+        width: 3px;
+        height: 15px;
+        margin-right: 7px;
+        background-color: #074089;
+      }
+      h3 {
+        display: inline-block;
+        margin: 0;
+      }
+    }
+    .set-radio {
+      p {
+        text-align: left;
+      }
+    }
+  }
+</style>

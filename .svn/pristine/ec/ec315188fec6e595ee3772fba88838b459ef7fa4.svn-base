@@ -1,0 +1,68 @@
+<!--作者：莫岭红 功能：新建语种-->
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <div-selector :tilteValue="'语种'" :dictCode="'YZ'" v-on:listenSelect="(value) => {languagesDto .languages= value.code}" :anyData="languagesDto.languages"></div-selector>
+      <div-selector :tilteValue="'熟练度'" :dictCode="'YZCD'" v-on:listenSelect="(value) => {languagesDto.proficiency = value.code}" :anyData="languagesDto.proficiency"></div-selector>
+    </div>
+  </div>
+</template>
+<script>
+
+export default {
+  name: 'NewLang',
+  data () {
+    return {
+      title:'新建语种',
+      languagesDto:{
+        customerId :this.$route.params.id, //所属客户 ,
+        languages : '', //语种 ,
+        proficiency : '', //熟练度
+      }
+    }
+  },
+  mounted () {
+    this.title = this.$route.params.title||this.$route.meta.title;
+    this.list = this.$route.params.data
+    if(this.list){
+      this.languagesDto.languages = this.list.languages;
+      this.languagesDto.proficiency = this.list.proficiency;
+      this.languagesDto['id'] = this.list.id;
+    }
+  },
+  methods: {
+    goEssentialInfo(){
+      if(this.title === '新建语种'){
+        this.$post('/api/languages', this.languagesDto).then(info => {
+          this.$vux.toast.text('新建语种成功', 'middle');
+        }).catch(error => {
+          console.log(error);
+        })
+      }else if(this.title === '编辑语种'){
+        this.$put('/api/languages', this.languagesDto).then(info => {
+          this.$vux.toast.text('编辑语种成功', 'middle');
+        }).catch(error => {
+          console.log(error);
+        })
+      }
+      this.$router.push(`/userInfo/${this.languagesDto.customerId}/essential-info/${this.languagesDto.customerId}`);
+    }
+  }
+}
+</script>
+
+<style lang="less">
+  .backgroundStyle{
+    background-color: white;
+    text-align: left;
+    font-size: 14px;
+  }
+  .cellBox{
+    height: 20px;
+  }
+
+</style>

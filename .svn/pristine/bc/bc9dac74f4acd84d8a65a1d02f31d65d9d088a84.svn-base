@@ -1,0 +1,343 @@
+<template>
+  <div class="fo-top">
+    <div class="fo-div">
+      <datetime v-model="value5" :title="'年份'" :min-year=2000 :max-year=2099 format="YYYY" @on-change="change"
+                year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'会诊信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent1 ? 'up' : 'down'"
+        @click.native="showContent1 = !showContent1">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;"
+             src="../assets/image/follow_up_consultation.png" alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent1?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div class="fo-tex">
+              <span class="fo-span"></span><span>胃十二指肠手术</span><span style="float: right">2019/02/07</span>
+
+              <flexbox :gutter="25">
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</div>
+                </flexbox-item>
+                <flexbox-item :span="1/3">
+                  <div class="flex-demo"><img src="../assets/image/follow_up_position.png" alt="">上海</div>
+                </flexbox-item>
+              </flexbox>
+              <flexbox>
+                <flexbox-item>
+                  <div class="flex-demo"><img src="../assets/image/follow_up_role.png" alt="">全程主刀</div>
+                </flexbox-item>
+              </flexbox>
+
+            </div>
+          </div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div>查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'手术演示信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent2 ? 'up' : 'down'"
+        @click.native="showContent2 = !showContent2">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;"
+             src="../assets/image/follow_up_operation_demonstration.png" alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent2?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
+          </div>
+          <div slot="content" class="{'vux-1px-t}" style="padding:12px;">JavaScript is the best language</div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div>查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'讲课信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent3 ? 'up' : 'down'"
+        @click.native="showContent3 = !showContent3">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_lecture.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent3?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div>查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'参与课题信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent4 ? 'up' : 'down'"
+        @click.native="showContent4 = !showContent4">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_research.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent4?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div>查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'论文发表信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent5 ? 'up' : 'down'"
+        @click.native="showContent5 = !showContent5">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_paper.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent5?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div>查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-div">
+      <cell
+        :title="'学术参与信息（22）'"
+        is-link
+        :border-intent="false"
+        :arrow-direction="showContent6 ? 'up' : 'down'"
+        @click.native="showContent6 = !showContent6">
+        <img slot="icon" width="20" style="display:block;margin-right:5px;" src="../assets/image/follow_up_learning.png"
+             alt="">
+      </cell>
+
+      <swipeout class="slide" :class="showContent6?'animate':''">
+        <swipeout-item transition-mode="follow" v-for="i in 2" :key="i">
+          <div slot="right-menu">
+            <swipeout-button type="primary">是的</swipeout-button>
+            <swipeout-button type="warn">正确</swipeout-button>
+          </div>
+          <div slot="content" class="vux-1px-t" style="padding:12px;">JavaScript is the best language</div>
+        </swipeout-item>
+        <swipeout-item transition-mode="follow">
+          <div slot="content" class="vux-1px-t" style="padding:12px;">
+            <div>查看全部</div>
+          </div>
+        </swipeout-item>
+      </swipeout>
+    </div>
+    <div class="fo-add" @click="show = !show">+</div>
+    <div v-transfer-dom>
+      <x-dialog v-model="show" class="dialog-demo" :dialog-style="{'max-width': '90%', width: '90%', height: '80%'}">
+        <div style="height: 20%"></div>
+        <div class="img-box">
+          <p style="text-align: center">请点击下面图标新增业务对象</p>
+          <div class="fo-line">
+            <grid :show-lr-borders="false" :show-vertical-dividers="false">
+              <grid-item>
+                <img slot="icon" src="../assets/image/client_follow_s.png">
+                <span slot="label">新会诊</span>
+              </grid-item>
+              <grid-item>
+                <img slot="icon" src="../assets/image/client_follow_s.png">
+                <span slot="label">新手术演示</span>
+              </grid-item>
+              <grid-item>
+                <img slot="icon" src="../assets/image/client_follow_s.png">
+                <span slot="label">新讲课</span>
+              </grid-item>
+            </grid>
+          </div>
+          <div>
+            <grid :show-lr-borders="false" :show-vertical-dividers="false">
+            <grid-item>
+              <img slot="icon" src="../assets/image/client_follow_s.png">
+              <span slot="label">新论文发表</span>
+            </grid-item>
+            <grid-item>
+              <img slot="icon" src="../assets/image/client_follow_s.png">
+              <span slot="label">新参与课题</span>
+            </grid-item>
+            <grid-item>
+              <img slot="icon" src="../assets/image/client_follow_s.png">
+              <span slot="label">学术参与</span>
+            </grid-item>
+            </grid>
+          </div>
+        </div>
+        <div @click="show=false" style="display: table-row;">
+          <span class="vux-close"></span>
+        </div>
+      </x-dialog>
+    </div>
+  </div>
+</template>
+<script>
+  import { Grid, Datetime, Cell, XDialog, TransferDom } from 'vux'
+
+  export default {
+    name: 'FollowDetails',
+    directives: {
+      TransferDom
+    },
+    components: {
+      Datetime,
+      Cell,
+      XDialog,
+      Grid
+    },
+    data () {
+      return {
+        value5: '',
+        showContent1: false,
+        showContent2: false,
+        showContent3: false,
+        showContent4: false,
+        showContent5: false,
+        showContent6: false,
+        show: false
+      }
+    },
+    methods: {
+      change (value) {
+        console.log('change', value)
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  @import '~vux/src/styles/close';
+
+  .fo-top {
+    margin: 0 15px;
+    p {
+      margin: 0;
+      text-align: left;
+    }
+    .fo-div {
+      background-color: #fff;
+      margin-bottom: 5px;
+      .fo-tex {
+        text-align: left;
+        .fo-span {
+          display: inline-block;
+          width: 3px;
+          height: 15px;
+          background-color: red;
+        }
+      }
+    }
+    .fo-add {
+      width: 70px;
+      height: 70px;
+      background-color: #fff;
+      border-radius: 50%;
+      position: fixed;
+      right: 15px;
+      bottom: 20px;
+      /*transform: translateX(35px);*/
+      margin-bottom: 10px;
+      box-shadow: 1px 1px 1px 1px #ccc;
+      color: #073f89;
+      line-height: 70px;
+      font-size: 50px;
+    }
+    .dialog-demo {
+      .weui-dialog {
+        border-radius: 8px;
+        padding-bottom: 8px;
+      }
+      .dialog-title {
+        line-height: 30px;
+        color: #666;
+      }
+      .img-box {
+        overflow: hidden;
+      }
+      .vux-close {
+        margin-top: 8px;
+        margin-bottom: 8px;
+      }
+
+    }
+  }
+
+  .weui-grid {
+    text-decoration: none;
+  }
+  .weui-grid::after {
+    content: none;
+  }
+  .weui-grids::before {
+    content: none;
+  }
+  .slide {
+    padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+  }
+
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
+  }
+</style>

@@ -1,0 +1,70 @@
+
+<!--作者：莫岭红 功能：新建手术参与-->
+<template>
+  <div v-wechat-title="title" >
+    <div class="dy-top">
+      <x-header class="x-header" slot="header" :left-options="{backText: ''}">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a></x-header>
+    </div>
+    <div class="cellBox"></div>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="value1"
+        @on-change="change"
+        title="日期"
+        placeholder="请选择"
+        @on-cancel="log('cancel')"
+        @on-confirm="onConfirm"
+        @on-hide="log('hide', $event)"></datetime>
+      <selector ref="defaultValueRef" title="学术活动类型" direction="rtl" :options="listData.list1" placeholder="请选择" v-model="basicData.defaultValue1"></selector>
+      <x-input title="活动名称" v-model="value" placeholder="请填写" text-align="right"></x-input>
+      <selector ref="defaultValueRef" title="参与角色" direction="rtl" :options="listData.list1" placeholder="请选择" v-model="basicData.defaultValue1"></selector>
+    </div>
+  </div>
+</template>
+<script>
+  export default {
+    name: 'NewLearning',
+    data () {
+      return {
+        title:'新建手术参与',
+        value:'',
+        value1:"",
+        basicData:{
+          defaultValue: '',
+          defaultValue1: '',
+        },
+        listData:{
+          list: [{key: 'eh', value: '英语'}, {key: 'gx', value: '德语'}],
+          list1: [{key: 'eh', value: '熟练'}, {key: 'gx', value: '一般'}]
+        },
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title||this.$route.meta.title;
+    },
+    methods:{
+      goEssentialInfo(){
+        this.$router.push('/userInfo/essential-info')
+      },
+      change (value) {
+        console.log('change', value)
+      },
+      log (str1, str2 = '') {
+        console.log(str1, str2)
+      },
+      onConfirm (val) {
+        console.log('on-confirm arg', val)
+        console.log('current value', this.value1)
+      },
+    }
+  }
+</script>
+
+
+<style lang="less" >
+  .cellBox{
+    height: 20px;
+  }
+
+
+</style>

@@ -1,0 +1,60 @@
+<template>
+    <div id="growth">
+      <v-chart id="canvas" ref="demo" :data="surgeryVolume">
+        <v-scale x field="年份" />
+        <v-scale y field="数量" />
+        <v-bar series-field="name" adjust="stack" />
+        <v-tooltip show-value-in-legend />
+      </v-chart>
+      <v-chart id="canvas1" ref="demo1" :data="consultation">
+        <v-scale x field="年份" />
+        <v-scale y field="数量" />
+        <v-bar series-field="name" adjust="stack" />
+        <v-tooltip show-value-in-legend />
+      </v-chart>
+    </div>
+</template>
+
+<script>
+  import { VChart, VLine, VArea, VTooltip, VLegend, VBar, VScale } from 'vux'
+export default {
+  name: 'GrowthArchives',
+  components: {
+    VChart,
+    VLine,
+    VArea,
+    VTooltip,
+    VLegend,
+    VBar,
+    VScale
+  },
+  data () {
+    return {
+      surgeryVolume: [
+        { name: '抚镜手', 年份: '2016', 数量: 50 },
+        { name: '全程助手', 年份: '2017', 数量: 30 },
+        { name: '部分主刀', 年份: '2018', 数量: 75 },
+        { name: '全称主刀', 年份: '2019',数量: 20 }
+      ],
+      consultation : [
+        { name: '抚镜手', 年份: '2016', 数量: 30 },
+        { name: '全程助手', 年份: '2017', 数量:  60},
+        { name: '部分主刀', 年份: '2018', 数量: 50 },
+        { name: '全称主刀', 年份: '2019',数量: 80 }
+      ]
+    }
+  }
+}
+</script>
+
+<style lang="less">
+  #growth {
+    margin: 0 15px;
+    overflow: hidden;
+    #canvas {
+      canvas {
+        width: 100%!important;
+      }
+    }
+  }
+</style>
