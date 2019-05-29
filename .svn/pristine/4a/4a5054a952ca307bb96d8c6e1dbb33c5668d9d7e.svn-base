@@ -277,10 +277,6 @@
                   {{data.academicActivityType}}
                 </span>
                 <span class="right">
-                  <img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
-                  <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.participantRoles"></div-span>
-                </span>
-                <span class="right">
                   <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
                   {{data.academicDate}}
                 </span>

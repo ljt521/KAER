@@ -1,6 +1,5 @@
 <template>
   <div id="login">
-  <div style="top:100px;text-align:center;">loading……</div>
     <div class="dy-top">
       <x-header class="x-header" slot="header" :left-options="{showBack: false}">登录</x-header>
     </div>
@@ -14,6 +13,7 @@
       </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -80,7 +80,7 @@
         // }
         const data = {
           password: '123456',
-          username: 'Wendy.lu',
+          username: 'everett.liu',
           fwOpenid: this.fwWechatId || null,
           qyOpenid: this.qyWechatId || null
         }
@@ -121,17 +121,13 @@
 
 <style lang="less">
   #login {
-    display: none;
     .login-input-box {
-      display: none;
       margin: 20% 15px;
       .login-bo {
-        display: none;
         margin-top: 10px;
       }
     }
     .vux-header {
-      display: none;
       background-color: #074089;
     }
   }

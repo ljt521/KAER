@@ -16,7 +16,7 @@
                text-align="right"></x-input>
       <x-input title="活动名称" v-model="academicJoinDto.activityName" placeholder="请填写" text-align="right"></x-input>
       <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
-                    v-on:listenSelect="(value) => {academicJoinDto.participantRoles = value.code}"
+                    v-on:listenSelect="academicJoinDto.participantRoles = value.code"
                     :anyData="academicJoinDto.participantRoles"></div-selector>
     </div>
   </div>
