@@ -41,7 +41,7 @@
           <template v-slot="value">
             <div class="new-select">
               <div-selector :placeholder="'请选择品牌'" :dictCode="'CPPP'" v-model="item['proData']"
-                            v-on:listenSelect="(value) => {item['proData'] = value.code;item['select'] = true;getPlain(item);}"
+                            v-on:listenSelect="(value) => {item['proData'] = value.code}"
                             :anyData="item.proData"></div-selector>
             </div>
           </template>
