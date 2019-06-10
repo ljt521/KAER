@@ -5,28 +5,28 @@
     </div>
     <div class="us-z-top">
       <div style="position: relative;">
-        <img class="us-img-1" :src="imgSrc" alt="">
+        <img  class="us-img-1" :src="imgSrc" alt="">
         <!--<img v-if="!imgSrc" class="us-img-1" src="../assets/image/default_head.png" alt="">-->
         <label class="img-up" for="female">img</label>
-        <input ref="female" type="file" @change="loadImg" id="female" accept="image/*" class="addBorder">
+        <input ref="female" type="file" @change="loadImg" id="female"
+               accept="image/*" class="addBorder">
       </div>
       <div class="us-care" @click="careData">
-        <div class="us-center" v-if="customerDto.isFocusOn=='0'">
-          <img src="../assets/image/client_details_follow.png" alt=""><span>关注</span>
+        <div class="us-center" v-if="customerData.isFocusOn">
+          <img src="../assets/image/client_details_follow.png" alt=""><span> 关注</span>
         </div>
-        <div class="us-center" v-if="customerDto.isFocusOn == '1'">
+        <div class="us-center" v-if="!customerData.isFocusOn">
           <img src="../assets/image/client_details_follow_s.png" alt=""><span style="color: #FFB532"> 已关注</span>
         </div>
       </div>
-      <h2 style="font-size:16px;margin: -45px 0 5px 0">{{customerDto.name}}</h2>
+      <h2 style="font-size:16px;margin: -45px 0 5px 0">{{customerData.name}}</h2>
       <p style="margin-top:5px;text-align: center">
-        <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customerDto.deptCode"></div-span>
-        <div-span style="font-size: 13px;" v-bind:dictCode="'ZW'"
-                  v-bind:dictItemCode="customerDto.administrative"></div-span>
-        <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="customerDto.title"></div-span>
+          <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customerData.deptCode"></div-span>
+          <div-span style="font-size: 13px;" v-bind:dictCode="'ZW'" v-bind:dictItemCode="customerData.administrative"></div-span>
+          <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="customerData.title"></div-span>
       </p>
       <p style="font-size:13px;margin: 5px 0 0px 0;text-align: center; color: #888888;">
-        <div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customerDto.hospitalCode"></div-span>
+        <div-span v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customerData.hospitalCode"></div-span>
       </p>
       <div style="height: 15px;margin-bottom: 15px" class="vux-1px-b"></div>
 
@@ -49,7 +49,7 @@
         </grid-item>
       </grid>
     </div>
-
+    <div>{{customerData}}</div>
     <div class="us-bottom-common">
       <router-view></router-view>
     </div>
@@ -74,35 +74,34 @@
           isFocusOn: 1
         },
         id: this.$route.params.id,
-        customerDto: {},
-        imgSrc: '',
-        tabIndex: 1,
-        url: ''
+        customerData: {},
+        imgSrc: 'http://localhost:8088/upload/0personheadimage/1559725005257031235.jpg',
+        tabIndex: 1
       }
     },
     created () {
       this.getCustomer(this.id)
     },
     methods: {
-      careData () {
-        this.customerDto.isFocusOn = !this.customerDto.isFocusOn;
-        if (this.customerDto.isFocusOn) {/*关注*/
-          this.$post('/api/myconcernscustomer', this.myConcernsCustomerDto).then(info => {
-            console.log(info);
-          }).catch(error => {
-            console.log(error);
-          })
-          this.myConcernsCustomerDto.isFocusOn = 1;
-        } else {/*取消关注*/
-          this.$post('/api/myconcernscustomer/delMyConcernsCustomer', this.myConcernsCustomerDto).then(info => {
-            console.log(info);
-          }).catch(error => {
-            console.log(error);
-          })
-          this.myConcernsCustomerDto.isFocusOn = 0;
-        }
+        careData () {
+          this.customerData.isFocusOn = !this.customerData.isFocusOn;
+          if(!this.customerData.isFocusOn) {/*关注*/
+            this.$post('/api/myconcernscustomer', this.myConcernsCustomerDto).then(info => {
+              console.log(info);
+            }).catch(error => {
+              console.log(error);
+            })
+            this.myConcernsCustomerDto.isFocusOn = 1;
+          } else {/*取消关注*/
+            this.$post('/api/myconcernscustomer/delMyConcernsCustomer',this.myConcernsCustomerDto).then(info => {
+              console.log(info);
+            }).catch(error => {
+              console.log(error);
+            })
+            this.myConcernsCustomerDto.isFocusOn = 0;
+          }
 
-      },
+        },
       goToBack () {
         this.$router.push({
           path: '/customer'
@@ -110,49 +109,34 @@
       },
       getCustomer (id) {
         this.$get('/api/customer/' + id).then(info => {
-          this.customerDto = info
-          this.imgSrc = this.customerDto.headImg
+          this.customerData = info
+          this.imgSrc = this.customerData.headImg
         })
       },
       loadImg (e) {
         //获取文件
-        const file = this.$refs.female.files
-        let size = Math.floor(file[0].size / 1024)
+        const file = this.$refs.female
+        const fil = file.files
+        let size = Math.floor(fil[0].size / 1024)
         //文件大小超出5M给出提示并且停止方法运行
         if (size > 5 * 1024 * 1024) {
           this.$vux.toast.text('请选择5M以内的图片', 'middle')
           return false
         }
-
-        let format = 'png,jpg,jpeg';
-        let fileSufName = file[0].name.substring(file[0].name.lastIndexOf('.') + 1);
-        if (format.indexOf(fileSufName) == -1) {
-          return false;
-        }
-        //判断文件长度不能为0
-        if (file.length !== 0) {
-          const imageData = new FormData()
-          imageData.append('file', e.target.files[0])
-          this.$post('/api/file/change-head', imageData, 'header').then(info => {
-            this.customerDto.headImg = info.url // info.url 返回的路径//
-            // 应该 获取当前操作用户信息 把url 放进去 再提交到数据库
-
-            this.$post('/api/customer/uploadHeadImg', this.customerDto).then(info => {
-              console.log(info)
-            }).catch(error => {
-              console.log(error)
-            })
-            const reader = new FileReader()
-            reader.readAsDataURL(e.target.files[0]) // 读出 base64
-            /*读取过程中，没有出现异常时*/
-            reader.onloadend = () => {
-              const dataURL = reader.result//base64
-              this.imgSrc = dataURL
-            }
-          })
+        const reader = new FileReader()
+        reader.readAsDataURL(e.target.files[0]) // 读出 base64
+        /*读取过程中，没有出现异常时*/
+        reader.onloadend = () => {
+          // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
+            /*
+              会返回一个原始二进制数据或者一个ArrayBuffer对象或者null以表示所读取文件的内容
+              当读取result发生异常或者状态为EMPTY时，则会以null结果出现
+            */
+          const dataURL = reader.result//base64
+          this.imgSrc = dataURL
         }
       },
-      onItemClick (value) {
+      onItemClick(value) {
         this.tabIndex = value;
       }
     }

@@ -10,7 +10,7 @@
       <div v-for="(data, index) in subPersons">
         <ul class="tree-ul">
           <li class="tree-li">
-            <div class="tree-button" @click="addData(data['select'], data.id,data.level,index, null)"><span
+            <div class="tree-button" @click="addData(data['select'], data.id,data.level,index)"><span
               class="tree-button-span">
               <x-icon v-if="!data.select" style="fill: #10aeff" type="ios-plus-empty" size="40"></x-icon>
               <x-icon v-if="data.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
@@ -18,12 +18,9 @@
             <div class="tree-name"><span class="tree-name-span">{{data.name.slice(0,1)}}</span></div>
             <div class="tree-after"><h3 class="tree-after-h3">
               {{data.name}}</h3>&nbsp;&nbsp;<span>{{data.depName}}</span></div>
-            <div @click="clickFollow(data)">
-              <div class="cu-gz-div" v-if="data['follow']">
+            <div>
+              <div class="cu-gz-div">
                 <img class="cu-gz-img" src="../assets/image/client_follow_s.png" alt="">
-              </div>
-              <div class="cu-gz-div" v-if="!data['follow']">
-                <img class="cu-gz-img" src="../assets/image/client_follow_n.png" alt="">
               </div>
             </div>
 
@@ -40,15 +37,9 @@
               <div class="tree-name"><span class="tree-name-span">{{child.name.slice(0,1)}}</span></div>
               <div class="tree-after"><h3 class="tree-after-h3">
                 {{child.name}}</h3>&nbsp;&nbsp;<span>{{child.depName}}</span></div>
-              <div @click="clickFollow(child)">
-                <div class="cu-gz-div" :style="{right: 10 + child.level * 20 + 'px'}" v-if="child['follow']">
-                  <img class="cu-gz-img" src="../assets/image/client_follow_s.png" alt="">
-                </div>
-                <div class="cu-gz-div" :style="{right: 10 + child.level * 20 + 'px'}" v-if="!child['follow']">
-                  <img class="cu-gz-img" src="../assets/image/client_follow_n.png" alt="">
-                </div>
+              <div class="cu-gz-div" :style="{right: 10 + child.level * 20 + 'px'}">
+                <img class="cu-gz-img" src="../assets/image/client_follow_s.png" alt="">
               </div>
-
             </li>
           </ul>
         </div>
@@ -159,10 +150,6 @@
         }).catch(error => {
           console.log(error)
         })
-      },
-      clickFollow(data) {
-        data['follow'] = JSON.parse(JSON.stringify(!data['follow']));
-        this.subPersons = JSON.parse(JSON.stringify(this.subPersons));
       }
     }
   }
