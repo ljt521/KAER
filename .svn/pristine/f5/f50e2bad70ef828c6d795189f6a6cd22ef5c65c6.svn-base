@@ -110,11 +110,6 @@
           if (e.select && e.proData) {
             const obj = {}
             obj[e.code] = e.proData
-            this.lectureInfoDto.productInfo.forEach((item, index) => {
-              if (item[e.code]) {
-                this.lectureInfoDto.productInfo.splice(index, 1)
-              }
-            })
             this.lectureInfoDto.productInfo.push(obj)
           } else {
             if (this.lectureInfoDto.productInfo.length > 0) {
@@ -131,6 +126,7 @@
         this.list = JSON.parse(JSON.stringify(this.list))
       },
       goEssentialInfo () {
+        console.log(this.$refs.input01.valid);
         if(!this.$refs.input01.valid) {
           this.iconType = 'error'
         }

@@ -110,11 +110,6 @@
           if (e.select && e.proData) {
             const obj = {}
             obj[e.code] = e.proData
-            this.crInfo.productInfo.forEach((item, index) => {
-              if (item[e.code]) {
-                this.crInfo.productInfo.splice(index, 1)
-              }
-            })
             this.crInfo.productInfo.push(obj)
           } else {
             if (this.crInfo.productInfo.length > 0) {
