@@ -1,7 +1,7 @@
 <template>
   <div class="cu-app">
     <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 80px">
-      <search-box v-model="conText" @on-search="searClick" @on-enter="enterBtn"></search-box>
+      <search position="absolute" auto-fixed ref="searchData" placeholder="搜索关键字" v-model="keywordsSearch"></search>
       <div style="position: fixed;top:40px;background-color: #fff;width: 100%;">
         <div class="cu-type2">
           <div-selector v-bind:dictCode="'KSLX'" v-bind:tilteValue="'科室类型'"
@@ -156,7 +156,7 @@
         onFetching: false,
         sizeData: 5,
         orderHight: '',
-        conText: '',
+        keywordsSearch: ''
       }
     },
     watch: {
@@ -165,7 +165,7 @@
 
           //发送请求
           console.log('inputVal = ' + val + ' , oldValue = ' + oldVal)
-
+          
         }
 
       }
@@ -194,6 +194,12 @@
       this.$refs.scrollerBottom.styles.height = parseInt(this.$refs.scrollerBottom.styles.height, 10) - 120 + 'px'
     },
     methods: {
+
+      onChange (val) {
+        console.log(val)
+      },
+      onTyChange () {
+      },
       goAllSubordinates () {
         this.$router.push('/all-subordinates')
       },
@@ -297,12 +303,6 @@
             _this.onFetching = false
           }, 2000)
         }
-      },
-      searClick(e) {
-       console.log(e);
-      },
-      enterBtn(e) {
-        console.log(e);
       }
     }
   }

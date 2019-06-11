@@ -106,11 +106,12 @@
       careData (data) {
         this.myconcernscolleagueDto.colleagueId = data.id
         if(data.field02 == '0'){
+
           this.myconcernscolleagueDto.isSubFocusOn = 1
           this.$post('/api/myconcernscolleague/attention',this.myconcernscolleagueDto).then(info => {
             this.$vux.toast.text('关注成功', 'middle')
             data.field02 = '1'
-            this.subPersons = JSON.parse(JSON.stringify(this.subPersons))
+            debugger
           }).catch(error=>{
             this.$vux.toast.text('关注失败', 'middle')
           })
@@ -119,11 +120,11 @@
           this.$del('/api/myconcernscolleague/del/'+this.myconcernscolleagueDto.colleagueId).then(info => {
             this.$vux.toast.text('取消关注成功', 'middle')
             data.field02 = '0'
-            this.subPersons = JSON.parse(JSON.stringify(this.subPersons))
           }).catch(error=>{
             this.$vux.toast.text('取消关注失败', 'middle')
           })
         }
+        this.subPersons = JSON.parse(JSON.stringify(this.subPersons))
       },
       addData (select, value, level, index, indexLs) {
         const selectData = !select

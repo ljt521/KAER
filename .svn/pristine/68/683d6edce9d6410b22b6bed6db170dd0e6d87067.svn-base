@@ -1,7 +1,7 @@
 <template>
   <div class="cu-app">
     <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 80px">
-      <search-box v-model="conText" @on-search="searClick" @on-enter="enterBtn"></search-box>
+      <search position="absolute" auto-fixed ref="searchData" placeholder="搜索关键字"></search>
       <div style="position: fixed;top:40px;background-color: #fff;width: 100%;">
         <div class="cu-type2">
           <div-selector v-bind:dictCode="'KSLX'" v-bind:tilteValue="'科室类型'"
@@ -32,31 +32,30 @@
                 <div class="userImg-r" @click="goCustomerInfo(customer.id)">
                   <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
                     <span style="font-size: 18px;padding-right: 10px;">
-                      <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
-                                v-bind:dictItemCode="customer.title"></div-span>
+                      <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="customer.title"></div-span>
                     </span>
                     <span class="cu-title" v-if="index < 2">待跟进</span></p>
-                  <p>
-                    <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
-                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                    <p>
+                      <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
+                      <span style="color: #888888;font-size: 13px" class="cu-span-top">
                       <div-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web"
                                 v-bind:dictCode="'YYXX'" v-bind:dictItemCode="customer.hospitalCode"></div-span>
                       </span>
-                  </p>
-                  <p style="margin-top: 3px">
-                    <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
-                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                    </p>
+                    <p style="margin-top: 3px">
+                      <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
+                      <span style="color: #888888;font-size: 13px" class="cu-span-top">
                         <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
                       </span>
-                  </p>
+                    </p>
                 </div>
                 <div class="cu-bottom">
                   <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt="" />
                     <span class="cu-span-top">动态</span>
                   </div>
                   <div @click="openDiaLog(customer.id)" class="cu-bottom-r">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt="" />
                     <span class="cu-span-top">日常跟进</span>
                   </div>
                 </div>
@@ -103,9 +102,7 @@
                       <div-span style="position: relative;display: inline-block;line-height: 19px;"
                                 v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
                     </span>
-                    <span
-                      style="color: #888888;display:inline-block;max-width: calc(100% - 160px);line-height:21px;float:right;"
-                      class="span-web">
+                    <span style="color: #888888;display:inline-block;max-width: calc(100% - 160px);line-height:21px;float:right;"  class="span-web">
                       <img style="height: 13px;" src="../assets/image/client_responsible_person.png" alt=""/>
                           {{subCustomer.leaderName}}
                     </span>
@@ -155,19 +152,7 @@
         subCustomerData: [],
         onFetching: false,
         sizeData: 5,
-        orderHight: '',
-        conText: '',
-      }
-    },
-    watch: {
-      keywordsSearch (val, oldVal) {
-        if (val != oldVal) {
-
-          //发送请求
-          console.log('inputVal = ' + val + ' , oldValue = ' + oldVal)
-
-        }
-
+        orderHight: ''
       }
     },
     mounted () {
@@ -176,11 +161,7 @@
       }).catch(error => {
         console.log(error)
       })
-      this.$search('/api/customer', {
-        sort: 'isFocusOn,isFollowUp,name,DESC',
-        page: 0,
-        size: 10
-      }, {isSubData: 'true'}).then(info => {
+      this.$search('/api/customer', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10},{isSubData: 'true'}).then(info => {
         this.subCustomerData = info
         this.onFetching = info.length == 0
       }).catch(error => {
@@ -194,6 +175,11 @@
       this.$refs.scrollerBottom.styles.height = parseInt(this.$refs.scrollerBottom.styles.height, 10) - 120 + 'px'
     },
     methods: {
+      onChange (val) {
+        console.log(val)
+      },
+      onTyChange () {
+      },
       goAllSubordinates () {
         this.$router.push('/all-subordinates')
       },
@@ -257,7 +243,7 @@
       },
       onScrollBottom () {
         let _this = this
-        if (!_this.$headers) {
+        if(!_this.$headers) {
           return
         }
         if (_this.$headers['x-total-count'] == _this.subCustomerData.length) {
@@ -297,12 +283,6 @@
             _this.onFetching = false
           }, 2000)
         }
-      },
-      searClick(e) {
-       console.log(e);
-      },
-      enterBtn(e) {
-        console.log(e);
       }
     }
   }
