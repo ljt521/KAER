@@ -318,14 +318,14 @@
 
       },
       searClick (e) {
-        this.keywordSearch(e)
+        keywordSearch(e)
       },
       enterBtn (e) {
-        this.keywordSearch(e)
+        keywordSearch(e)
       },
       searchChange (e) {
         if (e == null || e == '') {
-          this.keywordSearch(e)
+          keywordSearch(e)
         }
       }
     }

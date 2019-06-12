@@ -81,7 +81,7 @@
             <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
               <div class="cu-content-top">
                 <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
-                  <img v-bind:src="baseUrl + subCustomer.headImg" alt="">
+                  <img v-bind:src="subCustomer.hospitalName" alt="dadada">
                 </div>
                 <div class="userImg-r" @click="goCustomerInfo(subCustomer.id)">
                   <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
@@ -159,7 +159,7 @@
         conText: '',
       }
     },
-    /*watch: {
+    watch: {
       keywordsSearch (val, oldVal) {
         if (val != oldVal) {
 
@@ -169,7 +169,7 @@
         }
 
       }
-    },*/
+    },
     mounted () {
       this.$get('/api/customer', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}).then(info => {
         this.customerData = info
@@ -298,35 +298,14 @@
           }, 2000)
         }
       },
-      keywordSearch (e) {
-        this.$search('/api/customer', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, {name: e}).then(info => {
-          this.customerData = info
-        }).catch(error => {
-          console.log(error)
-        })
-
-        this.$search('/api/customer', {
-          sort: 'isFocusOn,isFollowUp,name,DESC',
-          page: 0,
-          size: 10
-        }, {isSubData: 'true', name: e}).then(info => {
-          this.subCustomerData = info
-          this.onFetching = info.length == 0
-        }).catch(error => {
-          console.log(error)
-        })
-
+      searClick(e) {
+       console.log(e);
       },
-      searClick (e) {
-        this.keywordSearch(e)
+      enterBtn(e) {
+        console.log(e);
       },
-      enterBtn (e) {
-        this.keywordSearch(e)
-      },
-      searchChange (e) {
-        if (e == null || e == '') {
-          this.keywordSearch(e)
-        }
+      searchChange(e) {
+        console.log(e);
       }
     }
   }
