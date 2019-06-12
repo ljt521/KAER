@@ -137,6 +137,7 @@
       })
       this.$get('/api/hospital').then((info) => {
         this.hcoList = info
+        console.log(info);
       })
     },
     methods: {
