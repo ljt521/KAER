@@ -128,42 +128,6 @@
             </p>
           </div>
         </div>
-        <div v-if="objCode == 'LWFB'" class="vux-1px-t" style="padding:12px;">
-          <div class="fo-tex">
-            <span class="fo-span"></span><span class="fo-span-top">{{dialogData.paperName }}</span>
-            <p style="margin: 10px 0">
-                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
-                <div-span v-bind:dictCode="'SMFS'" v-bind:dictItemCode="dialogData.signType"></div-span>
-                </span>
-              <span class="right">
-                  <img class="fo-img-size" src="../assets/image/follow_up_position.png" alt="">
-                  <div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="dialogData.periodicalType"></div-span>
-                </span>
-              <span class="right">
-                  <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
-                  {{dialogData.paperYear}}
-                </span>
-            </p>
-          </div>
-        </div>
-        <div v-if="objCode == 'CYKT'" class="vux-1px-t" style="padding:12px;">
-          <div class="fo-tex">
-            <span class="fo-span"></span><span class="fo-span-top">{{dialogData.researchName }}</span>
-            <p style="margin: 10px 0">
-                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_topic_type.png" alt="">
-                <div-span v-bind:dictCode="'KTLX'" v-bind:dictItemCode="dialogData.researchType"></div-span>
-                </span>
-              <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_participation_mode.png"
-                                       alt="">
-                <div-span v-bind:dictCode="'CYFS'" v-bind:dictItemCode="dialogData.partakeMode"></div-span>
-                </span>
-              <span class="right">
-                  <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
-                  {{dialogData.beginDate|formatDate}}
-                </span>
-            </p>
-          </div>
-        </div>
       </div>
     </x-dialog>
   </div>
@@ -245,7 +209,6 @@
       goDiaLog (e) {
         this.objCode = e.objCode
         this.objId = e.objId
-        console.log(e);
         // "SSYS" "JKXX" "HZXX" "XSCY" "LWFB" "CYKT"
         switch (this.objCode) {
           case 'SSYS':
@@ -269,14 +232,8 @@
             })
             break
           case 'LWFB':
-            this.$search('/api/PaperPublishInfo/' + this.objId).then(request => {
-              this.dialogData = request
-            })
             break
           case 'CYKT':
-            this.$search('/api/partakeResearch/' + this.objId).then(request => {
-              this.dialogData = request
-            })
             break
         }
         this.showToast = !this.showToast;

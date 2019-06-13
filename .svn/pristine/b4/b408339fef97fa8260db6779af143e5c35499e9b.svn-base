@@ -54,7 +54,7 @@
       return {
         consultationData: [],
         sumData: 0,
-        sumSize:1
+        sumSize:10
       }
     },
     props: ['personId'],
@@ -65,7 +65,7 @@
       getConsultation () {
         this.$search('/api/Consultation', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(request => {
           this.consultationData = this.$sortData(request)
-          this.sumData = this.$headers['x-total-count']
+          console.log(this.consultationData)
         }).catch(error => {
           console.log(error)
         })
@@ -97,7 +97,7 @@
       getMorHospital () {
         this.sumSize = this.sumSize + 10
         this.$search('/api/Consultation', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(info => {
-          this.consultationData = this.$sortData(info)
+          this.consultationData = info
           this.sumData = this.$headers['x-total-count']
           if (this.sumData == 0) {
             this.$vux.toast.text('无动态', 'middle')
