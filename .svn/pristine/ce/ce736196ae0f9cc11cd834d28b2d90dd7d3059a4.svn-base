@@ -16,6 +16,7 @@
     watch: {
       option: {
         handler(newValue, oldValue) {
+          console.log(11111)
           let flag = false;
           for (let i = 0; i < newValue.length; i++) {
             if (oldValue[i] != newValue[i]) {

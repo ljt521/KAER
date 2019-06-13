@@ -1,0 +1,116 @@
+<template>
+    <div id="growth">
+      <div class="fo-div" v-if="surgeryVolume.length > 0">
+        <span class="fo-span"></span>
+        <span>专业能力-手术量</span>
+        <v-chart ref="surgeryDemo" :data="surgeryVolume" >
+          <v-scale x field="year" />
+          <v-scale y field="surgeryVevolume" />
+          <v-bar series-field="describe" adjust="stack" />
+          <v-tooltip show-value-in-legend  />
+        </v-chart>
+      </div>
+      <div class="fo-div" v-if="consultation.length > 0">
+        <span class="fo-span"></span>
+        <span>专业能力-会诊量</span>
+        <v-chart ref="consultationDemo" :data="consultation">
+          <v-scale x field="year" />
+          <v-scale y field="consultationVevolume" />
+          <v-bar series-field="describe" adjust="stack" />
+          <v-tooltip show-value-in-legend  />
+        </v-chart>
+      </div>
+    </div>
+</template>
+
+<script>
+  import { VChart, VArea, VTooltip, VLegend, VBar, VGuide,VScale } from 'vux'
+export default {
+  name: 'GrowthArchives',
+  components: {
+    VChart,
+    VArea,
+    VTooltip,
+    VLegend,
+    VBar,
+    VGuide,
+    VScale
+  },
+  data () {
+    return {
+      tag: {
+        position: [ 2019, 20 ],
+        content: '30.12',
+        direct: 'tl',
+        offsetY: -5,
+        background: {
+          fill: '#8659AF'
+        },
+        pointStyle: {
+          fill: '#8659AF'
+        }
+      },
+      surgeryVolume: [],
+      consultation : []
+    }
+  },
+  mounted () {
+    this.$get('/api/surgeryvolume',{sort: 'year,ASC'}).then(info => {
+      this.surgeryVolume = info;
+    }).catch(error => {
+      console.log(error)
+    });
+    this.$get('/api/consultation',{sort: 'year,ASC'}).then(info => {
+      this.consultation = info;
+    }).catch(error => {
+      console.log(error)
+    })
+  },
+  methods: {
+    getData() {
+      this.$get('/api/surgeryvolume',{sort: 'year,ASC'}).then(info => {
+        this.surgeryVolume = info;
+        return info
+      }).catch(error => {
+        console.log(error)
+      });
+      this.$get('/api/consultation',{sort: 'year,ASC'}).then(info => {
+        this.consultation = info;
+        return info
+      }).catch(error => {
+        console.log(error)
+      })
+    }
+  }
+}
+</script>
+
+<style lang="less">
+  #growth {
+    margin: 0 15px;
+    overflow: hidden;
+    #canvas {
+      canvas {
+        width: 100%!important;
+      }
+    }
+    .fo-div{
+      background-color: #ffffff;
+      text-align: left;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      .fo-span {
+        display: inline-block;
+        width: 2px;
+        height: 13px;
+        margin-right: 5px;
+        background-color: #074089;
+        position: relative;
+        top: 2px;
+        margin-left: 10px;
+      }
+    }
+  }
+</style>

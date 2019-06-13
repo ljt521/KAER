@@ -9,7 +9,6 @@
     <div class="cellBox"></div>
     <div class="backgroundStyle">
       <datetime
-        format="YYYY"
         v-model="partakeResearchDto.beginDate"
         title="开始年度"
         placeholder="请选择"></datetime>

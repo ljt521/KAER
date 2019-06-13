@@ -82,9 +82,7 @@
               <div class="cu-content-top">
                 <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
                   <img v-bind:src="baseUrl + subCustomer.headImg" alt="">
-                  <span style="display: inline-block;position: absolute;top:63px;left: 18px;color:#eaa304;" v-if="subCustomer.isFocusOn == '1'">已关注</span>
                 </div>
-
                 <div class="userImg-r" @click="goCustomerInfo(subCustomer.id)">
                   <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
                     <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
@@ -114,10 +112,8 @@
                   </p>
                 </div>
                 <div class="cu-bottom">
-
                   <div class="cu-bottom-l" @click="goToDynamic(subCustomer.id)">
                     <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
-
                     <span class="cu-span-top">动态</span>
                   </div>
                   <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r">
@@ -125,11 +121,10 @@
                     <span class="cu-span-top">日常跟进</span>
                   </div>
                 </div>
-
-                <!--<div class="cu-gz">
+                <div class="cu-gz">
                   <img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;"
                        src="../assets/image/client_follow_s.png" alt=""/>
-                </div>-->
+                </div>
               </div>
             </div>
             <div style="height: 60px;"></div>
@@ -426,7 +421,7 @@
             }
           }
           .userImg-r {
-            width: calc(100% - 75px);
+            width: calc(100% - 110px);
             margin-left: 70px;
             position: relative;
             .cu-title {

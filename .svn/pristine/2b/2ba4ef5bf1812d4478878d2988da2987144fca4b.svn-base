@@ -12,10 +12,10 @@
         <datetime v-model="crInfo.consultationDate" title="会诊日期" placeholder="请选择"></datetime>
         <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
                       v-on:listenSelect="(value) => {crInfo.operationName = value.code}"
-                      :anyData="crInfo.operationName" :is-type="codeValue" required></div-selector>
+                      :anyData="crInfo.operationName"  :is-type="codeValue" required></div-selector>
         <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
                       v-on:listenSelect="(value) => {crInfo.operativeRole = value.code}"
-                      :anyData="crInfo.operativeRole" :is-type="codeValue" required></div-selector>
+                      :anyData="crInfo.operativeRole"  :is-type="codeValue" required></div-selector>
         <cell @click.native="selectHos()" title="会诊地点" :value="crInfo.addressName" is-link></cell>
         <cell
           title="产品信息"
@@ -40,7 +40,7 @@
               <div class="new-select">
                 <div-selector :placeholder="'请选择品牌'" :dictCode="'CPPP'" v-model="item['proData']"
                               v-on:listenSelect="(value) => {item['proData'] = value.code;item['select'] = true;getPlain(item);}"
-                              :anyData="item.proData" :is-type="codeValue" required></div-selector>
+                              :anyData="item.proData"  :is-type="codeValue" required></div-selector>
               </div>
             </template>
           </cell>
@@ -49,24 +49,19 @@
     </div>
     <div class="location" v-if="switchTab">
       <div class="search">
-        <search-box v-model="conText" @on-search="searClick" @on-enter="enterBtn"
-                    @on-change="searchChange"></search-box>
+        <search-box></search-box>
         <div class="locationTab">
           <div class="filter">
-            <div-selector :placeholder="'区域'" :anyData="address.regionalValue" v-bind:dictCode="'QY'"
-                          v-on:listenSelect="regionalChange"></div-selector>
+            <div-selector :placeholder="'区域'" :anyData="address.regionalValue" v-bind:dictCode="'QY'" v-on:listenSelect="regionalChange"></div-selector>
           </div>
           <div class="filter">
-            <div-selector :placeholder="'省'" :anyData="address.province" :option='address.provinceOption'
-                          v-on:listenSelect="provinceChange"></div-selector>
+            <div-selector :placeholder="'省'" :anyData="address.province" :option='address.provinceOption' v-on:listenSelect="provinceChange"></div-selector>
           </div>
           <div class="filter">
-            <div-selector :placeholder="'市'" :anyData="address.city" :option='address.cityOption'
-                          v-on:listenSelect="cityChange"></div-selector>
+            <div-selector :placeholder="'市'" :anyData="address.city" :option='address.cityOption'  v-on:listenSelect="cityChange"></div-selector>
           </div>
           <div class="filter">
-            <div-selector :placeholder="'区'" :anyData="address.area" :option='address.areaOption'
-                          v-on:listenSelect="areaChange"></div-selector>
+            <div-selector :placeholder="'区'" :anyData="address.area" :option='address.areaOption'  v-on:listenSelect="areaChange"></div-selector>
           </div>
         </div>
       </div>
@@ -76,14 +71,12 @@
           <span>{{item.newGrade}}</span>
           <span>{{item.newType}}</span>
         </div>
-        <div v-if="sumSize < sumData" style="text-align: center;padding: 10px" @click="getMorHospital">查看更多...</div>
       </div>
     </div>
   </div>
 </template>
 <script>
   import {ChinaAddressData} from 'vux'
-
   export default {
     name: 'NewConsulInfo',
     data () {
@@ -93,8 +86,6 @@
             valid: value !== '' || null,
           }
         },
-        sumData: 0,
-        sumSize: 10,
         title: '新建会诊',
         showContent004: false,
         demo1: false,
@@ -120,8 +111,7 @@
           operationName: '',// 手术名称
           operativeRole: '',// 手术中的角色
           productInfo: [], //产品信息
-        },
-        searchData: '',
+        }
       }
     },
     created () {
@@ -154,9 +144,8 @@
         })
       }).catch(error => {
       })
-      this.$search('/api/hospital', {page: 0, size: 10}).then((info) => {
+      this.$search('/api/hospital',{page: 0, size: 20}).then((info) => {
         this.hcoList = info
-        this.sumData = this.$headers['x-total-count']
       })
     },
     methods: {
@@ -186,37 +175,22 @@
         this.list = JSON.parse(JSON.stringify(this.list))
       },
       goEssentialInfo () {
-        for (let key in this.crInfo) {
+        for(let key in this.crInfo) {
           switch (key) {
             case 'consultationDate':
-              if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('会诊日期不能为空', 'middle')
-                return
-              }
+              if(this.crInfo[key] === '' || null) {this.$vux.toast.text('会诊日期不能为空', 'middle'); return;}
               break
             case 'operationName':
-              if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('手术名称不能为空', 'middle')
-                return
-              }
+              if(this.crInfo[key] === '' || null) {this.$vux.toast.text('手术名称不能为空', 'middle'); return;}
               break
             case 'operationLocal':
-              if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('会诊地点不能为空', 'middle')
-                return
-              }
+              if(this.crInfo[key] === '' || null) {this.$vux.toast.text('会诊地点不能为空', 'middle'); return;}
               break
             case 'operativeRole':
-              if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('手术中的角色不能为空', 'middle')
-                return
-              }
+              if(this.crInfo[key] === '' || null) {this.$vux.toast.text('手术中的角色不能为空', 'middle'); return;}
               break
             case 'productInfo':
-              if (this.crInfo[key].length === 0 || null) {
-                this.$vux.toast.text('产品信息不能为空', 'middle')
-                return
-              }
+              if(this.crInfo[key].length === 0 || null) {this.$vux.toast.text('产品信息不能为空', 'middle'); return;}
               break
           }
         }
@@ -238,136 +212,56 @@
           })
         }
       },
-      getData () {
+      getData() {
         this.$get('/api/hospital/' + this.crInfo.operationLocal).then(info => {
           this.crInfo.addressName = info.hcoName
         })
       },
-      getHospital (e) {
+      getHospital(e) {
         this.crInfo.operationLocal = e.hcoCode
         this.getData()
-        this.switchTab = false
+        this.switchTab = false;
       },
-      selectHos () {
-        this.switchTab = true
+      selectHos() {
+        this.switchTab = true;
       },
       /*区域*/
       regionalChange (e) {
-        this.sumSize = 10
         this.address.regionalValue = e.code
-        this.$post('/api/hospital/cascadeInfo', {regionCode: e.code}).then(info => {
+        this.$post('/api/hospital/cascadeInfo', {regionCode: e.code}).then( info => {
           this.address.provinceOption = info
-          this.address.province = ''
-          this.address.city = ''
-          this.address.area = ''
         })
-        this.$search('/api/hospital', {page: 0, size: 10}, {regionCode: e.code}).then((info) => {
+        this.$search('/api/hospital',{page: 0, size: 20},{regionCode: e.code}).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
       /*省份*/
-      provinceChange (e) {
-        this.sumSize = 10
+      provinceChange(e){
         this.address.province = e.code
-        this.$post('/api/hospital/cascadeInfo', {
-          regionCode: this.address.regionalValue,
-          provinceCode: e.code
-        }).then(info => {
+        this.$post('/api/hospital/cascadeInfo', {regionCode: this.address.regionalValue,provinceCode: e.code}).then( info => {
           this.address.cityOption = info
-          this.address.city = ''
-          this.address.area = ''
         })
-        this.$search('/api/hospital', {page: 0, size: 10}, {
-          regionCode: this.address.regionalValue,
-          provinceCode: e.code
-        }).then((info) => {
+        this.$search('/api/hospital',{page: 0, size: 20},{regionCode: this.address.regionalValue,provinceCode: e.code}).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
-      /*市*/
-      cityChange (e) {
-        this.sumSize = 10
+      cityChange(e) {
         this.address.city = e.code
-        this.$post('/api/hospital/cascadeInfo', {
-          regionCode: this.address.regionalValue,
-          provinceCode: this.address.province,
-          cityCode: e.code
-        }).then(info => {
+        this.$post('/api/hospital/cascadeInfo', {regionCode: this.address.regionalValue,provinceCode:this.address.province,cityCode: e.code}).then( info => {
           this.address.areaOption = info
-          this.address.area = ''
         })
-        this.$search('/api/hospital', {page: 0, size: 10},
-          {
-            regionCode: this.address.regionalValue,
-            provinceCode: this.address.province,
-            cityCode: e.code
-          }).then((info) => {
+        this.$search('/api/hospital',{page: 0, size: 20},
+          {regionCode: this.address.regionalValue,provinceCode:this.address.province,cityCode: e.code}).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
-      /*区*/
-      areaChange (e) {
-        this.sumSize = 10
+      areaChange(e) {
         this.address.area = e.code
-        this.$search('/api/hospital', {page: 0, size: 10},
-          {
-            regionCode: this.address.regionalValue,
-            provinceCode: this.address.province,
-            cityCode: this.address.city,
-            countyCode: e.code
-          }).then((info) => {
+        this.$search('/api/hospital',{page: 0, size: 20},
+          {regionCode: this.address.regionalValue,provinceCode:this.address.province,cityCode: this.address.city,countyCode: e.code}).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
-      },
-      /*获取更多*/
-      getMorHospital () {
-        this.sumSize = this.sumSize + 10
-        let obj = {
-          regionCode: this.address.regionalValue || undefined,
-          provinceCode: this.address.province || undefined,
-          cityCode: this.address.city || undefined,
-          countyCode: this.address.area || undefined,
-          hcoName: this.searchData || undefined,
-        }
-        obj = JSON.parse(JSON.stringify(obj))
-        console.log(obj)
-        this.$search('/api/hospital', {page: 0, size: this.sumSize}, obj).then((info) => {
-          this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
-          if (this.sumData == 0) {
-            this.$vux.toast.text('无动态', 'middle')
-            return
-          }
-          if (this.sumSize > this.sumData) {
-            this.$vux.toast.text('已获取全部', 'middle')
-          }
-        })
-      },
-      keywordSearch (e) {
-        this.searchData = e
-        this.$search('/api/hospital', {page: 0, size: 10},{hcoName:e}).then((info) => {
-          this.hcoList = info
-          this.sumSize = 10
-          this.sumData = this.$headers['x-total-count'];
-        })
-
-      },
-      searClick (e) {
-        this.keywordSearch(e)
-      },
-      enterBtn (e) {
-        this.keywordSearch(e)
-      },
-      searchChange (e) {
-        if (e == null || e == '') {
-          this.keywordSearch(e)
-        }
       }
-
     },
     beforeRouteLeave (to, from, next) {
       if (!to.params.id) {
@@ -464,8 +358,8 @@
         }
       }
     }
-    .location {
-      .search {
+    .location{
+      .search{
         position: fixed;
         width: 100%;
         top: 0;
@@ -487,12 +381,12 @@
           top: 5px;
         }
       }
-      .locationTab {
+      .locationTab{
         position: fixed;
-        top: 40px;
+        top:40px;
         background-color: #fff;
         width: 100%;
-        .filter {
+        .filter{
           display: inline-block;
           background-color: #fff;
           float: left;
@@ -506,21 +400,21 @@
           }
         }
       }
-      .hospitalInfo {
+      .hospitalInfo{
         text-align: left;
         padding-left: 15px;
         margin-top: 90px;
         background: #fff;
-        .info {
+        .info{
           border-bottom: 1px solid #D9D9D9;
           height: 49px;
-          h3 {
+          h3{
             margin: 5px 0;
           }
-          span {
+          span{
             display: inline-table;
             width: 100px;
-            color: #999;
+            color:#999;
           }
         }
       }

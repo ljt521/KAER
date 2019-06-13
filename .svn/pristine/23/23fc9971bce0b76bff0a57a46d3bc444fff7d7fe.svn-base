@@ -36,7 +36,7 @@
           }
         },
         deep: true
-      },
+      }
     },
     created () {
       if (this.option) {

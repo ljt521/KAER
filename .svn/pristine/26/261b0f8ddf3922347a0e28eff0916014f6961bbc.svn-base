@@ -1,0 +1,130 @@
+<!--作者：吕俊涛 功能：动态组件-->
+<template>
+  <div id="timeAx">
+    <div>
+      <div class="divBox"></div>
+      <div class="space" v-for="(item, index) of list">
+        <div class="dy-div-icon" v-if="index != list.length - 1">
+          <icon type="waiting-circle"></icon>
+        </div>
+        <div class="dy-div">
+          <i class="dy-size">{{item.createdDate|formatDate}}</i>
+          <i class="dy-size2">{{item.personName}}</i>
+          <i class="dy-size3">
+            <span>{{item.direction}}</span><hos-span v-bind:code="item.hospitalCode"></hos-span>
+            <span class="router-link" @click="goToCusInfo(item)">@{{item.customerName}}@</span>
+            <span>{{item.obj}}</span>
+            <span class="router-link" @click="goDiaLog">#{{item.content}}#</span>
+          </i>
+        </div>
+      </div>
+      <div v-if="sumSize < sumData" @click="getDynamic('more')">查看更多</div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { XDialog } from 'vux'
+  import { TransferDom } from 'vux'
+  export default {
+    name: 'TimeAxis',
+    directives: {
+      TransferDom
+    },
+    components: {
+      XDialog
+    },
+    data () {
+      return {
+        list:[],
+        showToast:false,
+        sumSize: 10,
+        sumData: 0
+      }
+    },
+    created(){
+     this.getDynamic()
+    },
+    methods: {
+      getDynamic(e){
+        if(e) {
+          this.sumSize = this.sumSize + 10
+        }
+        this.$get('/api/customerDynamic',{sort:'createdDate,DESC',size: this.sumSize,page: 0}).then(info => {
+          this.list = info;
+          this.sumData = this.$headers['x-total-count'];
+          if(this.sumSize > this.sumData) {
+            this.$vux.toast.text('已获取全部', 'middle')
+          }
+        })
+      },
+      goDiaLog(){
+        this.showToast=!this.showToast;
+      },
+      goToCusInfo(e) {
+        this.$router.push(`/userInfo/${e.customerId}/essential-info/${e.customerId}`);
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  #timeAx{
+    padding-top: 6px;
+    margin-bottom: 30px;
+    .space {
+      padding: 12px 12px 0 12px;
+      margin: 0 15px 10px;
+      background-color: #fff;
+      border-radius: 5px;
+      text-align: left;
+      position: relative;
+      .dy-div-icon {
+        position:absolute;
+      }
+      .dy-div {
+        padding-top: 5px;
+        padding-left: 33px;
+        font-size: 15px;
+        .dy-size{
+          display: inline-block;
+          color:#888888;
+          font-style: normal;
+        }
+        .dy-size2{
+          display: block;
+          font-size: 13px;
+          color:#888888;
+          float: right;
+          font-style: normal;
+        }
+        .dy-size3{
+          font-style: normal;
+          font-size: 13px;
+          display: block;
+          padding: 10px 0;
+        }
+        .router-link {
+          color: #1D679D;
+          text-decoration: none;
+        }
+      }
+      .weui-icon-waiting-circle::after {
+        content: '';
+        width: 1px;
+        height: calc(116px - 20px);
+        border-left: 1px solid #DDDDDD;
+        display: block;
+        position: relative;
+        left: 16px;
+        top: -2px;
+      }
+    }
+    .dialog-demo{
+      p{
+        color: #888888;
+        font-size: 13px;
+      }
+    }
+  }
+</style>

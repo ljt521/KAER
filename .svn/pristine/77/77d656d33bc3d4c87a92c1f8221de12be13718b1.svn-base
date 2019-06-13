@@ -22,42 +22,7 @@
       <div v-if="sumSize < sumData" @click="getDynamic('more')">查看更多...</div>
     </div>
     <x-dialog v-model="showToast" class="dialog-demo" @click="showToast = !showToast" :hide-on-blur="true"
-              :dialog-style="{'max-width': '80%', width: '80%', height: '100px'}">
-      <div>
-        <!--手术演示-->
-        <div v-if="objCode == 'SSYS'" slot="content" class="{'vux-1px-t}" style="padding:12px;">
-          <div class="fo-tex" v-for="data of dialogData">
-            <span class="fo-span"></span>
-            <span class="fo-span-top">
-              <div-span v-bind:dictCode="'SSMC'" v-bind:dictItemCode="data.operationName"></div-span>
-              </span>
-            <span style="float: right;font-size: 12px;color: #BFBFBF;">{{data.createdDate|formatDate}}</span>
-            <p style="margin: 10px 0">
-                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
-                  <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.roleinOperation"></div-span>
-                </span>
-              <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_position.png" alt="">
-                  <div-span v-bind:dictCode="'CH'" v-bind:dictItemCode="data.demoOccasion"></div-span>
-                </span>
-            </p>
-            <p style="margin: 10px 0">
-                <span>
-                  <img class="fo-img-size" src="../assets/image/follow_up_product_information.png" alt="">
-                </span>
-              <template v-for="dataList in data">
-                <template v-for="(data, index) in dataList.product[0]">
-                  <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
-                  <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
-                </template>
-              </template>
-            </p>
-            <p style="margin: 10px 0">
-                <span class="right"><img src="../assets/image/follow_up_activity.png"
-                                         alt="">{{data.activityName }}</span>
-            </p>
-          </div>
-        </div>
-      </div>
+              :dialog-style="{'max-width': '80%', width: '80%', height: '50px'}">
     </x-dialog>
   </div>
 </template>
@@ -139,25 +104,6 @@
         console.log(e);
         this.objCode = e.objCode
         this.objId = e.objId
-        // "SSYS" "JKXX" "HZXX" "XSCY" "LWFB" "CYKT"
-        switch (this.objCode) {
-          case 'SSYS':
-            this.$get('/api/OperationDemoInfo/' + this.objId).then(request => {
-              this.dialogData = this.$sortData([request])
-              console.log(request);
-            })
-            break
-          case 'JKXX':
-            break
-          case 'HZXX':
-            break
-          case 'XSCY':
-            break
-          case 'LWFB':
-            break
-          case 'CYKT':
-            break
-        }
         this.showToast = !this.showToast;
       },
       goToCusInfo (e) {
@@ -224,36 +170,6 @@
         color: #888888;
         font-size: 13px;
       }
-    }
-    .fo-tex {
-      text-align: left;
-      .fo-span {
-        display: inline-block;
-        width: 2px;
-        height: 13px;
-        margin-right: 5px;
-        background-color: #074089;
-      }
-      .flex-demo {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-      }
-      p {
-        color: #888888;
-        font-size: 13px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        .right {
-          margin-right: 30px;
-          img {
-            vertical-align: middle;
-            margin-right: 5px;
-          }
-        }
-      }
-
     }
   }
 </style>

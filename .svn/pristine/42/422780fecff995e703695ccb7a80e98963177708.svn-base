@@ -49,8 +49,7 @@
     </div>
     <div class="location" v-if="switchTab">
       <div class="search">
-        <search-box v-model="conText" @on-search="searClick" @on-enter="enterBtn"
-                    @on-change="searchChange"></search-box>
+        <search-box></search-box>
         <div class="locationTab">
           <div class="filter">
             <div-selector :placeholder="'区域'" :anyData="address.regionalValue" v-bind:dictCode="'QY'"
@@ -120,8 +119,7 @@
           operationName: '',// 手术名称
           operativeRole: '',// 手术中的角色
           productInfo: [], //产品信息
-        },
-        searchData: '',
+        }
       }
     },
     created () {
@@ -156,7 +154,7 @@
       })
       this.$search('/api/hospital', {page: 0, size: 10}).then((info) => {
         this.hcoList = info
-        this.sumData = this.$headers['x-total-count']
+        this.sumData = this.$headers['x-total-count'];
       })
     },
     methods: {
@@ -190,32 +188,32 @@
           switch (key) {
             case 'consultationDate':
               if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('会诊日期不能为空', 'middle')
-                return
+                this.$vux.toast.text('会诊日期不能为空', 'middle');
+                return;
               }
               break
             case 'operationName':
               if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('手术名称不能为空', 'middle')
-                return
+                this.$vux.toast.text('手术名称不能为空', 'middle');
+                return;
               }
               break
             case 'operationLocal':
               if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('会诊地点不能为空', 'middle')
-                return
+                this.$vux.toast.text('会诊地点不能为空', 'middle');
+                return;
               }
               break
             case 'operativeRole':
               if (this.crInfo[key] === '' || null) {
-                this.$vux.toast.text('手术中的角色不能为空', 'middle')
-                return
+                this.$vux.toast.text('手术中的角色不能为空', 'middle');
+                return;
               }
               break
             case 'productInfo':
               if (this.crInfo[key].length === 0 || null) {
-                this.$vux.toast.text('产品信息不能为空', 'middle')
-                return
+                this.$vux.toast.text('产品信息不能为空', 'middle');
+                return;
               }
               break
           }
@@ -246,10 +244,10 @@
       getHospital (e) {
         this.crInfo.operationLocal = e.hcoCode
         this.getData()
-        this.switchTab = false
+        this.switchTab = false;
       },
       selectHos () {
-        this.switchTab = true
+        this.switchTab = true;
       },
       /*区域*/
       regionalChange (e) {
@@ -263,7 +261,6 @@
         })
         this.$search('/api/hospital', {page: 0, size: 10}, {regionCode: e.code}).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
       /*省份*/
@@ -283,7 +280,6 @@
           provinceCode: e.code
         }).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
       /*市*/
@@ -305,7 +301,6 @@
             cityCode: e.code
           }).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
       /*区*/
@@ -320,54 +315,29 @@
             countyCode: e.code
           }).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
         })
       },
       /*获取更多*/
-      getMorHospital () {
+      getMorHospital() {
         this.sumSize = this.sumSize + 10
-        let obj = {
-          regionCode: this.address.regionalValue || undefined,
-          provinceCode: this.address.province || undefined,
-          cityCode: this.address.city || undefined,
-          countyCode: this.address.area || undefined,
-          hcoName: this.searchData || undefined,
+        const obj = {
+          regionCode: this.address.regionalValue,
+          provinceCode: this.address.province,
+          cityCode: this.address.city,
+          countyCode: this.address.area
         }
-        obj = JSON.parse(JSON.stringify(obj))
-        console.log(obj)
-        this.$search('/api/hospital', {page: 0, size: this.sumSize}, obj).then((info) => {
+        this.$search('/api/hospital', {page: 0, size: this.sumSize},obj).then((info) => {
           this.hcoList = info
-          this.sumData = this.$headers['x-total-count']
-          if (this.sumData == 0) {
+          this.sumData = this.$headers['x-total-count'];
+          if(this.sumData == 0) {
             this.$vux.toast.text('无动态', 'middle')
             return
           }
-          if (this.sumSize > this.sumData) {
+          if(this.sumSize > this.sumData) {
             this.$vux.toast.text('已获取全部', 'middle')
           }
         })
-      },
-      keywordSearch (e) {
-        this.searchData = e
-        this.$search('/api/hospital', {page: 0, size: 10},{hcoName:e}).then((info) => {
-          this.hcoList = info
-          this.sumSize = 10
-          this.sumData = this.$headers['x-total-count'];
-        })
-
-      },
-      searClick (e) {
-        this.keywordSearch(e)
-      },
-      enterBtn (e) {
-        this.keywordSearch(e)
-      },
-      searchChange (e) {
-        if (e == null || e == '') {
-          this.keywordSearch(e)
-        }
       }
-
     },
     beforeRouteLeave (to, from, next) {
       if (!to.params.id) {
