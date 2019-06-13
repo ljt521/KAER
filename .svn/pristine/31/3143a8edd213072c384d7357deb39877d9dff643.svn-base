@@ -15,125 +15,123 @@
     <div class="" style="height: 75px"></div>
     <div style="overflow: hidden">
       <div class="cu-con" v-if="customerData.length > 0">
-        <flexbox>
-          <flexbox-item>
-            <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span>
-            </p></div>
-          </flexbox-item>
-          <!-- <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item> -->
-        </flexbox>
-        <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
-          <div class="cu-content-top">
-            <div class="user-img" @click="goCustomerInfo(customer.id)">
-              <img v-bind:src="baseUrl + customer.headImg" alt="">
-            </div>
-            <div class="userImg-r" @click="goCustomerInfo(customer.id)">
-              <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
-                <span style="font-size: 18px;padding-right: 10px;">
+            <flexbox>
+              <flexbox-item>
+                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span>
+                </p></div>
+              </flexbox-item>
+              <!-- <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item> -->
+            </flexbox>
+            <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
+              <div class="cu-content-top">
+                <div class="user-img" @click="goCustomerInfo(customer.id)">
+                  <img v-bind:src="baseUrl + customer.headImg" alt="">
+                </div>
+                <div class="userImg-r" @click="goCustomerInfo(customer.id)">
+                  <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
+                    <span style="font-size: 18px;padding-right: 10px;">
                       <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
                                 v-bind:dictItemCode="customer.title"></div-span>
                     </span>
-                <span class="cu-title" v-if="customer.isFollowUp == '1'">待跟进</span></p>
-              <p>
-                <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
-                <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                    <span class="cu-title" v-if="customer.isFollowUp == '1'">待跟进</span></p>
+                  <p>
+                    <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
+                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
                       <hos-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web"
-                                v-bind:code="customer.hospitalCode"></hos-span>
+                                 v-bind:code="customer.hospitalCode"></hos-span>
                       </span>
-              </p>
-              <p style="margin-top: 3px">
-                <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
-                <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                  </p>
+                  <p style="margin-top: 3px">
+                    <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
+                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
                         <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
                       </span>
-              </p>
-            </div>
-            <div class="cu-bottom">
-              <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
-                <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
-                <span class="cu-span-top">动态</span>
-              </div>
-              <div @click="openDiaLog(customer.id)" class="cu-bottom-r">
-                <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
-                <span class="cu-span-top">日常跟进</span>
+                  </p>
+                </div>
+                <div class="cu-bottom">
+                  <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+                    <span class="cu-span-top">动态</span>
+                  </div>
+                  <div @click="openDiaLog(customer.id)" class="cu-bottom-r">
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                    <span class="cu-span-top">日常跟进</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
       <div class="cu-con">
-        <flexbox>
-          <flexbox-item>
-            <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">下属的</span>
-            </p></div>
-          </flexbox-item>
-          <flexbox-item>
-            <div class="flex-demo">
-              <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward"
-                                                                               size="20"></x-icon></span><span
-                class="x-icon-span">全部下属</span>
-              </div>
-            </div>
-          </flexbox-item>
-        </flexbox>
-        <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
-          <div class="cu-content-top">
-            <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
-              <img v-bind:src="baseUrl + subCustomer.headImg" alt="">
-              <span style="display: inline-block;position: absolute;top:63px;left: 18px;color:#eaa304;"
-                    v-if="subCustomer.isFocusOn == '1'">已关注</span>
-            </div>
+            <flexbox>
+              <flexbox-item>
+                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">下属的</span>
+                </p></div>
+              </flexbox-item>
+              <flexbox-item>
+                <div class="flex-demo">
+                  <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward"
+                                                                                   size="20"></x-icon></span><span
+                    class="x-icon-span">全部下属</span>
+                  </div>
+                </div>
+              </flexbox-item>
+            </flexbox>
+            <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
+              <div class="cu-content-top">
+                <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
+                  <img v-bind:src="baseUrl + subCustomer.headImg" alt="">
+                  <span style="display: inline-block;position: absolute;top:63px;left: 18px;color:#eaa304;" v-if="subCustomer.isFocusOn == '1'">已关注</span>
+                </div>
 
-            <div class="userImg-r" @click="goCustomerInfo(subCustomer.id)">
-              <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
-                <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
-                          v-bind:dictItemCode="subCustomer.title"></div-span>
-                <span class="cu-title" v-if="subCustomer.isFollowUp == '1'">待跟进</span>
-              </p>
-              <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
-                                              src="../assets/image/client_hospital.png" alt="">
-                <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                <div class="userImg-r" @click="goCustomerInfo(subCustomer.id)">
+                  <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
+                    <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
+                              v-bind:dictItemCode="subCustomer.title"></div-span>
+                    <span class="cu-title" v-if="subCustomer.isFollowUp == '1'">待跟进</span>
+                  </p>
+                  <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
+                                                  src="../assets/image/client_hospital.png" alt="">
+                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
                       <hos-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web"
                                 v-bind:code="subCustomer.hospitalCode"></hos-span>
                     </span></p>
-              <p style="margin-top: 3px">
-                <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
-                     alt=""/>
-                <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;"
-                      class="cu-span-top">
+                  <p style="margin-top: 3px">
+                    <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
+                         alt=""/>
+                    <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;"
+                          class="cu-span-top">
                       <div-span style="position: relative;display: inline-block;line-height: 19px;"
                                 v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
                     </span>
-                <span
-                  style="color: #888888;display:inline-block;max-width: calc(100% - 160px);line-height:21px;float:right;"
-                  class="span-web">
+                    <span
+                      style="color: #888888;display:inline-block;max-width: calc(100% - 160px);line-height:21px;float:right;"
+                      class="span-web">
                       <img style="height: 13px;" src="../assets/image/client_responsible_person.png" alt=""/>
                           {{subCustomer.leaderName}}
                     </span>
-              </p>
-            </div>
-            <div class="cu-bottom">
+                  </p>
+                </div>
+                <div class="cu-bottom">
 
-              <div class="cu-bottom-l" @click="goToDynamic(subCustomer.id)">
-                <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+                  <div class="cu-bottom-l" @click="goToDynamic(subCustomer.id)">
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
 
-                <span class="cu-span-top">动态</span>
+                    <span class="cu-span-top">动态</span>
+                  </div>
+                  <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r">
+                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                    <span class="cu-span-top">日常跟进</span>
+                  </div>
+                </div>
+
+                <!--<div class="cu-gz">
+                  <img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;"
+                       src="../assets/image/client_follow_s.png" alt=""/>
+                </div>-->
               </div>
-              <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r">
-                <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
-                <span class="cu-span-top">日常跟进</span>
-              </div>
             </div>
-
-            <!--<div class="cu-gz">
-              <img style="width: 50px;height: 50px;position: relative;left: -4px;top: -3px;"
-                   src="../assets/image/client_follow_s.png" alt=""/>
-            </div>-->
+            <div style="height: 60px;"></div>
           </div>
-        </div>
-        <div style="padding: 10px" @click="getMorData">查看更多...</div>
-        <div style="height: 60px;"></div>
-      </div>
       <new-dia-log ref="NewDiaLogDom"></new-dia-log>
     </div>
   </div>
@@ -155,11 +153,10 @@
         deptCode: '',
         customerData: [],
         subCustomerData: [],
+        onFetching: false,
         sizeData: 5,
-        sumData: 0,
         orderHight: '',
         conText: '',
-        searchData: '',
       }
     },
     /*watch: {
@@ -182,10 +179,10 @@
       this.$search('/api/customer/getCustomerBySubPerson', {
         sort: 'isFocusOn,isFollowUp,name,DESC',
         page: 0,
-        size: 5
+        size: 10
       }).then(info => {
-        this.subCustomerData = info
-        this.sumData = this.$headers['x-total-count'];
+        console.log(info);
+        this.subCustomerData = info.content
       }).catch(error => {
         console.log(error)
       })
@@ -213,26 +210,19 @@
       },
       areaChange (e) {
         this.area = e.code
-        let obj = {
-          area: this.area || undefined,
-          deptCode: this.deptCode || undefined,
-          name: this.searchData || undefined,
-        }
-        obj = JSON.parse(JSON.stringify(obj))
-        this.$search('/api/customer/getCustomerByLeader', {
-          sort: 'isFollowUp,name,DESC',
-        }, obj).then(info => {
+        this.$search('/api/customer/getCustomerByLeader', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, {
+          area: this.area,
+          deptCode: this.deptCode
+        }).then(info => {
           this.customerData = info
         }).catch(error => {
           console.log(error)
         })
-        this.$search('/api/customer/getCustomerBySubPerson', {
-          sort: 'isFocusOn,isFollowUp,name,DESC',
-          page: 0,
-          size: 5
-        }, obj).then(info => {
+        this.$search('/api/customer/getCustomerBySubPerson', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}, {
+          area: this.area,
+          deptCode: this.deptCode
+        }).then(info => {
           this.subCustomerData = info
-          this.sumData = this.$headers['x-total-count'];
         }).catch(error => {
           console.log(error)
         })
@@ -242,38 +232,20 @@
         let obj = {
           area: this.area || undefined,
           deptCode: this.deptCode || undefined,
-          name: this.searchData || undefined,
         }
-        obj = JSON.parse(JSON.stringify(obj))
-        this.$search('/api/customer/getCustomerByLeader', {
-          sort: 'isFollowUp,name,DESC',
-        }, obj).then(info => {
+        this.$search('/api/customer/getCustomerByLeader', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, obj).then(info => {
           this.customerData = info
         }).catch(error => {
           console.log(error)
         })
-        this.$search('/api/customer/getCustomerBySubPerson', {
-          sort: 'isFocusOn,isFollowUp,name,DESC',
-          page: 0,
-          size: 5
-        }, obj).then(info => {
+        this.$search('/api/customer/getCustomerBySubPerson', {sort: 'isFocusOn,isFollowUp,name,DESC', page: 0, size: 10}, obj).then(info => {
           this.subCustomerData = info
-          this.sumData = this.$headers['x-total-count'];
         }).catch(error => {
           console.log(error)
         })
       },
       keywordSearch (e) {
-        this.searchData = e
-        let obj = {
-          area: this.area || undefined,
-          deptCode: this.deptCode || undefined,
-          name: this.searchData || undefined,
-        }
-        obj = JSON.parse(JSON.stringify(obj))
-        this.$search('/api/customer/getCustomerByLeader', {
-          sort: 'isFollowUp,name,DESC',
-        }, obj).then(info => {
+        this.$search('/api/customer/getCustomerByLeader', {sort: 'isFollowUp,name,DESC', page: 0, size: 10}, {name: e}).then(info => {
           this.customerData = info
         }).catch(error => {
           console.log(error)
@@ -282,33 +254,14 @@
         this.$search('/api/customer/getCustomerBySubPerson', {
           sort: 'isFocusOn,isFollowUp,name,DESC',
           page: 0,
-          size: 5
-        }, obj).then(info => {
+          size: 10
+        }, { name: e}).then(info => {
           this.subCustomerData = info
-          this.sumData = this.$headers['x-total-count'];
+          this.onFetching = info.length == 0
         }).catch(error => {
           console.log(error)
         })
 
-      },
-      getMorData() {
-        this.sizeData = this.sizeData + 10
-        let obj = {
-          area: this.area || undefined,
-          deptCode: this.deptCode || undefined,
-          name: this.searchData || undefined,
-        }
-        obj = JSON.parse(JSON.stringify(obj))
-        this.$search('/api/customer/getCustomerBySubPerson', {
-          sort: 'isFocusOn,isFollowUp,name,DESC',
-          page: 0,
-          size: this.sizeData,
-        }, obj).then(info => {
-          this.subCustomerData = info
-          this.sumData = this.$headers['x-total-count'];
-        }).catch(error => {
-          console.log(error)
-        })
       },
       searClick (e) {
         this.keywordSearch(e)
