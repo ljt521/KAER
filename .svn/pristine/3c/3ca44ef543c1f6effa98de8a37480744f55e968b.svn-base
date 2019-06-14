@@ -3,7 +3,7 @@
   <div class="co-top" >
     <swipeout>
       <swipeout-item transition-mode="follow" class="fo-tex"  v-for="(lectureInfo,index) in LectureInfoData" :key="index">
-        <div slot="right-menu" v-if="isEdit == 1">
+        <div slot="right-menu" v-if="$isEdit == 1">
           <swipeout-button type="primary" @click.native="onButtonClick(lectureInfo)">编辑</swipeout-button>
           <swipeout-button v-if="$datedifference(lectureInfo.createdDate) > 30" type="warn" @click.native="deleteData(lectureInfo.id)">删除</swipeout-button>
         </div>
@@ -54,7 +54,7 @@
         sumSize: 20
       }
     },
-    props:['personId', 'isEdit'],
+    props:['personId'],
     created(){
       this.getLectureInfo()
     },

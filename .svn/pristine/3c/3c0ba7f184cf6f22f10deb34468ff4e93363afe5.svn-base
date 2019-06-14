@@ -19,7 +19,7 @@
       </cell>
       <swipeout class="slide" :class="showContent1?'animate':''">
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData1" :key="index">
-          <div slot="right-menu" v-if="isEdit == 1">
+          <div slot="right-menu" v-if="$isEdit == 1">
             <swipeout-button @click.native="onButtonClick('/new-consul-info',data)" type="primary">编辑</swipeout-button>
             <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-consul-info',data.id)">删除</swipeout-button>
           </div>
@@ -73,7 +73,7 @@
 
       <swipeout class="slide" :class="showContent2?'animate':''">
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData2" :key="index">
-          <div slot="right-menu" v-if="isEdit == 1">
+          <div slot="right-menu" v-if="$isEdit == 1">
             <swipeout-button @click.native="onButtonClick('/new-oper-demo',data)" type="primary">编辑</swipeout-button>
             <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-oper-demo',data.id)">删除</swipeout-button>
           </div>
@@ -130,7 +130,7 @@
 
       <swipeout class="slide" :class="showContent3?'animate':''">
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData3" :key="index">
-          <div slot="right-menu" v-if="isEdit == 1">
+          <div slot="right-menu" v-if="$isEdit == 1">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture',data)">编辑</swipeout-button>
             <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-iecture',data.id)">删除</swipeout-button>
           </div>
@@ -183,7 +183,7 @@
 
       <swipeout class="slide" :class="showContent4?'animate':''">
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData4" :key="index">
-          <div slot="right-menu" v-if="isEdit == 1">
+          <div slot="right-menu" v-if="$isEdit == 1">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-topic',data)">编辑</swipeout-button>
             <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-topic',data.id)">删除</swipeout-button>
           </div>
@@ -226,7 +226,7 @@
 
       <swipeout class="slide" :class="showContent5?'animate':''">
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData5" :key="index">
-          <div slot="right-menu" v-if="isEdit == 1">
+          <div slot="right-menu" v-if="$isEdit == 1">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-paper',data)">编辑</swipeout-button>
             <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-paper',data.id)">删除</swipeout-button>
           </div>
@@ -269,7 +269,7 @@
 
       <swipeout class="slide" :class="showContent6?'animate':''">
         <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData6" :key="index">
-          <div slot="right-menu" v-if="isEdit == 1">
+          <div slot="right-menu" v-if="$isEdit == 1">
             <swipeout-button type="primary" @click.native="onButtonClick('/new-learning',data)">编辑</swipeout-button>
             <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-learning',data.id)">删除</swipeout-button>
           </div>
@@ -300,7 +300,7 @@
         </swipeout-item>
       </swipeout>
     </div>
-    <div v-if="isEdit == 1" class="fo-add" @click="openDiaLog(customerId)">+</div>
+    <div v-if="$isEdit == 1" class="fo-add" @click="openDiaLog(customerId)">+</div>
     <new-dia-log ref="NewDiaLog"></new-dia-log>
   </div>
 </template>
@@ -310,7 +310,6 @@
     data () {
       return {
         customerId: this.$route.params.id,
-        isEdit: '',
         value5: '',
         showContent1: false,
         showContent2: false,
@@ -337,7 +336,6 @@
       }
     },
     created () {
-      this.getCustomer(this.customerId)
       this.getConsultation()
       this.getOperationDemoInfo()
       this.getIectureInfo()
@@ -346,12 +344,6 @@
       this.getAcademicJoin()
     },
     methods: {
-      getCustomer (id) {
-        this.$get('/api/customer/' + id).then(info => {
-          this.customerData = info
-          this.isEdit = info.isEdit
-        })
-      },
       // 会诊信息
       getConsultation () {
         this.$search('/api/Consultation', {
@@ -675,8 +667,7 @@
           name: 'SeeAll',
           params: {
             title: info.title,
-            id: info.id,
-            isEdit: this.isEdit,
+            id: info.id
           }
         })
       },

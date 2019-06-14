@@ -15,8 +15,7 @@
             <hos-span v-bind:code="item.hospitalCode"></hos-span>
             <span class="router-link" @click="goToCusInfo(item)">@{{item.customerName}}@</span>
             <span>{{item.obj}}</span>
-            <span class="router-link" @click="goDiaLog(item)" v-if="item.directionCode != 'DEL'" >#{{item.content}}#</span>
-            <span class="router-link" v-if="item.directionCode == 'DEL'" style="color:#999999;" >#{{item.content}}#</span>
+            <span class="router-link" @click="goDiaLog(item)">#{{item.content}}#</span>
           </i>
         </div>
       </div>
@@ -316,11 +315,7 @@
             })
             break
         }
-        if(this.dialogData) {
-          setTimeout(() => {
-            this.showToast = !this.showToast;
-          }, 100)
-        }
+        this.showToast = !this.showToast;
       },
       goToCusInfo (e) {
         this.$router.push(`/userInfo/${e.customerId}/essential-info/${e.customerId}`);

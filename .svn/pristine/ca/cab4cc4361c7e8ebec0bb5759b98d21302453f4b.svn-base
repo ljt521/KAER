@@ -1,54 +1,56 @@
+<!--全部论文发表信息-->
 <template>
   <div class="co-top" >
     <swipeout>
-      <swipeout-item transition-mode="follow" class="fo-tex" v-for="(academicJoin,index) in academicJoinData" :key="index" >
-        <div slot="right-menu" v-if="isEdit == 1">
-          <swipeout-button type="primary" @click.native="onButtonClick(academicJoin)">编辑</swipeout-button>
-          <swipeout-button v-if="$datedifference(academicJoin.createdDate) > 30" type="warn" @click.native="deleteData(academicJoin.id)">删除</swipeout-button>
+      <swipeout-item transition-mode="follow" class="fo-tex" v-for="(paperPublish,index) in paperPublishData" :key="index" >
+        <div slot="right-menu" v-if="$isEdit == 1">
+          <swipeout-button type="primary" @click.native="onButtonClick(paperPublish)">编辑</swipeout-button>
+          <swipeout-button v-if="$datedifference(paperPublish.createdDate) > 30" type="warn" @click.native="deleteData(paperPublish.id)">删除</swipeout-button>
         </div>
-        <div slot="content" :class="{'vux-1px-b': index !== academicJoinData.length}" >
-            <span class="fo-span"></span><span>{{academicJoin.activityName}}</span>
-            <p style="margin: 10px 0">
-              <span class="right">
-                <icon class="all-img-size " style="color: #888888;font-size: 15px;margin-left: -2px;padding-right: 13px;" type="waiting-circle"></icon>
-                {{academicJoin.academicDate}}
-              </span>
-            </p>
-            <p style="margin: 10px 0">
-              <span class="right">
-                <img class="all-img-size" src="../assets/image/follow_up_role.png" alt="">
-                {{academicJoin.academicActivityType}}
-              </span>
-            </p>
-            <p style="margin: 10px 0">
-              <span class="right"><img class="all-img-size" src="../assets/image/follow_up_operation.png" alt="">
-                <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="academicJoin.participantRoles"></div-span>
-              </span>
-            </p>
+        <div slot="content" :class="{'vux-1px-b': index !== paperPublishData.length}" >
+          <span class="fo-span"></span><span>{{paperPublish.paperName }}</span>
+          <p style="margin: 10px 0">
+            <span >
+              <icon class="all-img-size" style="color: #888888;font-size: 15px;margin-left: -2px;padding-right: 13px;" type="waiting-circle"></icon>
+              {{paperPublish.paperYear}}
+            </span>
+          </p>
+          <p style="margin: 10px 0">
+            <span class="right"><img class="all-img-size" src="../assets/image/follow_up_operation.png" alt="">
+            <div-span v-bind:dictCode="'SMFS'" v-bind:dictItemCode="paperPublish.signType"></div-span>
+            </span>
+          </p>
+          <p style="margin: 10px 0">
+            <span class="right"><img class="all-img-size" src="../assets/image/follow_up_role.png" alt="">
+            <div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="paperPublish.periodicalType"></div-span>
+            </span>
+          </p>
         </div>
       </swipeout-item>
     </swipeout>
     <div v-if="sumSize < sumData" style="text-align: center;padding: 10px" @click="getMore">查看更多...</div>
   </div>
+
 </template>
 <script>
   export default {
-    name: 'AllLearning',
+    name: 'AllPaper',
     data() {
       return{
-        academicJoinData:[],
+        paperPublishData:[],
         sumData: 0,
         sumSize: 20
       }
     },
-    props:['personId', 'isEdit'],
+    props:['personId'],
     created(){
-      this.getAcademicJoin()
+      this.getPaperPublishInfo()
     },
+
     methods:{
-      getAcademicJoin(){
-        this.$search('/api/AcademicJoin', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(request => {
-          this.academicJoinData = request;
+      getPaperPublishInfo(){
+        this.$search('/api/PaperPublishInfo', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(request => {
+          this.paperPublishData = request;
           this.sumData = this.$headers['x-total-count']
         }).catch(error => {
           console.log(error)
@@ -60,25 +62,26 @@
           title: '操作提醒',
           content: '是否确认删除?',
           onConfirm () {
-            that.$del('/api/AcademicJoin/'+ id).then( val => {
+            that.$del('/api/PaperPublishInfo/'+ id).then( val => {
               that.$vux.toast.text('删除成功', 'middle');
-              that.getAcademicJoin()
+              that.getPaperPublishInfo()
             }).catch( err => {})
           }
         })},
       onButtonClick(data){
         this.$router.push({
-          name: 'NewLearning',
+          name: 'NewPaper',
           params: {
-            title: '编辑学术参与',
+            title: '编辑论文发表',
             data:data
           }
         })
       },
-      getMore(){
+      /*查看更多*/
+      getMore () {
         this.sumSize = this.sumSize + 10
-        this.$search('/api/AcademicJoin', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(request => {
-          this.academicJoinData = request;
+        this.$search('/api/PaperPublishInfo', {page: 0,size: this.sumSize}, {'customer.id': this.personId}).then(request => {
+          this.paperPublishData = request;
           this.sumData = this.$headers['x-total-count']
           if (this.sumData == 0) {
             this.$vux.toast.text('无动态', 'middle')
@@ -90,8 +93,8 @@
         })
       }
 
-    }
 
+    }
   }
 </script>
 
@@ -127,6 +130,7 @@
     .vux-1px-b:after{
       border: none;
     }
+
   }
   .slide {
     padding: 0;

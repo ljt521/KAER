@@ -2,7 +2,7 @@
   <div class="co-top" >
     <swipeout>
       <swipeout-item transition-mode="follow" class="fo-tex" v-for="(academicJoin,index) in academicJoinData" :key="index" >
-        <div slot="right-menu" v-if="isEdit == 1">
+        <div slot="right-menu" v-if="$isEdit == 1">
           <swipeout-button type="primary" @click.native="onButtonClick(academicJoin)">编辑</swipeout-button>
           <swipeout-button v-if="$datedifference(academicJoin.createdDate) > 30" type="warn" @click.native="deleteData(academicJoin.id)">删除</swipeout-button>
         </div>
@@ -41,7 +41,7 @@
         sumSize: 20
       }
     },
-    props:['personId', 'isEdit'],
+    props:['personId'],
     created(){
       this.getAcademicJoin()
     },

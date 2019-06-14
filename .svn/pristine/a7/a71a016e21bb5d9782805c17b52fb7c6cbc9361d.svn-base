@@ -4,7 +4,7 @@
     <swipeout>
       <swipeout-item transition-mode="follow" class="fo-tex" v-for="(operationDemo,index) in operationDemoData"
                      :key="index">
-        <div slot="right-menu" v-if="isEdit == 1">
+        <div slot="right-menu" v-if="$isEdit == 1">
           <swipeout-button type="primary" @click.native="onButtonClick(operationDemo)">编辑</swipeout-button>
           <swipeout-button v-if="$datedifference(operationDemo.createdDate) > 30" type="warn" @click.native="deleteData(operationDemo.id)">删除</swipeout-button>
         </div>
@@ -57,7 +57,7 @@
         sumSize: 20
       }
     },
-    props: ['personId', 'isEdit'],
+    props: ['personId'],
     created () {
       this.getOperationDemoInfo()
     },
