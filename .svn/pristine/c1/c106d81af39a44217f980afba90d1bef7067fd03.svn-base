@@ -20,7 +20,7 @@
           </div>
         </swipeout-item>
       </swipeout>
-      <div v-if="$isEdit == 1" class="cardFootIcon vux-1px-t"  v-on:click="goNewConsultation">
+      <div class="cardFootIcon vux-1px-t"  v-on:click="goNewConsultation">
         <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建会诊量</p>
       </div>
     </div>

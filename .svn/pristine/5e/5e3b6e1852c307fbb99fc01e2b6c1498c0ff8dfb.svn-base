@@ -157,6 +157,7 @@
         this.$get('/api/customer/' + id).then(info => {
           this.customerDto = info
           this.imgSrc = this.customerDto.headImg
+          console.log(info);
         })
       },
       loadImg (e) {

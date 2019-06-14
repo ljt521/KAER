@@ -19,7 +19,7 @@
         </div>
       </swipeout-item>
     </swipeout>
-    <div v-if="$isEdit == 1" class="cardFootIcon vux-1px-t"  v-on:click="goNewOperative">
+    <div class="cardFootIcon vux-1px-t"  v-on:click="goNewOperative">
       <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建手术量</p>
     </div>
   </div>

@@ -18,7 +18,7 @@
           </div>
         </swipeout-item>
       </swipeout>
-      <div v-if="$isEdit == 1" class="cardFootIcon vux-1px-t"  v-on:click="goNewLang" >
+      <div class="cardFootIcon vux-1px-t"  v-on:click="goNewLang" >
         <p><x-icon class="x-icon" type="ios-plus-outline" size="20"></x-icon> 新建语种</p>
       </div>
     </div>
