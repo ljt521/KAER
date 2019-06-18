@@ -106,15 +106,16 @@
         baseUrl: this.$baseURL,
         option: {
           img: '',//裁切图片的地址
-          outputSize: 0.1,//裁剪生成图片的质量 0.1-1
+          outputSize: 0.6,//裁剪生成图片的质量 0.1-1
           full: false,//是否输出原图比例的截图
-          outputType: 'jpg',//裁剪生成图片的格式
+          outputType: 'png',//裁剪生成图片的格式
           canMove: true,//图片是否允许滚轮缩放
           fixedBox: true,//固定截图框大小 不允许改变
           original: false,//上传图片按照原始比例渲染
           canMoveBox: false,//截图框能否拖动
-          autoCropWidth: 200,
-          autoCropHeight: 200,
+          canMove:true,// 上传图片是否可以移动
+//              autoCropWidth: 200,
+//              autoCropHeight: 200,
           autoCrop:true,//是否默认生成截图框
           // 开启宽度和高度比例
           fixed: true,

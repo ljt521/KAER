@@ -34,7 +34,7 @@
     Tabbar, Swipeout, SwipeoutItem, Checker, CheckerItem,
     SwipeoutButton, Group, Cell, TabbarItem, XHeader, Checklist, CheckIcon,
     XButton, Flexbox, FlexboxItem, Icon, Datetime, XInput, XAddress, Actionsheet,
-    Selector, Search, Tab, TabItem, CellBox, GridItem, Scroller, LoadMore
+    Selector, Search, Tab, TabItem, CellBox, GridItem
   } from 'vux'
   import DivSpan from './components/Dictionaries/DivSpan'
   import HosSpan from './components/Dictionaries/HosSpan'
@@ -43,8 +43,6 @@
   import SearchBox from './components/Dictionaries/SearchBox'
 
   Vue.component('cell-box', CellBox)
-  Vue.component('scroller', Scroller)
-  Vue.component('load-more', LoadMore)
   Vue.component('tabbar', Tabbar)
   Vue.component('tabbarItem', TabbarItem)
   Vue.component('x-header', XHeader)

@@ -71,17 +71,12 @@
         </div>
       </div>
       <div class="hospitalInfo">
-        <scroller height="-40" lock-x @on-scroll-bottom="getMorHospital" ref="scrollerBottom"
-                  :scroll-bottom-offst="20">
-          <div>
-            <div class="info" v-for="item of hcoList" :key="item.id" @click="getHospital(item)">
-              <h3>{{item.hcoName}}</h3>
-              <span>{{item.newGrade}}</span>
-              <span>{{item.newType}}</span>
-            </div>
-            <load-more v-if="onFetching" tip="loading"></load-more>
-          </div>
-        </scroller>
+        <div class="info" v-for="item of hcoList" :key="item.id" @click="getHospital(item)">
+          <h3>{{item.hcoName}}</h3>
+          <span>{{item.newGrade}}</span>
+          <span>{{item.newType}}</span>
+        </div>
+        <div v-if="sumSize < sumData" style="text-align: center;padding: 10px" @click="getMorHospital">查看更多...</div>
       </div>
     </div>
   </div>
@@ -127,8 +122,6 @@
           addressName: '',// 手术地点
         },
         searchData: '',
-        onFetching: false,
-        allFlag: false,
       }
     },
     created () {
@@ -282,10 +275,7 @@
       provinceChange (e) {
         this.sumSize = 10
         this.address.province = e.code
-        this.$post('/api/hospital/cascadeInfo', {
-          regionCode: this.address.regionalValue,
-          provinceCode: e.code
-        }).then(info => {
+        this.$post('/api/hospital/cascadeInfo', { regionCode: this.address.regionalValue, provinceCode: e.code}).then(info => {
           this.address.cityOption = info
           this.address.city = ''
           this.address.area = ''
@@ -338,43 +328,26 @@
       },
       /*获取更多*/
       getMorHospital () {
-        if (this.allFlag) {
-          this.onFetching = false
-          return
+        this.sumSize = this.sumSize + 10
+        let obj = {
+          regionCode: this.address.regionalValue || undefined,
+          provinceCode: this.address.province || undefined,
+          cityCode: this.address.city || undefined,
+          countyCode: this.address.area || undefined,
+          hcoName: this.searchData || undefined,
         }
-        if (this.onFetching) {
-          // this.$vux.toast.text('', 'middle')
-        } else {
-          this.onFetching = true
-          setTimeout(() => {
-            this.sumSize = this.sumSize + 10
-            this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset()
-            })
-            let obj = {
-              regionCode: this.address.regionalValue || undefined,
-              provinceCode: this.address.province || undefined,
-              cityCode: this.address.city || undefined,
-              countyCode: this.address.area || undefined,
-              hcoName: this.searchData || undefined,
-            }
-            obj = JSON.parse(JSON.stringify(obj))
-            this.$search('/api/hospital', {page: 0, size: this.sumSize}, obj).then((info) => {
-              this.hcoList = info
-              this.sumData = this.$headers['x-total-count']
-              if (this.sumSize > this.sumData) {
-                this.$vux.toast.text('已获取全部', 'middle')
-                this.allFlag = true
-                return
-              }
-              if (this.sumData == 0) {
-                this.$vux.toast.text('无动态', 'middle')
-                return
-              }
-              this.onFetching = false
-            })
-          }, 2000)
-        }
+        obj = JSON.parse(JSON.stringify(obj))
+        this.$search('/api/hospital', {page: 0, size: this.sumSize}, obj).then((info) => {
+          this.hcoList = info
+          this.sumData = this.$headers['x-total-count']
+          if (this.sumData == 0) {
+            this.$vux.toast.text('无动态', 'middle')
+            return
+          }
+          if (this.sumSize > this.sumData) {
+            this.$vux.toast.text('已获取全部', 'middle')
+          }
+        })
       },
       keywordSearch (e) {
         this.searchData = e
@@ -386,7 +359,7 @@
           hcoName: this.searchData || undefined,
         }
         obj = JSON.parse(JSON.stringify(obj))
-        this.$search('/api/hospital', {page: 0, size: 10}, obj).then((info) => {
+        this.$search('/api/hospital', {page: 0, size: 10},obj).then((info) => {
           this.hcoList = info
           this.sumSize = 10
           this.sumData = this.$headers['x-total-count'];
@@ -556,7 +529,7 @@
           span {
             display: inline-block;
             color: #999;
-            margin-right: 20px;
+            margin-right:20px;
           }
         }
       }

@@ -3,28 +3,24 @@
   <div id="timeAx">
     <div>
       <div class="divBox"></div>
-      <scroller height="-110" lock-x  @on-scroll-bottom="getDynamic('more')" ref="scrollerBottom" :scroll-bottom-offst="20">
-        <div>
-          <div class="space" v-for="(item, index) of list">
-            <div class="dy-div-icon" v-if="index != list.length - 1">
-              <icon type="waiting-circle"></icon>
-            </div>
-            <div class="dy-div">
-              <i class="dy-size">{{item.createdDate|formatDate}}</i>
-              <i class="dy-size2">{{item.personName}}</i>
-              <i class="dy-size3">
-                <span>{{item.direction}}</span>
-                <hos-span v-bind:code="item.hospitalCode"></hos-span>
-                <span class="router-link" @click="goToCusInfo(item)">@{{item.customerName}}</span><br>
-                <span>{{item.obj}}</span>
-                <span class="router-link" @click="goDiaLog(item)" v-if="item.directionCode != 'DEL'" >#{{item.content}}#</span>
-                <span class="router-link" v-if="item.directionCode == 'DEL'" style="color:#999999;" >#{{item.content}}#</span>
-              </i>
-            </div>
-          </div>
-          <load-more v-if="onFetching" tip="loading"></load-more>
+      <div class="space" v-for="(item, index) of list">
+        <div class="dy-div-icon" v-if="index != list.length - 1">
+          <icon type="waiting-circle"></icon>
         </div>
-      </scroller>
+        <div class="dy-div">
+          <i class="dy-size">{{item.createdDate|formatDate}}</i>
+          <i class="dy-size2">{{item.personName}}</i>
+          <i class="dy-size3">
+            <span>{{item.direction}}</span>
+            <hos-span v-bind:code="item.hospitalCode"></hos-span>
+            <span class="router-link" @click="goToCusInfo(item)">@{{item.customerName}}@</span>
+            <span>{{item.obj}}</span>
+            <span class="router-link" @click="goDiaLog(item)" v-if="item.directionCode != 'DEL'" >#{{item.content}}#</span>
+            <span class="router-link" v-if="item.directionCode == 'DEL'" style="color:#999999;" >#{{item.content}}#</span>
+          </i>
+        </div>
+      </div>
+      <div v-if="sumSize < sumData" @click="getDynamic('more')">查看更多...</div>
     </div>
     <x-dialog v-model="showToast" class="dialog-demo" @click="showToast = !showToast" :hide-on-blur="true"
               :dialog-style="{'max-width': '80%', width: '80%', height: '100px'}">
@@ -231,9 +227,7 @@
         id: this.cusId,
         objCode: '',
         objId: '',
-        dialogData: '',
-        onFetching: false,
-        allFlag: false,
+        dialogData: ''
       }
     },
     props: ['cusId'],
@@ -248,62 +242,38 @@
     created () {
       this.getDynamic()
     },
-    mounted() {
-      this.$nextTick(() => {
-        this.$refs.scrollerBottom.reset({top: 0})
-      })
-    },
     methods: {
       getDynamic (e) {
-        if(this.allFlag) {
-          this.onFetching = false
-          return
+        let url = '/api/customerDynamic'
+        if (e) {
+          this.sumSize = this.sumSize + 10
         }
-        if (this.onFetching) {
-          // this.$vux.toast.text('', 'middle')
+        if (this.id) {
+          this.$search(url, {sort: 'createdDate,DESC',size: this.sumSize,page: 0},{'customer.id': this.id}).then(info => {
+            this.list = info;
+            this.sumData = this.$headers['x-total-count'];
+            if (this.sumData == 0) {
+              this.$vux.toast.text('无动态', 'middle')
+              return
+            }
+            if (this.sumSize > this.sumData) {
+              this.$vux.toast.text('已获取全部', 'middle')
+            }
+          })
         } else {
-          this.onFetching = true
-          setTimeout(() => {
-            if (e) {
-              this.sumSize = this.sumSize + 10
+          this.$get(url, {sort: 'createdDate,DESC', size: this.sumSize, page: 0},{'customer.id': this.id}).then(info => {
+            this.list = info;
+            this.sumData = this.$headers['x-total-count'];
+            if (this.sumData == 0) {
+              this.$vux.toast.text('无动态', 'middle')
+              return
             }
-            this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset()
-            })
-            let url = '/api/customerDynamic'
-            if (this.id) {
-              this.$search(url, {sort: 'createdDate,DESC',size: this.sumSize,page: 0},{'customer.id': this.id}).then(info => {
-                this.list = info;
-                this.sumData = this.$headers['x-total-count'];
-                if (this.sumSize > this.sumData) {
-                  this.$vux.toast.text('已获取全部', 'middle')
-                  this.allFlag = true
-                  return
-                }
-                if (this.sumData == 0) {
-                  this.$vux.toast.text('无动态', 'middle')
-                  return
-                }
-                this.onFetching = false
-              })
-            } else {
-              this.$get(url, {sort: 'createdDate,DESC', size: this.sumSize, page: 0},{'customer.id': this.id}).then(info => {
-                this.list = info;
-                this.sumData = this.$headers['x-total-count'];
-                if (this.sumSize > this.sumData) {
-                  this.$vux.toast.text('已获取全部', 'middle')
-                  this.allFlag = true
-                  return
-                }
-                if (this.sumData == 0) {
-                  this.$vux.toast.text('无动态', 'middle')
-                  return
-                }
-                this.onFetching = false
-              })
+            if (this.sumSize > this.sumData) {
+              this.$vux.toast.text('已获取全部', 'middle')
             }
-          }, 2000)
+          })
         }
+
       },
       goDiaLog (e) {
         this.objCode = e.objCode

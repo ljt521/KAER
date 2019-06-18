@@ -179,8 +179,14 @@
 </template>
 
 <script>
+  import {Scroller, LoadMore} from 'vux'
+
   export default {
     name: 'Customer',
+    components: {
+      Scroller,
+      LoadMore
+    },
     data () {
       return {
         baseUrl: this.$baseURL,
@@ -249,13 +255,11 @@
         this.$router.push({
           path: '/userInfo/' + id + '/dynamic-assembly/' + id
         })
-        sessionStorage.setItem('tabIndex', '4')
       },
       goCustomerInfo (id) {
         this.$router.push({
           path: '/userInfo/' + id + '/essential-info/' + id
         })
-        sessionStorage.setItem('tabIndex', '1')
       },
       areaChange (e) {
         this.area = e.code

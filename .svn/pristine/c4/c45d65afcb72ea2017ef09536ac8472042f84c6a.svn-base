@@ -4,7 +4,7 @@
     <div>
       <div class="divBox"></div>
       <scroller height="-110" lock-x  @on-scroll-bottom="getDynamic('more')" ref="scrollerBottom" :scroll-bottom-offst="20">
-        <div>
+        <div class="content-div">
           <div class="space" v-for="(item, index) of list">
             <div class="dy-div-icon" v-if="index != list.length - 1">
               <icon type="waiting-circle"></icon>
@@ -450,6 +450,9 @@
       padding-right: 5px;
       width: 15px;
       height: 15px;
+    }
+    .content-div {
+      transform: translateY(-calc(100% - 50px))
     }
   }
 </style>

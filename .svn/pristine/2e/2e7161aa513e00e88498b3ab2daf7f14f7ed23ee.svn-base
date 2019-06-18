@@ -179,8 +179,14 @@
 </template>
 
 <script>
+  import {Scroller, LoadMore} from 'vux'
+
   export default {
     name: 'Customer',
+    components: {
+      Scroller,
+      LoadMore
+    },
     data () {
       return {
         baseUrl: this.$baseURL,
