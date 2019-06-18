@@ -284,22 +284,5 @@
         }
       }
     }
-    .vux-badge-single {
-      padding: 0;
-      width: 20px;
-      position: relative;
-    }
-    .vux-badge {
-      display: inline-block;
-      text-align: center;
-      background: #054187;
-      color: #fff;
-      font-size: 14px;
-      height: 20px;
-      line-height: 20px;
-      border-radius: 10px;
-      background-clip: padding-box;
-      vertical-align: middle;
-    }
   }
 </style>

@@ -1,0 +1,363 @@
+<template>
+  <div class="dy-top">
+    <x-header class="x-header" slot="header" :right-options="{showMore: false}">
+      下属客户
+    </x-header>
+    <div class="" style="height: 75px"></div>
+    <div style="overflow: hidden">
+      <div class="cu-con" v-if="customerData.length > 0">
+        <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
+          <div class="cu-content-top">
+            <div class="user-img" @click="goCustomerInfo(customer.id)">
+              <img v-bind:src="baseUrl + customer.headImg" alt="">
+            </div>
+            <div class="userImg-r" @click="goCustomerInfo(customer.id)">
+              <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
+                <span style="font-size: 18px;padding-right: 10px;">
+                      <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
+                                v-bind:dictItemCode="customer.title"></div-span>
+                    </span>
+                <span class="cu-title" v-if="customer.isFollowUp == '1'">待跟进</span></p>
+              <p>
+                <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
+                <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                      <hos-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web"
+                                v-bind:code="customer.hospitalCode"></hos-span>
+                      </span>
+              </p>
+              <p style="margin-top: 3px">
+                <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
+                <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                        <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
+                      </span>
+              </p>
+            </div>
+            <div class="cu-bottom">
+              <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
+                <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+                <span class="cu-span-top">动态</span>
+              </div>
+              <div @click="openDiaLog(customer.id)" class="cu-bottom-r">
+                <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                <span class="cu-span-top">日常跟进</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <new-dia-log ref="NewDiaLogDom"></new-dia-log>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'SubordinatesCustomer',
+    data () {
+      return {
+        baseUrl: this.$baseURL,
+        area: '',
+        deptCode: '',
+        customerData: [],
+        hasPermission:0,
+        sizeData: 5,
+        sumData: 0,
+        orderHight: '',
+        conText: '',
+        searchData: '',
+      }
+    },
+    mounted () {
+      this.$get('/api/customer/getCustomerBy/'+this.$route.params.id).then(info => {
+        console.log(info)
+        this.customerData = info
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    methods: {
+      goCustomerInfo (id) {
+        this.$router.push({
+          path: '/userInfo/' + id + '/essential-info/' + id
+        })
+        sessionStorage.setItem('tabIndex', '1')
+      },
+      goAllSubordinates () {
+        this.$router.push('/all-subordinates')
+      },
+      goNewCustomer () {
+        this.$router.push('/new-custom')
+      },
+      openDiaLog (id) {
+        let self = this
+        self.$refs['NewDiaLogDom'].isShowDia(true, id)
+      },
+      goToDynamic (id) {
+        this.$router.push({
+          path: '/userInfo/' + id + '/dynamic-assembly/' + id
+        })
+        sessionStorage.setItem('tabIndex', '4')
+      },
+      goCustomerInfo (id) {
+        this.$router.push({
+          path: '/userInfo/' + id + '/essential-info/' + id
+        })
+        sessionStorage.setItem('tabIndex', '1')
+      },
+      areaChange (e) {
+        this.area = e.code
+        let obj = {
+          area: this.area || undefined,
+          deptCode: this.deptCode || undefined,
+          name: this.searchData || undefined,
+        }
+        obj = JSON.parse(JSON.stringify(obj))
+        this.$search('/api/customer/getCustomerByLeader', {
+          sort: 'isFollowUp,name,DESC',
+        }, obj).then(info => {
+          this.customerData = info
+        }).catch(error => {
+          console.log(error)
+        })
+        if(this.hasPermission == 0) {
+          this.$search('/api/customer/getCustomerBySubPerson', {
+            sort: 'isFocusOn,isFollowUp,name,DESC',
+            page: 0,
+            size: 10
+          }, obj).then(info => {
+            this.subCustomerData = info
+            this.sumData = this.$headers['x-total-count'];
+          }).catch(error => {
+            console.log(error)
+          })
+        } else {
+          //按权限查询客户列表
+          this.$search('/api/customer/getCustomerByPermission', {
+            sort: 'name,DESC',
+            page: 0,
+            size: 10
+          },obj).then(info => {
+            this.pisCustomerData = info
+            this.sumData = this.$headers['x-total-count'];
+          }).catch(error => {
+            console.log(error)
+          })
+        }
+      },
+      departmentChange (e) {
+        this.deptCode = e.code
+        let obj = {
+          area: this.area || undefined,
+          deptCode: this.deptCode || undefined,
+          name: this.searchData || undefined,
+        }
+        obj = JSON.parse(JSON.stringify(obj))
+        this.$search('/api/customer/getCustomerByLeader', {
+          sort: 'isFollowUp,name,DESC',
+        }, obj).then(info => {
+          this.customerData = info
+        }).catch(error => {
+          console.log(error)
+        })
+        if(this.hasPermission == 0) {
+          this.$search('/api/customer/getCustomerBySubPerson', {
+            sort: 'isFocusOn,isFollowUp,name,DESC',
+            page: 0,
+            size: 5
+          }, obj).then(info => {
+            this.subCustomerData = info
+            this.sumData = this.$headers['x-total-count'];
+          }).catch(error => {
+            console.log(error)
+          })
+        } else {
+          //按权限查询客户列表
+          this.$search('/api/customer/getCustomerByPermission', {
+            sort: 'name,DESC',
+            page: 0,
+            size: 10
+          },obj).then(info => {
+            this.pisCustomerData = info
+            this.sumData = this.$headers['x-total-count'];
+          }).catch(error => {
+            console.log(error)
+          })
+        }
+      },
+    }
+  }
+</script>
+
+<style lang="less">
+  .dy-top {
+    .weui-search-bar__form {
+      border-radius: 50%;
+    }
+    .weui-search-bar {
+      padding: 4px 10px;
+    }
+    .weui-search-bar__input {
+      padding: 5px 2px !important;
+    }
+    .weui-search-bar {
+      background-color: #073f89;
+    }
+    .weui-search-bar__label {
+      top: 5px;
+    }
+    .cu-type1, .cu-type2 {
+      display: inline-block;
+      background-color: #fff;
+      float: left;
+      width: 50%;
+      .vux-selector.weui-cell_select-after {
+        background-color: #fff;
+        height: 35px;
+      }
+      .weui-label {
+        width: 70px;
+      }
+    }
+    .cu-span {
+      margin: 0;
+      .cu-left {
+        float: left;
+        width: 2px;
+        background-color: #073f89;
+        height: 15px;
+        border-radius: 3px;
+      }
+      .cu-right {
+        padding-left: 5px;
+        position: relative;
+        top: -1px;
+      }
+    }
+    .cu-div {
+      text-align: right;
+      color: #19498b;
+      .x-icon-span {
+        position: relative;
+        top: 1px;
+      }
+      span {
+        float: right;
+      }
+      svg {
+        fill: #19498b;
+      }
+    }
+    .cu-con {
+      padding: 0 15px;
+      margin: 18px 0;
+      .cu-content {
+        background-color: #fff;
+        margin-top: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 2px 2px #eee;
+        .cu-content-top {
+          position: relative;
+          padding-top: 10px;
+          .user-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #e6e7ec;
+            overflow: hidden;
+            display: inline-block;
+            float: left;
+            margin: 4px 0 0 10px;
+            img {
+              width: 50px;
+              height: 50px;
+            }
+          }
+          .userImg-r {
+            width: calc(100% - 75px);
+            margin-left: 70px;
+            position: relative;
+            .cu-title {
+              font-size: 11px;
+              width: 42px;
+              background-color: #f6be07;
+              display: inline-block;
+              border-radius: 5px;
+              color: #ffffff;
+              text-align: center;
+              line-height: 18px;
+              position: relative;
+              top: -1px;
+            }
+          }
+          .cu-bottom {
+            height: 32px;
+            width: 100%;
+            background-color: #F7F8F9;
+            border-radius: 0 0 5px 5px;
+            margin-top: 8px;
+            .cu-bottom-l, .cu-bottom-r {
+              float: left;
+              width: calc(50% - 1px);
+              line-height: 20px;
+              font-weight: 600;
+              font-size: 13px;
+              position: relative;
+              top: 5px;
+              img {
+                position: relative;
+                top: 5px;
+                right: 3px;
+              }
+            }
+            .cu-bottom-r {
+              border-left: 1px solid #ccc;
+            }
+          }
+        }
+
+      }
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .cu-img-size {
+    float: left;
+    padding-right: 5px;
+    width: 15px;
+    height: 15px;
+    margin-top: 4px
+  }
+
+  .cu-span-top {
+    position: relative;
+    top: 2px
+  }
+
+  .cu-gz {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    position: absolute;
+    background-color: #fff;
+    border: 0;
+    top: 30px;
+    right: 5px;
+    overflow: hidden;
+  }
+
+  .span-web {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .weui-search-bar__input {
+    padding: 2px 2px !important;
+  }
+
+
+</style>

@@ -243,7 +243,7 @@
           const base64 = _canvas.toDataURL("image/jpeg");
           _canvas.toBlob(function(blob) {
             if(blob.size > 1024 * 50){
-              _this.suofang(base64, bili);
+              this.suofang(base64, bili);
             }else{
               _this.upImg(blob)
             }

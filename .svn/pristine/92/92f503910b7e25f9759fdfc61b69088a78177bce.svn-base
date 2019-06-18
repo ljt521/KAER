@@ -1,0 +1,24 @@
+<template>
+  <div class="dy-top">
+    <x-header class="x-header" slot="header" :right-options="{showMore: false}">
+      {{messs}}
+    </x-header>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'SubordinatesCustomer',
+    data() {
+      return{
+        messs: '下属客户'
+      }
+    },
+    mounted() {
+    },
+    methods: {
+    }
+  }
+</script>
+
+<style lang="less"></style>

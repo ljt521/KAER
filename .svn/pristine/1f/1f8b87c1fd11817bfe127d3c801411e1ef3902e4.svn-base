@@ -160,13 +160,11 @@
     }
   }
     .tree-after {
-      width: calc(100% - 45px);
-      text-align: left;
+      width: calc(100% - 90px);
       border-bottom: 1px solid #ccc;
       line-height: 40px;
       display: inline-block;
       float: left;
-      padding-left: 5px;
       .tree-after-h3 {
         margin: 0;
         display: inline-block;
