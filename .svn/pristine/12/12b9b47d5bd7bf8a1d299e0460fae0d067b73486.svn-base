@@ -5,35 +5,10 @@
     </div>
     <div class="my-concern">
       <div class="cu-con">
-        <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
-          <div class="cu-content-top">
-            <!--图片-->
-            <div class="user-img">
-              <img v-bind:src="baseUrl + customer.headImg" alt="">
-            </div>
-            <!--姓名-->
-            <div class="userImg-r">
-              <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
-                <span style="font-size: 18px;padding-right: 10px;">
-                      <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
-                                v-bind:dictItemCode="customer.title"></div-span>
-                    </span>
-                <span class="cu-title" v-if="customer.isFollowUp">待跟进</span>
-              </p>
-              <p>
-                <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
-                <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      <hos-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web"
-                                v-bind:code="customer.hospitalCode"></hos-span>
-                      </span>
-              </p>
-              <p style="margin-top: 3px">
-                <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
-                <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                        <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
-                      </span>
-              </p>
-            </div>
+        <div class="cu-content" v-for="(subPerson,index) in subPersonData" :key="index">
+          <div class="p_content_top" @click="goCustomerByLeaderId(subPerson.id,subPerson.field01)">
+            <div class="tree-name"><span class="tree-name-span">{{subPerson.name.slice(0,1)}}</span></div>
+            <div class="tree-after" ><h3 class="tree-after-h3">{{subPerson.name}}</h3>&nbsp;&nbsp;<span>{{subPerson.depName}}</span></div>
           </div>
         </div>
       </div>
@@ -41,26 +16,39 @@
 
   </div>
 </template>
+
 <script>
   export default {
-    name: 'MyConcern',
-    data () {
+    name: 'ConcernSub',
+    data() {
       return {
         baseUrl: this.$baseURL,
         title: '',
-        customerData: [],
+        subPersonData: [],
       }
     },
-    mounted () {
+    mounted() {
       this.title = this.$route.params.title || this.$route.meta.title
-      this.$get('/api/customer/concernsCustomers').then(info => {
-        this.customerData = info
+      this.$get('/api/customer/concernsPersons',).then(info => {
+        this.subPersonData = info
       }).catch(error => {
         console.log(error)
       })
     },
+    methods: {
+      goCustomerByLeaderId(id,field01){
+        if (field01 == '' || field01 == '0') {
+          this.$vux.toast.text('无客户', 'middle')
+          return
+        }
+        this.$router.push({
+          path: '/subordinates-customer/' + id
+        })
+      },
+    }
   }
 </script>
+
 <style lang="less">
   .my-concern {
     .cu-con {
@@ -118,7 +106,7 @@
       height: 40px;
       width: 40px;
       display: inline-block;
-      float: left;
+      float:left;
       background-color: #10aeff;
       color: #ffffff;
       .tree-name-span {
