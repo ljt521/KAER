@@ -6,7 +6,7 @@
       <scroller height="-110" lock-x  @on-scroll-bottom="getDynamic('more')" ref="scrollerBottom" :scroll-bottom-offst="20">
         <div>
           <div class="space" v-for="(item, index) of list">
-            <div class="dy-div-icon">
+            <div class="dy-div-icon" v-if="index != list.length - 1">
               <icon type="waiting-circle"></icon>
             </div>
             <div class="dy-div">
@@ -278,7 +278,6 @@
                 if (this.sumSize > this.sumData) {
                   this.$vux.toast.text('已获取全部', 'middle')
                   this.allFlag = true
-                  this.onFetching = false
                   return
                 }
                 if (this.sumData == 0) {
@@ -294,7 +293,6 @@
                 if (this.sumSize > this.sumData) {
                   this.$vux.toast.text('已获取全部', 'middle')
                   this.allFlag = true
-                  this.onFetching = false
                   return
                 }
                 if (this.sumData == 0) {

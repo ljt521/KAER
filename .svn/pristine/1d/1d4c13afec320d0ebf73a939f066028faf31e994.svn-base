@@ -1,5 +1,6 @@
 <template>
   <div id="login">
+  <div style="top:100px;text-align:center;">loading……</div>
     <div class="dy-top">
       <x-header class="x-header" slot="header" :left-options="{showBack: false}">登录</x-header>
     </div>
@@ -27,6 +28,7 @@
       }
     },
     mounted () {
+      debugger;
       let href = window.location.href
       let fwIndex = href.lastIndexOf('fwOpenId=')
       let qyIndex = href.lastIndexOf('qyOpenId=')
@@ -68,18 +70,18 @@
     },
     methods: {
       loginWx () {
-        /*const data = {
+        const data = {
           password: this.userPassWord,
           username: this.userName,
           fwOpenid: this.fwWechatId || null,
           qyOpenid: this.qyWechatId || null
-        }*/
-        const data = {
-          username: 'wendy.lu',
+        }
+        /*const data = {
           password: '123456',
+          username: 'Wendy.lu',
           fwOpenid: this.fwWechatId || null,
           qyOpenid: this.qyWechatId || null
-        }
+        }*/
         this.$post('/api/authenticate/?_allow_anonymous=true', data).then(info => {
           if (info.status === 'login') {
             this.$setCookies('token', 'Bearer ' + info.msg.id_token);

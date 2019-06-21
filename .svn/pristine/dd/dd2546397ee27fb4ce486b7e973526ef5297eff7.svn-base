@@ -87,8 +87,7 @@ export function search (url, params = {}, searchData = {}) {
   }
   if (searchData) {
     Object.keys(searchData).forEach(function (key) {
-      console.log(key);
-      if (searchData[key] != 0 || key == 'personId') {
+      if (searchData[key] != 0) {
         stringData = stringData + `propertyNames=${key}&propertyValues=${searchData[key]}&`
       }
     })

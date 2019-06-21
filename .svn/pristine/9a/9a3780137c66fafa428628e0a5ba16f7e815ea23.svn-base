@@ -358,7 +358,7 @@
       font-size: 13px;
     }
     .user-span-index {
-      color: #074089;
+      color: #000;
       font-size: 13px;
     }
     .box{

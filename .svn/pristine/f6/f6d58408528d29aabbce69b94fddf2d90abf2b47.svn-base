@@ -278,7 +278,6 @@
                 if (this.sumSize > this.sumData) {
                   this.$vux.toast.text('已获取全部', 'middle')
                   this.allFlag = true
-                  this.onFetching = false
                   return
                 }
                 if (this.sumData == 0) {
@@ -294,7 +293,6 @@
                 if (this.sumSize > this.sumData) {
                   this.$vux.toast.text('已获取全部', 'middle')
                   this.allFlag = true
-                  this.onFetching = false
                   return
                 }
                 if (this.sumData == 0) {
