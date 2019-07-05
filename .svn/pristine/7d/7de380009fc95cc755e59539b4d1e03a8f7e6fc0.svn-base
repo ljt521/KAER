@@ -7,6 +7,7 @@
                                                                                             @click="goEssentialInfo()">完成</a>
         </x-header>
       </div>
+      <div class="cellBox"></div>
       <div class="backgroundStyle">
         <datetime v-model="crInfo.consultationDate" title="会诊日期" placeholder="请选择"></datetime>
         <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
@@ -15,17 +16,22 @@
         <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
                       v-on:listenSelect="(value) => {crInfo.operativeRole = value.code}"
                       :anyData="crInfo.operativeRole" :is-type="codeValue" required></div-selector>
-        <div v-if="crInfo.operativeRole === 'SSJS05'">
-          <x-input type="text" placeholder="请填写" v-model="crInfo.operativeRoleOther" :is-type="codeValue"
-                   text-align="right"></x-input>
-        </div>
         <cell @click.native="selectHos()" title="会诊地点" :value="crInfo.addressName" is-link></cell>
         <cell
           title="产品信息"
-          :border-intent="false">
+          value="请选择"
+          is-link
+          :border-intent="false"
+          :arrow-direction="showContent004 ? 'up' : 'down'"
+          @click.native="showContent004 = !showContent004">
         </cell>
-        <div>
-
+        <div class="slide" :class="showContent004?'animate':''">
+          <!--<cell>-->
+          <!--<check-icon slot="icon" :value.sync="demo1" type="plain"> 产品</check-icon>-->
+          <!--<template v-slot="value">-->
+          <!--<span style="margin-right: 15px;">品牌</span>-->
+          <!--</template>-->
+          <!--</cell>-->
           <cell v-for="(item,i) of list" :key="i">
             <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)">
               {{item.value}}
@@ -39,10 +45,8 @@
             </template>
           </cell>
         </div>
-
       </div>
     </div>
-
     <!--医院信息-->
     <div class="location" v-if="switchTab">
       <div class="search">
@@ -84,11 +88,11 @@
   </div>
 </template>
 <script>
-  import {ChinaAddressData, XInput} from 'vux'
+  import {ChinaAddressData} from 'vux'
 
   export default {
     name: 'NewConsulInfo',
-    data() {
+    data () {
       return {
         codeValue: function (value) {
           return {
@@ -98,6 +102,7 @@
         sumData: 0,
         sumSize: 10,
         title: '新建会诊',
+        showContent004: false,
         demo1: false,
         list: [],
         hcoList: [],
@@ -117,7 +122,6 @@
           consultationDate: '',// 会诊日期
           operationName: '',// 手术名称
           operativeRole: '',// 手术中的角色
-          operativeRoleOther: '',//手术中的其他角色
           operationLocal: '',// 手术地点
           productInfo: [], //产品信息
           customerId: '',// 所属客户
@@ -126,14 +130,9 @@
         searchData: '',
         onFetching: false,
         allFlag: false,
-        codeValue: function (value) {
-          return {
-            valid: value != '' || null,
-          }
-        }
       }
     },
-    created() {
+    created () {
       if (this.$route.params.data) {
         this.crInfo.consultationDate = this.$route.params.data.consultationDate.slice(0, 10)
         this.crInfo.customerId = this.$route.params.data.customerId
@@ -141,18 +140,17 @@
         this.crInfo.operationName = this.$route.params.data.operationName
         this.crInfo.addressName = this.getData()
         this.crInfo.operativeRole = this.$route.params.data.operativeRole
-        this.crInfo.operativeRoleOther = this.$route.params.data.operativeRoleOther
         this.crInfo.productInfo = JSON.parse(this.$route.params.data.productInfo)
         this.crInfo['id'] = this.$route.params.data.id
       }
     },
-    mounted() {
+    mounted () {
       this.title = this.$route.params.title || this.$route.meta.title
       if (this.$route.params) {
         this.crInfo.customerId = this.$route.params.id
       }
-      this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
-        this.list = info
+      this.$get('/api/dict-tables/search-with-list', {dictCode: 'CPXX'}).then((info) => {
+        this.list = info.dictItems
         this.list.forEach(val => {
           let data = this.$route.params.data.product
           for (let i in data[0]) {
@@ -171,7 +169,7 @@
       })
     },
     methods: {
-      getPlain(e) {
+      getPlain (e) {
         if (e.hasOwnProperty('proData')) {
           if (e.select && e.proData) {
             const obj = {}
@@ -196,7 +194,7 @@
         }
         this.list = JSON.parse(JSON.stringify(this.list))
       },
-      goEssentialInfo() {
+      goEssentialInfo () {
         for (let key in this.crInfo) {
           switch (key) {
             case 'consultationDate':
@@ -223,6 +221,12 @@
                 return
               }
               break
+            case 'productInfo':
+              if (this.crInfo[key].length === 0 || null) {
+                this.$vux.toast.text('产品信息不能为空', 'middle')
+                return
+              }
+              break
           }
         }
         if (this.title === '编辑会诊') {
@@ -243,22 +247,22 @@
           })
         }
       },
-      getData() {
+      getData () {
 
         this.$get('/api/hospital/' + this.crInfo.operationLocal).then(info => {
           this.crInfo.addressName = info.hcoName
         })
       },
-      getHospital(e) {
+      getHospital (e) {
         this.crInfo.operationLocal = e.hcoCode
         this.getData()
         this.switchTab = false
       },
-      selectHos() {
+      selectHos () {
         this.switchTab = true
       },
       /*区域*/
-      regionalChange(e) {
+      regionalChange (e) {
         this.sumSize = 10
         this.address.regionalValue = e.code
         this.$post('/api/hospital/cascadeInfo', {regionCode: e.code}).then(info => {
@@ -277,7 +281,7 @@
 
       },
       /*省份*/
-      provinceChange(e) {
+      provinceChange (e) {
         this.sumSize = 10
         this.address.province = e.code
         this.$post('/api/hospital/cascadeInfo', {
@@ -298,7 +302,7 @@
         })
       },
       /*市*/
-      cityChange(e) {
+      cityChange (e) {
         this.sumSize = 10
         this.address.city = e.code
         this.$post('/api/hospital/cascadeInfo', {
@@ -320,7 +324,7 @@
         })
       },
       /*区*/
-      areaChange(e) {
+      areaChange (e) {
         this.sumSize = 10
         this.address.area = e.code
         this.$search('/api/hospital', {page: 0, size: 10},
@@ -335,7 +339,7 @@
         })
       },
       /*获取更多*/
-      getMorHospital() {
+      getMorHospital () {
         if (this.allFlag) {
           this.onFetching = false
           return
@@ -374,7 +378,7 @@
           }, 2000)
         }
       },
-      keywordSearch(e) {
+      keywordSearch (e) {
         this.searchData = e
         let obj = {
           regionCode: this.address.regionalValue || undefined,
@@ -390,24 +394,24 @@
           this.sumData = this.$headers['x-total-count'];
         })
       },
-      searClick(e) {
+      searClick (e) {
         this.keywordSearch(e)
       },
-      enterBtn(e) {
+      enterBtn (e) {
         this.keywordSearch(e)
       },
-      searchChange(e) {
+      searchChange (e) {
         if (e == null || e == '') {
           this.keywordSearch(e)
         }
       },
-      blackClick(e) {
-        if (e) {
+      blackClick (e) {
+        if(e) {
           this.switchTab = false
         }
       }
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave (to, from, next) {
       if (!to.params.id) {
         to.params.title = '全部会诊信息'
         to.params.id = this.crInfo.customerId
@@ -443,52 +447,62 @@
       height: 20px;
     }
     .backgroundStyle {
-      font-size: 13px;
       a.weui-cell {
         padding: 0 5px 0 0;
         div:first-child {
           padding-left: 16px;
           p {
-            padding: 13px 0;
+            padding: 14px 0;
+            font-size: 16px;
             font-weight: 400;
             color: rgba(0, 0, 0, 1);
           }
         }
-
+        .vux-cell-value {
+          font-size: 16px;
+        }
       }
       div.vux-tap-active {
         padding: 0 5px 0 0;
         .vux-cell-primary {
           p {
             padding: 14px 0 14px 16px;
-
+            .vux-label {
+              font-size: 16px;
+            }
           }
         }
-
+        .weui-cell__ft {
+          font-size: 16px;
+        }
       }
       div.weui-cell_select {
         padding: 0;
         div.weui-cell__hd {
           padding: 14px 0 14px 16px;
           label.weui-label {
+            font-size: 16px;
             width: 190px;
           }
+        }
+        div.weui-cell__bd {
+          font-size: 16px;
         }
       }
       div.vux-cell-box {
         div.weui-cell_access {
           div.weui-cell__hd {
             padding: 14px 0 14px 16px;
-
+            label.weui-label {
+              font-size: 16px;
+            }
           }
-
+          div.vux-cell-primary {
+            div.vux-popup-picker-select {
+              font-size: 16px;
+            }
+          }
         }
-      }
-    }
-    .weui-cell_access .weui-cell__ft {
-      padding-right: 25px;
-      &:after {
-        right: 10px;
       }
     }
     .location {
@@ -558,17 +572,20 @@
     width: 80px !important;
   }
 
-  .new-select {
-    height: 0;
-    position: relative;
-    top: -20px;
+  .slide {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height .5s cubic-bezier(0, 1, 0, 1) -.1s;
+    .new-select {
+      height: 0;
+      position: relative;
+      top: -20px;
+    }
   }
 
-  .weui-icon-success-circle {
-    font-size: 18px;
-  }
-
-  .weui-icon-circle {
-    font-size: 18px;
+  .animate {
+    max-height: 9999px;
+    transition-timing-function: cubic-bezier(0.5, 0, 1, 0);
+    transition-delay: 0s;
   }
 </style>

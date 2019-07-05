@@ -1,6 +1,5 @@
 <template>
   <div class="cu-app">
-    <!--搜索-->
     <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 80px">
       <search-box v-model="conText" @on-search="searClick" @on-enter="enterBtn" @on-change="searchChange"></search-box>
       <div style="position: fixed;top:40px;background-color: #fff;width: 100%;">
@@ -14,9 +13,7 @@
       </div>
     </div>
     <div class="" style="height: 75px"></div>
-
     <div style="overflow: hidden">
-      <!--我的-->
       <div class="cu-con" v-if="customerData.length > 0">
         <flexbox>
           <flexbox-item>
@@ -40,7 +37,8 @@
               <p>
                 <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
                 <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      {{customer.hospitalName}}
+                      <hos-span style="display: inline-block;max-width: calc(100% - 20px);" class="span-web"
+                                v-bind:code="customer.hospitalCode"></hos-span>
                       </span>
               </p>
               <p style="margin-top: 3px">
@@ -63,7 +61,6 @@
           </div>
         </div>
       </div>
-      <!--下属的-->
       <div class="cu-con" v-if="hasPermission == '0'">
         <flexbox>
           <flexbox-item>
@@ -72,8 +69,9 @@
           </flexbox-item>
           <flexbox-item>
             <div class="flex-demo">
-              <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward" size="20"></x-icon></span>
-                <span class="x-icon-span">全部下属</span>
+              <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward"
+                                                                               size="20"></x-icon></span><span
+                class="x-icon-span">全部下属</span>
               </div>
             </div>
           </flexbox-item>
@@ -95,7 +93,8 @@
               <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
                                               src="../assets/image/client_hospital.png" alt="">
                 <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                      {{subCustomer.hospitalName}}
+                      <hos-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web"
+                                v-bind:code="subCustomer.hospitalCode"></hos-span>
                     </span></p>
               <p style="margin-top: 3px">
                 <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
@@ -108,12 +107,10 @@
 
               </p>
             </div>
-            <div style="display: inline-block; position: absolute;top:58px;right: 3px"
-                 @click="goCustomerByLeaderId(subCustomer.leaderId)">
+            <div style="display: inline-block; position: absolute;top:58px;right: 3px" @click="goCustomerByLeaderId(subCustomer.leaderId)">
               <span style="color: #888888;max-width: calc(100% - 160px);line-height:21px;"
-                    class="span-web">
-                 <img style="height: 13px;padding-right: 3px" src="../assets/image/client_responsible_person.png"
-                      alt=""/>{{subCustomer.leaderName}}
+                class="span-web">
+                 <img style="height: 13px;padding-right: 3px" src="../assets/image/client_responsible_person.png" alt=""/>{{subCustomer.leaderName}}
               </span>
             </div>
             <div class="cu-bottom">
@@ -132,26 +129,17 @@
         </div>
         <div style="padding: 10px" @click="getMorData" v-if="sizeData < sumData">查看更多...</div>
       </div>
-      <!--可查看的-->
       <div class="cu-con" v-if="hasPermission == '1'">
         <flexbox>
           <flexbox-item>
             <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">可查看的</span>
             </p></div>
           </flexbox-item>
-          <flexbox-item>
-            <div class="flex-demo">
-              <div class="cu-div" v-on:click="goAllColleagues"><span><x-icon type="ios-arrow-forward" size="20"></x-icon></span>
-                <span class="x-icon-span">同事</span>
-              </div>
-            </div>
-          </flexbox-item>
         </flexbox>
         <div class="cu-content" v-for="(pisCustomer,index) in pisCustomerData" :key="index">
-          <div class="cu-content-top" style="padding-bottom:10px;">
+          <div class="cu-content-top" style="padding-bottom:10px;" >
             <div class="user-img" @click="goCustomerInfo(pisCustomer.id)">
               <img v-bind:src="baseUrl + pisCustomer.headImg" alt="">
-              <span style="display: inline-block;position: absolute;top:66px;left: 16px;color:#eaa304;" v-if="pisCustomer.isFocusOn == '1'">已关注</span>
             </div>
 
             <div class="userImg-r" @click="goCustomerInfo(pisCustomer.id)">
@@ -163,28 +151,25 @@
               <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
                                               src="../assets/image/client_hospital.png" alt="">
                 <span style="color: #888888;font-size: 13px" class="cu-span-top">
-                    {{pisCustomer.hospitalName}}
-                  <!--<hos-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web" v-bind:code="pisCustomer.hospitalCode"> </hos-span>-->
-                </span>
-              </p>
-
+                      <hos-span style="display: inline-block;max-width: calc(100% - 40px);" class="span-web"
+                                v-bind:code="pisCustomer.hospitalCode"></hos-span>
+                    </span></p>
               <p style="margin-top: 3px">
                 <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
                      alt=""/>
                 <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;"
                       class="cu-span-top">
-                      <div-span style="position: relative;display: inline-block;line-height: 19px;" v-bind:dictCode="'KSLX'" v-bind:dictItemCode="pisCustomer.deptCode"></div-span>
+                      <div-span style="position: relative;display: inline-block;line-height: 19px;"
+                                v-bind:dictCode="'KSLX'" v-bind:dictItemCode="pisCustomer.deptCode"></div-span>
                     </span>
 
               </p>
 
             </div>
-            <div style="display: inline-block; position: absolute;top:58px;right: 3px"
-                 @click="goCustomerByLeaderId(pisCustomer.leaderId)">
+            <div style="display: inline-block; position: absolute;top:58px;right: 3px" @click="goCustomerByLeaderId(pisCustomer.leaderId)">
                 <span style="color: #888888;max-width: calc(100% - 160px);line-height:21px;"
                       class="span-web">
-                 <img style="height: 13px;padding-right: 3px" src="../assets/image/client_responsible_person.png"
-                      alt=""/>{{pisCustomer.leaderName}}
+                 <img style="height: 13px;padding-right: 3px" src="../assets/image/client_responsible_person.png" alt=""/>{{pisCustomer.leaderName}}
               </span>
             </div>
           </div>
@@ -206,8 +191,8 @@
         deptCode: '',
         customerData: [],
         subCustomerData: [],
-        pisCustomerData: [],
-        hasPermission: 0,
+        pisCustomerData:[],
+        hasPermission:0,
         sizeData: 5,
         sumData: 0,
         orderHight: '',
@@ -222,8 +207,8 @@
         console.log(error)
       })
       this.$get('/api/customerPermisson/hasPermisson').then(info => {
-        this.hasPermission = info.hasPermission
-        if (this.hasPermission == 0) {
+        this.hasPermission = info.hasPermission;
+        if(this.hasPermission == 0 ) {
           //查询下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
@@ -231,7 +216,7 @@
             size: 10
           }).then(info => {
             this.subCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -243,7 +228,7 @@
             size: 10
           }).then(info => {
             this.pisCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -253,9 +238,6 @@
       })
     },
     methods: {
-      goAllColleagues(){
-        this.$router.push('/all-colleagues')
-      },
       goAllSubordinates () {
         this.$router.push('/all-subordinates')
       },
@@ -278,10 +260,9 @@
         })
         sessionStorage.setItem('tabIndex', '1')
       },
-      goCustomerByLeaderId (id) {
+      goCustomerByLeaderId(id){
         this.$router.push({
-          path: '/subordinates-customer/' + id,
-          query:{previousPage:'customer'}
+          path: '/subordinates-customer/' + id
         })
       },
       areaChange (e) {
@@ -299,14 +280,14 @@
         }).catch(error => {
           console.log(error)
         })
-        if (this.hasPermission == 0) {
+        if(this.hasPermission == 0) {
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
             size: 10
           }, obj).then(info => {
             this.subCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -316,9 +297,9 @@
             sort: 'name,DESC',
             page: 0,
             size: 10
-          }, obj).then(info => {
+          },obj).then(info => {
             this.pisCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -339,14 +320,14 @@
         }).catch(error => {
           console.log(error)
         })
-        if (this.hasPermission == 0) {
+        if(this.hasPermission == 0) {
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
             size: 5
           }, obj).then(info => {
             this.subCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -356,9 +337,9 @@
             sort: 'name,DESC',
             page: 0,
             size: 10
-          }, obj).then(info => {
+          },obj).then(info => {
             this.pisCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -370,7 +351,6 @@
           area: this.area || undefined,
           deptCode: this.deptCode || undefined,
           name: this.searchData || undefined,
-
         }
         obj = JSON.parse(JSON.stringify(obj))
         this.$search('/api/customer/getCustomerByLeader', {
@@ -380,14 +360,14 @@
         }).catch(error => {
           console.log(error)
         })
-        if (this.hasPermission == 0) {
+        if (this.hasPermission) {
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
             size: 5
           }, obj).then(info => {
             this.subCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
@@ -397,15 +377,15 @@
             sort: 'name,DESC',
             page: 0,
             size: 10
-          }, obj).then(info => {
+          },obj).then(info => {
             this.pisCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.sumData = this.$headers['x-total-count'];
           }).catch(error => {
             console.log(error)
           })
         }
       },
-      getMorData () {
+      getMorData() {
         this.sizeData = this.sizeData + 10
         let obj = {
           area: this.area || undefined,
@@ -419,8 +399,8 @@
             page: 0,
             size: this.sizeData,
           }, obj).then(info => {
-            this.subCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+            this.subCustomerData = info;
+            this.sumData = this.$headers['x-total-count'];
             if (this.sumData == 0) {
               this.$vux.toast.text('已到底线', 'middle')
               return
@@ -437,9 +417,9 @@
             sort: 'name,DESC',
             page: 0,
             size: 10
-          }, obj).then(info => {
-            this.pisCustomerData = info
-            this.sumData = this.$headers['x-total-count']
+          },obj).then(info => {
+            this.pisCustomerData = info;
+            this.sumData = this.$headers['x-total-count'];
             if (this.sumData == 0) {
               this.$vux.toast.text('已到底线', 'middle')
               return

@@ -12,17 +12,12 @@
           <li class="tree-li">
             <div class="tree-button" @click="addData(data['select'], data.id,data.level,index)">
               <span class="tree-button-span">
-                <span v-if="data.field05 === '1'">
-                  <x-icon v-if="!data.select" style="fill: #10aeff" type="ios-plus-empty" size="40"></x-icon>
-                  <x-icon v-if="data.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
-                </span>
-                <span v-if="data.field05 === '0'">
-                  <x-icon v-if="!data.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
-                </span>
+                <x-icon v-if="!data.select" style="fill: #10aeff" type="ios-plus-empty" size="40"></x-icon>
+                <x-icon v-if="data.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
               </span>
             </div>
             <div @click="goToSubCus(data.id)" class="tree-name">
-              <span class="tree-name-span">{{data.field06}}</span>
+              <span class="tree-name-span">{{data.name.slice(0,1)}}</span>
             </div>
             <div @click="goToSubCus(data.id)" class="tree-after"><h3 class="tree-after-h3">
               {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<badge v-if="data.field01 && data.field01 != 0" :text="data.field01"></badge>
@@ -45,15 +40,9 @@
         <div v-if="data['childData']">
           <ul class="tree-ul" v-for="(child, i) in data.childData">
             <li class="tree-li" :style="'left:'+ child.level * 20 +'px;'" v-if="child.select">
-              <div class="tree-button" @click="addData(child['select'], child.id, child.level,index, i)">
-                <span class="tree-button-span">
-                  <span v-if="child.field05 === '1'">
-                    <x-icon v-if="child.select" style="fill: #10aeff" type="ios-plus-empty" size="40"></x-icon>
-                    <x-icon v-if="!child.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
-                  </span>
-                  <span v-if="child.field05 === '0'">
-                    <x-icon v-if="child.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
-                  </span>
+              <div class="tree-button" @click="addData(child['select'], child.id, child.level,index, i)"><span class="tree-button-span">
+                <x-icon v-if="child.select" style="fill: #10aeff" type="ios-plus-empty" size="40"></x-icon>
+                <x-icon v-if="!child.select" style="fill: #10aeff" type="ios-minus-empty" size="40"></x-icon>
                 </span>
               </div>
               <div @click="goToSubCus(data.id)" class="tree-name"><span
@@ -149,6 +138,7 @@
         console.log(error)
       })
     },
+
     methods: {
       careData(data) {
         this.myconcernscolleagueDto.colleagueId = data.id

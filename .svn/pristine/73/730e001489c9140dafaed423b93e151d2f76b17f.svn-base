@@ -7,11 +7,21 @@
         <div>
           <!--动态无数据时-->
           <div  v-if="isDynamic == '0'">
-            <div class="space" style="padding: 0;">
-              <div class="dy-div" style="padding: 0;text-align: center;line-height: 60px;">无数据</div>
+            <div class="space">
+              <div class="dy-div">
+                <i class="dy-size" style="margin:-10px 99px">无数据</i>
+                <i class="dy-size2"></i>
+                <i class="dy-size3">
+                  <span></span>
+                  <hos-span></hos-span>
+                  <span class="router-link"></span><br>
+                  <span></span>
+                  <span class="router-link"></span>
+                </i>
+              </div>
             </div>
           </div>
-          <!--动态有数据时-->
+          <!--动态无数据时-->
           <div class="space" v-for="(item, index) of list">
             <div class="dy-div-icon">
               <icon type="waiting-circle"></icon>
@@ -129,11 +139,9 @@
             <p style="margin: 10px 0">
             <span class="right">
               <img class="all-img-size " src="../assets/image/follow_up_role.png" alt="">
-              <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="dialogData.operativeRole"></div-span>&nbsp;&nbsp;&nbsp;&nbsp;
-              <span v-if="dialogData.operativeRole == 'SSJS05'">{{dialogData.operativeRoleOther}}</span>
+              <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="dialogData.operativeRole"></div-span>
             </span>
             </p>
-
             <p style="margin: 10px 0">
             <span class="right">
               <img class="all-img-size " src="../assets/image/follow_up_position.png" alt="">
@@ -278,49 +286,51 @@
           // this.$vux.toast.text('', 'middle')
         } else {
           this.onFetching = true
-          if (e) {
-            this.sumSize = this.sumSize + 10
-          }
-          this.$nextTick(() => {
-            this.$refs.scrollerBottom.reset()
-          })
-          let url = '/api/customerDynamic'
-          if (this.id) {
-            this.$search(url, {sort: 'createdDate,DESC',size: this.sumSize,page: 0},{'customer.id': this.id}).then(info => {
-              if (info.length > 0) {
-                this.list = info
-                this.sumData = this.$headers['x-total-count']
+          setTimeout(() => {
+            if (e) {
+              this.sumSize = this.sumSize + 10
+            }
+            this.$nextTick(() => {
+              this.$refs.scrollerBottom.reset()
+            })
+            let url = '/api/customerDynamic'
+            if (this.id) {
+              this.$search(url, {sort: 'createdDate,DESC',size: this.sumSize,page: 0},{'customer.id': this.id}).then(info => {
+                if (info.length > 0) {
+                  this.list = info
+                  this.sumData = this.$headers['x-total-count']
+                  if (this.sumSize > this.sumData) {
+                    this.$vux.toast.text('已获取全部', 'middle')
+                    this.allFlag = true
+                    this.onFetching = false
+                    return
+                  }
+                } else {
+                  this.isDynamic = 0
+                  this.onFetching = false
+                  this.$vux.toast.text('无动态', 'middle')
+                  return
+                }
+
+              })
+            } else {
+              this.$get(url, {sort: 'createdDate,DESC', size: this.sumSize, page: 0},{'customer.id': this.id}).then(info => {
+                this.list = info;
+                this.sumData = this.$headers['x-total-count'];
                 if (this.sumSize > this.sumData) {
                   this.$vux.toast.text('已获取全部', 'middle')
                   this.allFlag = true
                   this.onFetching = false
                   return
                 }
-              } else {
-                this.isDynamic = 0
+                if (this.sumData == 0) {
+                  this.$vux.toast.text('无动态', 'middle')
+                  return
+                }
                 this.onFetching = false
-                this.$vux.toast.text('无动态', 'middle')
-                return
-              }
-
-            })
-          } else {
-            this.$get(url, {sort: 'createdDate,DESC', size: this.sumSize, page: 0},{'customer.id': this.id}).then(info => {
-              this.list = info;
-              this.sumData = this.$headers['x-total-count'];
-              if (this.sumSize > this.sumData) {
-                this.$vux.toast.text('已获取全部', 'middle')
-                this.allFlag = true
-                this.onFetching = false
-                return
-              }
-              if (this.sumData == 0) {
-                this.$vux.toast.text('无动态', 'middle')
-                return
-              }
-              this.onFetching = false
-            })
-          }
+              })
+            }
+          }, 2000)
         }
       },
       goDiaLog (e) {
@@ -366,16 +376,11 @@
         }
       },
       goToCusInfo (e) {
-        this.$router.push({
-          path: `/userInfo/${e.customerId}/essential-info/${e.customerId}`,
-          query:{previousPage:'dynamicPersonName'}
-        });
-
+        this.$router.push(`/userInfo/${e.customerId}/essential-info/${e.customerId}`);
       },
       goToSubCus(id) {
         this.$router.push({
-          path: '/subordinates-customer/' + id,
-          query:{previousPage:'dynamic'}
+          path: '/subordinates-customer/' + id
         })
       }
     }

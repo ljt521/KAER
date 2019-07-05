@@ -2,9 +2,6 @@
 <template>
   <div class="mine">
     <div class="herder">
-      <div class="tree-name-mine">
-        <span class="tree-name-span-mine" >{{surname}}</span>
-      </div>
       <div class="userInfo">
         <p>{{list.name}}</p>
         <p style="letter-spacing:1px">部门：{{list.depName}}</p>
@@ -38,7 +35,6 @@ export default {
     return {
       baseUrl: this.$baseURL,
       list: {},
-      surname:''
     }
   },
   created(){
@@ -46,9 +42,8 @@ export default {
   },
   methods: {
     getPerson(){
-      this.$get('/api/customer/findByPerson',{personId:0}).then(info => {
+      this.$get('/api/customer/findByPerson').then(info => {
         this.list = info;
-        this.surname = this.list.name.substring(1,3);
       })
     },
     change(e) {
@@ -81,24 +76,6 @@ export default {
     .herder{
       background: #205395;
       height: 150px;
-      .tree-name-mine {
-        width: 50px;
-        height: 50px;
-        position: relative;
-        border-radius: 50%;
-        line-height: 50px;
-        background-color: #5AC1EA;
-        color: #ffffff;
-        top: 55px;
-        left: 15px;
-        .tree-name-span-mine {
-          position: absolute;
-          display: block;
-          width: 50px;
-          text-align: center;
-          font-size:16px;
-        }
-      }
       .userImg{
         float: left;
         width: 77px;
@@ -113,7 +90,7 @@ export default {
       }
       .userInfo{
         float: left;
-        margin: 0px 0 0 81px;
+        margin: 45px 0 0 14px;
         text-align: left;
         color: #fff;
         p{

@@ -139,13 +139,6 @@
             <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">可查看的</span>
             </p></div>
           </flexbox-item>
-          <flexbox-item>
-            <div class="flex-demo">
-              <div class="cu-div" v-on:click="goAllColleagues"><span><x-icon type="ios-arrow-forward" size="20"></x-icon></span>
-                <span class="x-icon-span">同事</span>
-              </div>
-            </div>
-          </flexbox-item>
         </flexbox>
         <div class="cu-content" v-for="(pisCustomer,index) in pisCustomerData" :key="index">
           <div class="cu-content-top" style="padding-bottom:10px;">
@@ -253,9 +246,6 @@
       })
     },
     methods: {
-      goAllColleagues(){
-        this.$router.push('/all-colleagues')
-      },
       goAllSubordinates () {
         this.$router.push('/all-subordinates')
       },

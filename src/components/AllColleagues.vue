@@ -1,0 +1,186 @@
+<!--全部同事-->
+<template>
+  <div id="allCol">
+    <div class="dy-top">
+      <x-header class="x-header" @on-click-back="goToBack"  :left-options="{backText: '',preventGoBack: true}" slot="header" >
+        同事
+      </x-header>
+    </div>
+    <scroller height="30" lock-x @on-scroll-bottom="getCusSub('more')" ref="scrollerBottom" :scroll-bottom-offst="20" >
+      <div class="tree-box">
+        <div v-for="data in allColleagues">
+          <ul class="tree-ul">
+            <li class="tree-li">
+              <div @click="goColleaguesCustomer(data.id)" class="tree-name-div">
+                <span class="tree-name-span">{{data.field06}}</span>
+              </div>
+              <div @click="goColleaguesCustomer(data.id)" class="tree-after-name">
+                <h3 class="tree-after-h3"> {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
+              </div>
+              <div @click="careData(data)">
+                <!--未关注-->
+                <div class="cu-gz-div" v-if="data.field02=='0'">
+                  <img class="cu-gz-img" src="../assets/image/client_follow_n.png" alt="">
+                </div>
+                <!--已关注-->
+                <div class="cu-gz-div" v-if="data.field02=='1'">
+                  <img class="cu-gz-img" src="../assets/image/client_follow_s.png" alt="">
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+    </scroller>
+
+  </div>
+
+</template>
+
+<script>
+  export default {
+    name: "AllColleagues",
+    data() {
+      return {
+        allColleagues:[],
+        myconcernscolleagueDto: {isSubFocusOn: Number},
+      }
+    },
+    mounted(){
+      this.$get('/api/customer/getColleagues').then(info => {
+        this.allColleagues = info;
+
+      })
+    },
+    methods:{
+      goColleaguesCustomer(id){
+        this.$router.push({
+          path:"/subordinates-customer/"+id,
+          query:{previousPage:'AllColleagues'}
+        })
+      },
+      careData(data){
+        this.myconcernscolleagueDto.colleagueId = data.id
+        if (data.field02 == '0') {
+          this.myconcernscolleagueDto.isSubFocusOn = 1
+          this.$post('/api/myconcernscolleague/attention', this.myconcernscolleagueDto).then(info => {
+            this.$vux.toast.text('关注成功', 'middle')
+            data.field02 = '1'
+          }).catch(error => {
+            this.$vux.toast.text('关注失败', 'middle')
+          })
+        } else {
+          this.myconcernscolleagueDto.isSubFocusOn = 0
+          this.$del('/api/myconcernscolleague/del/' + this.myconcernscolleagueDto.colleagueId).then(info => {
+            this.$vux.toast.text('取消关注成功', 'middle')
+            data.field02 = '0'
+          }).catch(error => {
+            this.$vux.toast.text('取消关注失败', 'middle')
+          })
+        }
+      },
+      goToBack(){
+        this.$router.push("/customer")
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  #allCol{
+    .tree-box {
+      .tree-li {
+        position: relative;
+        text-align: left;
+        margin: 5px 0 0 0;
+        .cu-gz-div {
+          width: 30px;
+          height: 30px;
+          border-radius: 50%;
+          position: absolute;
+          background-color: #f7f8fa;
+          border: 0;
+          top: 3px;
+          right: 10px;
+          overflow: hidden;
+        }
+        .cu-gz-img {
+          width: 40px;
+          height: 40px;
+          position: relative;
+          left: -4px;
+          top: -3px;
+        }
+      }
+      .tree-ul {
+        text-align: right;
+        overflow: hidden;
+        margin: 0;
+      }
+      .tree-ul, .tree-li {
+        padding: 0;
+        list-style: none;
+        div, p {
+          padding: 0;
+          margin: 0;
+          text-align: left;
+          display: inline-block;
+        }
+        .tree-name-div {
+          width: 40px;
+          height: 40px;
+          position: relative;
+          .tree-button-span {
+            position: absolute;
+            top: 0;
+            left: 5px;
+            width: 40px;
+            height: 40px;
+          }
+        }
+        .tree-name-div {
+          border-radius: 50%;
+          line-height: 40px;
+          background-color: #10aeff;
+          color: #ffffff;
+          left: 5px;
+          .tree-name-span {
+            position: absolute;
+            display: block;
+            width: 40px;
+            text-align: center;
+          }
+        }
+        .tree-after-name {
+          width: calc(100% - 50px);
+          border-bottom: 1px solid #ccc;
+          line-height: 40px;
+          position: absolute;
+          right: 0;
+          .tree-after-h3 {
+            margin: 0;
+            display: inline-block;
+          }
+        }
+      }
+    }
+    .vux-badge-single {
+      padding: 0;
+      width: 20px;
+      position: relative;
+    }
+    .vux-badge {
+      display: inline-block;
+      text-align: center;
+      background: #054187;
+      color: #fff;
+      font-size: 14px;
+      height: 20px;
+      line-height: 20px;
+      border-radius: 10px;
+      background-clip: padding-box;
+      vertical-align: middle;
+    }
+  }
+</style>

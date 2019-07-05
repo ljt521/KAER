@@ -7,7 +7,7 @@
       <div class="cu-con">
         <div class="cu-content" v-for="(subPerson,index) in subPersonData" :key="index">
           <div class="p_content_top" @click="goCustomerByLeaderId(subPerson.id)">
-            <div class="tree-name"><span class="tree-name-span">{{subPerson.field06}}</span></div>
+            <div class="tree-name"><span class="tree-name-span">{{subPerson.name.slice(0,1)}}</span></div>
             <div class="tree-after" @click="goToSubCus(data.id)" >
               <h3 class="tree-after-h3">{{subPerson.name}}</h3>
                 <badge v-if="subPerson.field01 && subPerson.field01 != 0"  :text="subPerson.field01"></badge>

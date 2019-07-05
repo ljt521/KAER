@@ -7,8 +7,18 @@
         <div>
           <!--动态无数据时-->
           <div  v-if="isDynamic == '0'">
-            <div class="space" style="padding: 0;">
-              <div class="dy-div" style="padding: 0;text-align: center;line-height: 60px;">无数据</div>
+            <div class="space">
+              <div class="dy-div">
+                <i class="dy-size" style="margin:-10px 99px">无数据</i>
+                <i class="dy-size2"></i>
+                <i class="dy-size3">
+                  <span></span>
+                  <hos-span></hos-span>
+                  <span class="router-link"></span><br>
+                  <span></span>
+                  <span class="router-link"></span>
+                </i>
+              </div>
             </div>
           </div>
           <!--动态有数据时-->

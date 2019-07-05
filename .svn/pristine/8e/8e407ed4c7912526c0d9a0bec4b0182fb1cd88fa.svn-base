@@ -6,6 +6,7 @@
     <div class="us-z-top">
       <div style="position: relative;">
         <img v-if="customerDto.headImg" class="us-img-1" :src="baseUrl + customerDto.headImg" alt="">
+        <!--<img v-if="!customerDto.headImg" class="us-img-1" src="../assets/image/default_head.png" alt="">-->
         <label class="img-up" for="female">img</label>
         <input ref="female" type="file" @change="loadImg" id="female" accept="image/*" class="addBorder">
       </div>
@@ -151,22 +152,18 @@
       },
       /*返回*/
       goToBack () {
-        let previousPage = this.backField.previousPage
         //从所属客户页面跳转，并返回到所属客户列表
-        if (previousPage==='dynamic' || previousPage==='AllSubordinates' || previousPage === 'customer' || previousPage === 'concernSub' || previousPage === 'AllColleagues' ){
+        if (this.backField.filed=='sub'){
           this.$router.push({
-            path: '/subordinates-customer/' + this.backField.subId,
-            query:{previousPage:this.$route.query.previousPage}
+            path: '/subordinates-customer/' + this.backField.subId
           })
-          return
-        }else if (previousPage === 'dynamicPersonName') {
+          this.backField={}
+        }else {
           this.$router.push({
-            path: '/dynamic'
+            path: '/customer'
           })
-          return
         }
 
-        this.$router.push('/customer')
       },
       /*客户信息*/
       getCustomer (id) {

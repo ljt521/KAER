@@ -2,29 +2,16 @@
 <template>
   <div class="dy-top">
     <x-header @on-click-back="goToBack" class="x-header" slot="header" style="height: 45px;"  :left-options="{backText: '',preventGoBack: true}" ></x-header>
-    <div class="herder"></div>
-    <div class="us-s-top">
-      <!--头像-->
-      <div style="position: relative;">
-        <div class="tree-name-sub">
-          <span class="tree-name-span-sub">{{person.field06}}</span>
-        </div>
+    <div class="herder">
+      <div class="tree-name-sub">
+        <span class="tree-name-span-sub">{{surname}}</span>
       </div>
-      <div class="us-care-sub" @click="careData">
-        <div class="us-center-sub" v-if="myconcernscolleagueDto.isSubFocusOn == '0' ">
-          <img src="../assets/image/client_details_follow.png" alt=""><span>关注</span>
-        </div>
-        <div class="us-center-sub" v-if="myconcernscolleagueDto.isSubFocusOn == '1' ">
-          <img src="../assets/image/client_details_follow_s.png" alt=""><span style="color: #FFB532"> 已关注</span>
-        </div>
+      <div class="userInfo">
+        <p>{{person.name}}</p>
+        <p style="letter-spacing:1px" v-if="person.depName">部门：{{person.depName}}</p>
+        <!--<p v-if="person.field03">区域：{{person.field03}}</p>-->
       </div>
-      <h2 style="font-size:16px;margin: 10px 0 5px 0">{{person.name}}</h2>
-      <p v-if="person.depName" style="font-size:13px;margin: 5px 0 0px 0;text-align: center; color: #888888;">
-        {{person.depName}}
-      </p>
-      <div style="height: 15px;margin-bottom: 15px" class="vux-1px-b"></div>
     </div>
-
     <div class="cu-con">
       <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
         <div class="cu-content-top">
@@ -35,7 +22,7 @@
             <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
               <span style="font-size: 18px;padding-right: 10px;">
                       <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="customer.title"></div-span>
-              </span>
+                    </span>
               <span class="cu-title" v-if="customer.isFollowUp == '1'">待跟进</span></p>
             <p>
               <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
@@ -77,31 +64,15 @@
         sizeData: 5,
         sumData: 0,
         person:{},
-        surname:'',
-        backField:this.$route.query,
-        myconcernscolleagueDto: {
-          colleagueId:this.$route.params.id,
-          isSubFocusOn: Number
-        },
+        surname:''
       }
     },
     mounted () {
       let personId = this.$route.params.id
       this.$get('/api/customer/findByPerson',{personId:personId}).then(info => {
-        console.log(info.field06);
         this.person = info;
-        this.myconcernscolleagueDto.isSubFocusOn = info.field02
+        this.surname = this.person.name.substring(1,3).split('')[0];
       })
-
-      if (this.backField.previousPage==='AllColleagues'){
-        this.$get('/api/customer/getCustomerByColleaguesId',{colleaguesId:personId}).then(info=>{
-          this.customerData = info
-        }).catch(error =>{
-          console.log(error);
-        })
-        return
-      }
-
       this.$search('/api/customer', {sort: 'isFollowUp,name,DESC'},{'leader.id':personId}).then(info => {
         this.customerData = info
       }).catch(error => {
@@ -114,10 +85,7 @@
       goCustomerInfo (id) {
         this.$router.push({
           path: '/userInfo/' + id + '/essential-info/' + id,
-          query:{
-              previousPage:this.backField.previousPage,
-              subId:this.$route.params.id,
-          }
+          query:{filed:'sub',subId:this.$route.params.id}
         })
         sessionStorage.setItem('tabIndex', '1')
       },
@@ -125,10 +93,7 @@
       goToDynamic (id) {
         this.$router.push({
           path: '/userInfo/' + id + '/dynamic-assembly/' + id,
-          query:{
-            previousPage:this.backField.previousPage,
-            subId:this.$route.params.id
-          }
+          query:{filed:'sub',subId:this.$route.params.id}
         })
         sessionStorage.setItem('tabIndex', '4')
       },
@@ -137,54 +102,9 @@
         let self = this
         self.$refs['NewDiaLogDom'].isShowDia(true, id)
       },
-      //关注功能
-      careData(){
-        if (this.myconcernscolleagueDto.isSubFocusOn == '0') {
-          this.myconcernscolleagueDto.isSubFocusOn = 1
-          this.$post('/api/myconcernscolleague/attention', this.myconcernscolleagueDto).then(info => {
-            this.$vux.toast.text('关注成功', 'middle')
-          }).catch(error => {
-            this.$vux.toast.text('关注失败', 'middle')
-          })
-        } else {
-          this.myconcernscolleagueDto.isSubFocusOn = 0
-          this.$del('/api/myconcernscolleague/del/' + this.myconcernscolleagueDto.colleagueId).then(info => {
-            this.$vux.toast.text('取消关注成功', 'middle')
-          }).catch(error => {
-            this.$vux.toast.text('取消关注失败', 'middle')
-          })
-        }
-      },
-      //返回
       goToBack(){
-        if (this.backField.previousPage === 'dynamic') {
-          this.$router.push('/dynamic')
-          return
-        }
-        if (this.backField.previousPage === 'AllSubordinates') {
-          this.$router.push({
-            path:'/all-subordinates',
-            query:{previousPage:this.backField.previousPage}
-          })
-          return
-        }
-        if (this.backField.previousPage === 'AllColleagues'){
-          this.$router.push("/all-colleagues")
-          return
-        }
-        if(this.backField.previousPage === 'customer'){
-          this.$router.push("/customer");
-        }
-        if (this.backField.previousPage === 'concernSub') {
-          this.$router.push({
-            path:"/concern-sub",
-          })
-        }
-
-
+        this.$router.push('/all-subordinates')
       }
-
-
     }
   }
 </script>
@@ -193,7 +113,25 @@
   .dy-top {
     .herder {
       background: #073f89;
-      height: 134px;
+      height: 130px;
+      .tree-name-sub {
+        width: 50px;
+        height: 50px;
+        position: absolute;
+        border-radius: 50%;
+        line-height: 50px;
+        background-color: #5AC1EA;
+        color: #ffffff;
+        top: 55px;
+        left: 15px;
+        .tree-name-span-sub {
+          position: absolute;
+          display: block;
+          width: 50px;
+          text-align: center;
+          font-size: 16px;
+        }
+      }
       .userInfo {
         float: left;
         margin: 55px 0 0 81px;
@@ -212,82 +150,9 @@
       }
 
     }
-    .us-s-top {
-      margin: -65px 15px -100px;
-      position: relative;
-      background-color: #fff;
-      border-radius: 5px;
-      padding-top: 20px;
-      .tree-name-sub {
-        width: 50px;
-        height: 50px;
-        position: absolute;
-        border-radius: 50%;
-        line-height: 50px;
-        background-color: #5AC1EA;
-        color: #ffffff;
-        margin-left: 145.5px;
-        margin-top: -44px;
-        .tree-name-span-sub {
-          position: absolute;
-          display: block;
-          width: 50px;
-          text-align: center;
-          font-size: 16px;
-        }
-      }
-      .vux-1px-b {
-        &:after {
-          border-bottom: 1px solid #DDDDDD;
-          left: 18px;
-          right: 18px;
-        }
-      }
-      .us-img-1 {
-        position: relative;
-        top: -45px;
-        width: 75px;
-        height: 75px;
-        border-radius: 50%;
-        background-color: aliceblue;
-      }
-      .us-care-sub {
-        width: 67px;
-        height: 30px;
-        position: absolute;
-        top: 11px;
-        right: -3px;
-        border-top-left-radius: 15px;
-        border-bottom-left-radius: 15px;
-        background: #F2F3F5;
-        text-align: center;
-        font-size: 13px;
-        color: #A4A4A4;
-        .us-center-sub {
-          margin-top: 4px;
-          img {
-            vertical-align: top;
-            height: 15px;
-            margin-left: 5px;
-          }
-        }
-
-      }
-      .addBorder {
-        opacity: 0;
-        /*filter: alpha(opacity=0);*/
-        height: 100px;
-        width: 100px;
-        z-index: -9999;
-        position: absolute;
-        left: 50%;
-        transform: translate(-50%, 0);
-        opacity: 0;
-      }
-    }
     .cu-con {
       padding: 0 15px;
-      margin: 110px 0;
+      margin: 18px 0;
       .cu-content {
         background-color: #fff;
         margin-top: 10px;
