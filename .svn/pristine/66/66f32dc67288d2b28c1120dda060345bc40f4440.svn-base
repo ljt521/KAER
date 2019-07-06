@@ -7,17 +7,15 @@
       <!--头像-->
       <div style="position: relative;">
         <div class="tree-name-sub">
-          <span class="tree-name-span-sub">{{surname}}</span>
+          <span class="tree-name-span-sub">{{person.field06}}</span>
         </div>
       </div>
-      <div v-if="person.field07 != '2'">
-        <div class="us-care-sub" @click="careData">
-          <div class="us-center-sub" v-if="myconcernscolleagueDto.isSubFocusOn == '0' ">
-            <img src="../assets/image/client_details_follow.png" alt=""><span>关注</span>
-          </div>
-          <div class="us-center-sub" v-if="myconcernscolleagueDto.isSubFocusOn == '1' ">
-            <img src="../assets/image/client_details_follow_s.png" alt=""><span style="color: #FFB532"> 已关注</span>
-          </div>
+      <div class="us-care-sub" @click="careData">
+        <div class="us-center-sub" v-if="myconcernscolleagueDto.isSubFocusOn == '0' ">
+          <img src="../assets/image/client_details_follow.png" alt=""><span>关注</span>
+        </div>
+        <div class="us-center-sub" v-if="myconcernscolleagueDto.isSubFocusOn == '1' ">
+          <img src="../assets/image/client_details_follow_s.png" alt=""><span style="color: #FFB532"> 已关注</span>
         </div>
       </div>
       <h2 style="font-size:16px;margin: 10px 0 5px 0">{{person.name}}</h2>
@@ -79,8 +77,7 @@
         sizeData: 5,
         sumData: 0,
         person:{},
-        surname:'',//登录人拼音简称
-        isCurrentLogin: '',//是否当前登录人
+        surname:'',
         backField:this.$route.query,
         myconcernscolleagueDto: {
           colleagueId:this.$route.params.id,
@@ -89,13 +86,13 @@
       }
     },
     mounted () {
-
       let personId = this.$route.params.id
       this.$get('/api/customer/findByPerson',{personId:personId}).then(info => {
+        console.log(info.field06);
         this.person = info;
-        this.surname = info.field06.toUpperCase().substring(0,1)
         this.myconcernscolleagueDto.isSubFocusOn = info.field02
       })
+
       if (this.backField.previousPage==='AllColleagues'){
         this.$get('/api/customer/getCustomerByColleaguesId',{colleaguesId:personId}).then(info=>{
           this.customerData = info
@@ -318,13 +315,6 @@
             width: calc(100% - 75px);
             margin-left: 70px;
             position: relative;
-            .cu-img-size {
-              float: left;
-              padding-right: 5px;
-              width: 15px;
-              height: 15px;
-              margin-top: 4px
-            }
             .cu-title {
               font-size: 11px;
               width: 42px;
