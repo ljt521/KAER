@@ -7,7 +7,7 @@
       <!--头像-->
       <div style="position: relative;">
         <div class="tree-name-sub">
-          <span class="tree-name-span-sub">{{person.field06}}</span>
+          <span class="tree-name-span-sub">{{surname}}</span>
         </div>
       </div>
       <div v-if="person.field07 != '2'">
@@ -83,6 +83,7 @@
         sumData: 0,
         person:{},
         hasPermission: 0,
+        surname:'',//登录人拼音简称
         isCurrentLogin: '',//是否当前登录人
         backField:this.$route.query,
         myconcernscolleagueDto: {
@@ -95,6 +96,7 @@
       let personId = this.$route.params.id
       this.$get('/api/customer/findByPerson',{personId:personId}).then(info => {
         this.person = info;
+        this.surname = info.name.substring(0,1)
         this.myconcernscolleagueDto.isSubFocusOn = info.field02
       })
       this.$get('/api/customerPermisson/hasPermisson').then(info => {

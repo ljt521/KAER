@@ -22,39 +22,28 @@
           <h2 style="font-size:16px;margin: -45px 0 5px 0">{{customerDto.name}}</h2>
           <p style="margin-top:5px;text-align: center">
             <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customerDto.deptCode"></div-span>
-            <div-span style="font-size: 13px;" v-bind:dictCode="'ZW'"
-                      v-bind:dictItemCode="customerDto.administrative"></div-span>
+            <div-span style="font-size: 13px;" v-bind:dictCode="'ZW'" v-bind:dictItemCode="customerDto.administrative"></div-span>
             <div-span style="font-size: 13px" v-bind:dictCode="'ZC'" v-bind:dictItemCode="customerDto.title"></div-span>
           </p>
-          <p v-if="customerDto.hospitalCode"
-             style="font-size:13px;margin: 5px 0 0 0;text-align: center; color: #888888;">
+          <p v-if="customerDto.hospitalCode" style="font-size:13px;margin: 5px 0 0 0;text-align: center; color: #888888;">
             <hos-span v-bind:code="customerDto.hospitalCode"></hos-span>
           </p>
           <div style="height: 15px;margin-bottom: 15px" class="vux-1px-b"></div>
 
           <grid :show-lr-borders="false" :show-vertical-dividers="false">
-            <grid-item
-              :link="{ path: '/userInfo/'+id+'/essential-info/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}"
-              @on-item-click="onItemClick(1)">
+            <grid-item :link="{ path: '/userInfo/'+id+'/essential-info/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}" @on-item-click="onItemClick(1)">
               <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_basic_data.png">
               <span slot="label" class="user-span" :class="{'user-span-index':tabIndex == 1}">基本资料</span>
             </grid-item>
-            <grid-item
-              :link="{ path: '/userInfo/'+id+'/growth-archives/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}"
-              @on-item-click="onItemClick(2)">
-              <img style="width: 22px;height: 22px;" slot="icon"
-                   src="../assets/image/client_details_growth_archives.png">
+            <grid-item :link="{ path: '/userInfo/'+id+'/growth-archives/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}" @on-item-click="onItemClick(2)">
+              <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_growth_archives.png">
               <span slot="label" class="user-span" :class="{'user-span-index':tabIndex == 2}">成长档案</span>
             </grid-item>
-            <grid-item
-              :link="{ path: '/userInfo/'+id+'/follow-details/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}"
-              @on-item-click="onItemClick(3)">
+            <grid-item :link="{ path: '/userInfo/'+id+'/follow-details/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}" @on-item-click="onItemClick(3)">
               <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_follow_up.png">
               <span slot="label" class="user-span" :class="{'user-span-index':tabIndex == 3}">跟进详情</span>
             </grid-item>
-            <grid-item
-              :link="{ path: '/userInfo/'+id+'/dynamic-assembly/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}"
-              @on-item-click="onItemClick(4)">
+            <grid-item :link="{ path: '/userInfo/'+id+'/dynamic-assembly/'+id+'?previousPage='+backField.previousPage+'&subId='+backField.subId}" @on-item-click="onItemClick(4)">
               <img style="width: 22px;height: 22px;" slot="icon" src="../assets/image/client_details_dynamic.png">
               <span slot="label" class="user-span" :class="{'user-span-index':tabIndex == 4}">动态</span>
             </grid-item>
@@ -128,15 +117,15 @@
           canMoveBox: false,//截图框能否拖动
           autoCropWidth: 200,
           autoCropHeight: 200,
-          autoCrop: true,//是否默认生成截图框
+          autoCrop:true,//是否默认生成截图框
           // 开启宽度和高度比例
           fixed: true,
           fixedNumber: [1, 1]
         },
         showBox: false,
         isShowIsEdit: '',
-        isShowLeader: '',
-        backField: this.$route.query
+        isShowLeader:'',
+        backField:this.$route.query
       }
     },
     created () {
@@ -167,16 +156,16 @@
       goToBack () {
         let previousPage = this.backField.previousPage
         //从所属客户页面跳转，并返回到所属客户列表
-        if (previousPage === 'dynamic' || previousPage === 'AllSubordinates' || previousPage === 'customer' || previousPage === 'concernSub' || previousPage === 'AllColleagues' || previousPage === 'DynamicAssembly') {
+        if (previousPage==='dynamic' || previousPage==='AllSubordinates' || previousPage === 'customer' || previousPage === 'concernSub' || previousPage === 'AllColleagues'|| previousPage === 'DynamicAssembly' ){
           this.$router.push({
             path: '/subordinates-customer/' + this.backField.subId,
-            query: {previousPage: this.$route.query.previousPage}
+            query:{previousPage:this.$route.query.previousPage}
           })
           return
-        } else if (previousPage === 'dynamicPersonName') {
+        }else if (previousPage === 'dynamicPersonName') {
           this.$router.push('/dynamic')
           return
-        } else if (previousPage === 'MyConcern') {
+        }else if (previousPage === 'MyConcern') {
           this.$router.push('/my-concern')
           return
         }
@@ -194,7 +183,7 @@
         })
       },
       loadImg (e) {
-        if (this.isShowIsEdit == 0) {
+        if(this.isShowIsEdit == 0) {
           return
         }
         //获取文件
@@ -204,13 +193,13 @@
         let format = 'png,jpg,jpeg';
         let fileSufName = file[0].name.substring(file[0].name.lastIndexOf('.') + 1);
         if (format.indexOf(fileSufName) == -1) {
-          this.$vux.toast.text('格式错误', 'middle')
+          this.$vux.toast.text('格式错误','middle')
           return
         }
         //判断文件长度不能为0
         if (file.length == 0) {
-          this.$vux.toast.text('请选择图片', 'middle')
-          return
+          this.$vux.toast.text('请选择图片','middle')
+           return
         } else {
           const reader = new FileReader()
           reader.readAsDataURL(e.target.files[0]) // 读出 base64
@@ -223,7 +212,7 @@
           }
         }
       },
-      upImg (e) {
+      upImg(e) {
         const imageData = new FormData()
         imageData.append('file', e)
         this.$post('/api/file/change-head', imageData, 'header').then(info => {
@@ -232,10 +221,10 @@
           this.imgSrc = info.url
           this.$post('/api/customer/uploadHeadImg', this.customerDto).then(info => {
             this.showBox = false
-            this.$vux.toast.text('上传成功', 'middle')
+            this.$vux.toast.text('上传成功','middle')
           }).catch(error => {
             this.showBox = false
-            this.$vux.toast.text('上传失败', 'middle')
+            this.$vux.toast.text('上传失败','middle')
           })
         })
       },
@@ -251,18 +240,18 @@
           })
         }
       },
-      cancel () {
+      cancel() {
         this.showBox = false
       },
       onItemClick (value) {
         this.tabIndex = value;
       },
-      suofang (base64, bili) {
+      suofang(base64, bili){
         const _this = this
         //处理缩放，转格式
         let _img = new Image();
         _img.src = base64;
-        _img.onload = function () {
+        _img.onload = function() {
           let _canvas = document.createElement("canvas");
           const w = this.width / bili;
           const h = this.height / bili;
@@ -270,10 +259,10 @@
           _canvas.setAttribute("height", h);
           _canvas.getContext("2d").drawImage(this, 0, 0, w, h);
           const base64 = _canvas.toDataURL("image/jpeg");
-          _canvas.toBlob(function (blob) {
-            if (blob.size > 1024 * 50) {
+          _canvas.toBlob(function(blob) {
+            if(blob.size > 1024 * 50){
               _this.suofang(base64, bili);
-            } else {
+            }else{
               _this.upImg(blob)
             }
           }, "image/jpeg");
@@ -389,37 +378,36 @@
       color: #074089;
       font-size: 13px;
     }
-    .box {
+    .box{
       position: relative;
       height: 100%;
     }
-    .wrapper {
+    .wrapper{
       position: fixed;
       width: 100%;
       top: 0;
       height: calc(100% - 50px);
-      z-index: 9999;
     }
-    .vue-cropper {
+    .vue-cropper{
       background: black;
-      background-image: none !important;
+      background-image: none!important;
     }
-    .btn {
+    .btn{
       height: 50px;
       /* width: 100%; */
       padding: 0 15px;
       background-color: #000;
     }
-    .btn a {
+    .btn a{
       color: white;
       font-size: 14px;
       line-height: 50px;
       display: inline-block;
     }
-    .btn a:nth-of-type(1) {
+    .btn a:nth-of-type(1){
       float: left;
     }
-    .btn a:nth-of-type(2) {
+    .btn a:nth-of-type(2){
       float: right;
     }
   }

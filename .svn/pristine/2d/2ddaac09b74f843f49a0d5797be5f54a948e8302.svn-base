@@ -1,13 +1,13 @@
 <!--所属客户-->
 <template>
   <div class="dy-top">
-    <x-header @on-click-back="goToBack"  class="x-header"  style="height: 45px;background-color: #073f89"  :left-options="{backText: '',preventGoBack: true}" ></x-header>
-    <div class="herder" ></div>
+    <x-header @on-click-back="goToBack" class="x-header" slot="header" style="height: 45px;"  :left-options="{backText: '',preventGoBack: true}" ></x-header>
+    <div class="herder"></div>
     <div class="us-s-top">
       <!--头像-->
       <div style="position: relative;">
         <div class="tree-name-sub">
-          <span class="tree-name-span-sub">{{person.field06}}</span>
+          <span class="tree-name-span-sub">{{surname}}</span>
         </div>
       </div>
       <div v-if="person.field07 != '2'">
@@ -52,10 +52,7 @@
                       </span>
             </p>
           </div>
-          <!--页面占位-->
-          <div style="padding-top: 10px;">
-          </div>
-          <div class="cu-bottom" v-if="hasPermission == 0">
+          <div class="cu-bottom">
             <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
               <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
               <span class="cu-span-top">动态</span>
@@ -82,7 +79,7 @@
         sizeData: 5,
         sumData: 0,
         person:{},
-        hasPermission: 0,
+        surname:'',//登录人拼音简称
         isCurrentLogin: '',//是否当前登录人
         backField:this.$route.query,
         myconcernscolleagueDto: {
@@ -92,17 +89,13 @@
       }
     },
     mounted () {
+
       let personId = this.$route.params.id
       this.$get('/api/customer/findByPerson',{personId:personId}).then(info => {
         this.person = info;
+        this.surname = info.name.substring(0,1)
         this.myconcernscolleagueDto.isSubFocusOn = info.field02
       })
-      this.$get('/api/customerPermisson/hasPermisson').then(info => {
-        this.hasPermission = info.hasPermission;
-      }).catch(error =>{
-        console.log(error)
-      })
-
       if (this.backField.previousPage==='AllColleagues'){
         this.$get('/api/customer/getCustomerByColleaguesId',{colleaguesId:personId}).then(info=>{
           this.customerData = info
@@ -185,32 +178,24 @@
         if(this.backField.previousPage === 'customer'){
           this.$router.push("/customer");
         }
-        if (this.backField.previousPage === 'DynamicAssembly') {
-          this.$router.push({
-            path:'/userInfo/'+this.backField.customerId+'/dynamic-assembly/'+this.backField.customerId,
-          })
-          sessionStorage.setItem('tabIndex', '4')
-        }
         if (this.backField.previousPage === 'concernSub') {
           this.$router.push({
             path:"/concern-sub",
-          });
-        }
-        if (!this.backField.previousPage && this.backField.customerId) {
-          this.$router.push({
-            path:'/userInfo/'+this.backField.customerId+'/dynamic-assembly/'+this.backField.customerId,
           })
-          sessionStorage.setItem('tabIndex', '4')
         }
+
+
       }
+
+
     }
   }
 </script>
 
-<style lang="less" >
+<style lang="less">
   .dy-top {
     .herder {
-      background: #073f89 !important;
+      background: #073f89;
       height: 134px;
       .userInfo {
         float: left;
@@ -382,7 +367,5 @@
       }
     }
   }
-
-
 
 </style>

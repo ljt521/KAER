@@ -7,7 +7,6 @@
                 year-row="{value}年" confirm-text="完成" cancel-text="取消"></datetime>
       <span style="position: absolute;top: 12px;right: 20px;font-size: 13px;">共 {{sumData.data1*1+sumData.data2*1+sumData.data3*1+sumData.data4*1+sumData.data5*1+sumData.data6*1}}条跟进信息</span>
     </div>
-    <!--会诊信息-->
     <div class="fo-div">
       <cell
         :title="'会诊信息('+ sumData.data1 + ')'"
@@ -19,10 +18,10 @@
              src="../assets/image/follow_up_consultation.png" alt="">
       </cell>
       <swipeout class="slide" :class="showContent1?'animate':''">
-        <swipeout-item transition-mode="follow"  ref="swipeoutItem"  v-for="(data, index) in contentData.contentData1" :key="index" >
-          <div slot="right-menu" >
-            <swipeout-button @click.native="onButtonClick('/new-consul-info',data)" type="primary" style="font-size: 13px;">编辑</swipeout-button>
-            <swipeout-button v-if="$datedifference(data.createdDate) < 30" type="warn" @click.native="deleteInfo('/new-consul-info',data.id)" style="font-size: 13px;">删除</swipeout-button>
+        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData1" :key="index">
+          <div slot="right-menu" v-if="isEdit == 1">
+            <swipeout-button @click.native="onButtonClick('/new-consul-info',data)" type="primary">编辑</swipeout-button>
+            <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-consul-info',data.id)">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
@@ -31,42 +30,36 @@
                         v-bind:dictItemCode="data.operationName"></div-span>
               <span
                 style="float: right;font-size: 12px;color: #BFBFBF;">{{data.consultationDate | formatDate}}</span>
-              <div class="ka-details">
-                <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_role.png" alt="" >
-                  <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.operativeRole"></div-span>
-                </div>
-                <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_position.png" alt="" >
-                  <hos-span v-bind:code="data.operationLocal"></hos-span>
-                </div>
-              </div>
-              <div class="ka-details">
-                <div class="ka-details-items" style="margin-right: 0;width: 100%;">
-                  <img class="icon-5" src="../assets/image/follow_up_product_information.png" alt="">
-                  <div style="overflow: hidden;text-overflow: ellipsis;">
-                    <template v-for="dataList in contentData.contentData1">
-                      <template v-for="(data, index) in dataList.product[0]">
-                        <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
-                        <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
-                      </template>
-                    </template>
-                  </div>
-                </div>
-              </div>
-
+              <p style="margin: 10px 0">
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
+                 <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.operativeRole"></div-span>
+                </span>
+                <!--<span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>-->
+                <img class="fo-img-size" src="../assets/image/follow_up_position.png" alt="">
+                <hos-span v-bind:code="data.operationLocal"></hos-span>
+              </p>
+              <p style="margin: 10px 0">
+                <span>
+                  <img class="fo-img-size" src="../assets/image/follow_up_product_information.png" alt="">
+                </span>
+                <template v-for="dataList in contentData.contentData1">
+                  <template v-for="(data, index) in dataList.product[0]">
+                    <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
+                    <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
+                  </template>
+                </template>
+              </p>
             </div>
 
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部会诊信息',id:customerId,isOpen:'showContent1',backField:backField})" style="color: #074089;">查看更多</div>
+            <div @click="goToSeeAll({title:'全部会诊信息',id:customerId,isOpen:'showContent1'})" style="color: #074089;">查看更多</div>
           </div>
         </swipeout-item>
       </swipeout>
     </div>
-    <!--手术演示-->
     <div class="fo-div">
       <cell
         :title="'手术演示信息('+ sumData.data2 + ')'"
@@ -79,56 +72,51 @@
       </cell>
 
       <swipeout class="slide" :class="showContent2?'animate':''">
-        <swipeout-item transition-mode="follow"  ref="swipeoutItem" v-for="(data, index) in contentData.contentData2" :key="index"  >
-          <div slot="right-menu" >
-            <swipeout-button @click.native="onButtonClick('/new-oper-demo',data)" type="primary" style="font-size: 13px;">编辑</swipeout-button>
-            <swipeout-button v-if="$datedifference(data.createdDate) < 30" type="warn" @click.native="deleteInfo('/new-oper-demo',data.id)" style="font-size: 13px;">删除</swipeout-button>
+        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData2" :key="index">
+          <div slot="right-menu" v-if="isEdit == 1">
+            <swipeout-button @click.native="onButtonClick('/new-oper-demo',data)" type="primary">编辑</swipeout-button>
+            <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-oper-demo',data.id)">删除</swipeout-button>
           </div>
-          <div slot="content" class="vux-1px-t" style="padding:12px;">
+          <div slot="content" class="{'vux-1px-t}" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span>
               <span class="fo-span-top">
               <div-span v-bind:dictCode="'SSMC'" v-bind:dictItemCode="data.operationName"></div-span>
               </span>
               <span style="float: right;font-size: 12px;color: #BFBFBF;">{{data.createdDate|formatDate}}</span>
-              <!--结果显示-->
-              <div class="ka-details">
-                <div class="ka-details-items">
-                    <img class="icon-5" src="../assets/image/follow_up_role.png" alt="">
-                    <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.roleinOperation"></div-span>
-                </div>
-                  <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_position.png" alt="">
+              <p style="margin: 10px 0">
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
+                  <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.roleinOperation"></div-span>
+                </span>
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_position.png" alt="">
                   <div-span v-bind:dictCode="'CH'" v-bind:dictItemCode="data.demoOccasion"></div-span>
-                </div>
-              </div>
-              <div class="ka-details">
-                <div class="ka-details-items" style="margin-right: 0;width: 100%">
-                  <img class="icon-5" src="../assets/image/follow_up_product_information.png" alt="">
-                  <div style="overflow: hidden;text-overflow: ellipsis">
-                    <template v-for="dataList in contentData.contentData2">
-                      <template v-for="(data, index) in dataList.product[0]">
-                        <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
-                        <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
-                      </template>
-                    </template>
-
-                  </div>
-                </div>
-
-              </div>
-
+                </span>
+              </p>
+              <p style="margin: 10px 0">
+                <span>
+                  <img class="fo-img-size" src="../assets/image/follow_up_product_information.png" alt="">
+                </span>
+                <template v-for="dataList in contentData.contentData2">
+                  <template v-for="(data, index) in dataList.product[0]">
+                    <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
+                    <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
+                  </template>
+                </template>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_activity.png"
+                                         alt="">{{data.activityName }}</span>
+              </p>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部手术演示信息',id:customerId,isOpen:'showContent2',backField:backField})" style="color: #074089;">查看更多</div>
+            <div @click="goToSeeAll({title:'全部手术演示信息',id:customerId,isOpen:'showContent2'})" style="color: #074089;">查看更多</div>
           </div>
         </swipeout-item>
       </swipeout>
     </div>
-    <!--讲课信息-->
     <div class="fo-div">
       <cell
         :title="'讲课信息('+ sumData.data3 + ')'"
@@ -141,48 +129,47 @@
       </cell>
 
       <swipeout class="slide" :class="showContent3?'animate':''">
-        <swipeout-item transition-mode="follow"  ref="swipeoutItem" v-for="(data, index) in contentData.contentData3" :key="index">
-          <div slot="right-menu" >
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture',data)" style="font-size: 13px;">编辑</swipeout-button>
-            <swipeout-button v-if="$datedifference(data.createdDate) < 30" type="warn" @click.native="deleteInfo('/new-iecture',data.id)" style="font-size: 13px;">删除</swipeout-button>
+        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData3" :key="index">
+          <div slot="right-menu" v-if="isEdit == 1">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-iecture',data)">编辑</swipeout-button>
+            <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-iecture',data.id)">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span class="fo-span-top">{{data.lessonName}}</span><span
               style="float: right;font-size: 12px;color: #BFBFBF;">{{data.createdDate|formatDate}}</span>
-              <div class="ka-details">
-                <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_role.png" alt="">{{data.operativeType}}
-                </div>
-                <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_position.png" alt="">
-                  <div-span v-bind:dictCode="'CH'" v-bind:dictItemCode="data.lectureLocal"></div-span>
-                </div>
-              </div>
-              <div class="ka-details">
-                <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_product_information.png" alt="">
-                  <div style="overflow: hidden;text-overflow: ellipsis">
-                    <template v-for="dataList in contentData.contentData3">
-                      <template v-for="(data, index) in dataList.product[0]">
-                        <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
-                        <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
-                      </template>
-                    </template>
-                  </div>
-                </div>
-              </div>
+              <p style="margin: 10px 0">
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">{{data.operativeType}}</span>
+                <!--                <span class="right"><img src="../assets/image/follow_up_operation.png" alt="">月均三台</span>-->
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_position.png" alt=""><div-span
+                  v-bind:dictCode="'CH'" v-bind:dictItemCode="data.lectureLocal"></div-span></span>
+              </p>
+              <p style="margin: 10px 0">
+                <span>
+                  <img class="fo-img-size" src="../assets/image/follow_up_product_information.png" alt="">
+                </span>
+                <template v-for="dataList in contentData.contentData3">
+                  <template v-for="(data, index) in dataList.product[0]">
+                    <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
+                    <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="dataList.product[1][index]"></div-span>
+                  </template>
+                </template>
+              </p>
+              <p style="margin: 10px 0">
+                <span class="right"><img src="../assets/image/follow_up_activity.png"
+                                         alt="">{{data.activityName}}</span>
+              </p>
             </div>
+
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部讲课信息',id:customerId,isOpen:'showContent3',backField:backField})" style="color: #074089;">查看更多</div>
+            <div @click="goToSeeAll({title:'全部讲课信息',id:customerId,isOpen:'showContent3'})" style="color: #074089;">查看更多</div>
           </div>
         </swipeout-item>
       </swipeout>
     </div>
-    <!--参与课题-->
     <div class="fo-div">
       <cell
         :title="'参与课题信息('+ sumData.data4 + ')'"
@@ -195,40 +182,37 @@
       </cell>
 
       <swipeout class="slide" :class="showContent4?'animate':''">
-        <swipeout-item transition-mode="follow"  ref="swipeoutItem" v-for="(data, index) in contentData.contentData4" :key="index">
-          <div slot="right-menu" >
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-topic',data)" style="font-size: 13px;">编辑</swipeout-button>
-            <swipeout-button v-if="$datedifference(data.createdDate) < 30" type="warn" @click.native="deleteInfo('/new-topic',data.id)" style="font-size: 13px;">删除</swipeout-button>
+        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData4" :key="index">
+          <div slot="right-menu" v-if="isEdit == 1">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-topic',data)">编辑</swipeout-button>
+            <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-topic',data.id)">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
-              <span class="fo-span"></span>
-              <span class="fo-span-top">{{data.researchName }}</span>
-                <div class="ka-details">
-                  <div class="ka-details-items">
-                    <img class="icon-5" src="../assets/image/follow_up_topic_type.png" alt="">
-                    <div-span v-bind:dictCode="'KTLX'" v-bind:dictItemCode="data.researchType"></div-span>
-                  </div>
-                  <div class="ka-details-items">
-                    <img class="icon-5" src="../assets/image/follow_up_participation_mode.png" alt="">
-                    <div-span v-bind:dictCode="'CYFS'" v-bind:dictItemCode="data.partakeMode"></div-span>
-                  </div>
-                  <div class="ka-details-items">
-                    <icon class="icon-5" style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
-                    {{data.beginDate|formatDate}}
-                  </div>
-                </div>
+              <span class="fo-span"></span><span class="fo-span-top">{{data.researchName }}</span>
+              <p style="margin: 10px 0">
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_topic_type.png" alt="">
+                <div-span v-bind:dictCode="'KTLX'" v-bind:dictItemCode="data.researchType"></div-span>
+                </span>
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_participation_mode.png"
+                                         alt="">
+                <div-span v-bind:dictCode="'CYFS'" v-bind:dictItemCode="data.partakeMode"></div-span>
+                </span>
+                <span class="right">
+                  <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
+                  {{data.beginDate|formatDate}}
+                </span>
+              </p>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部参与课题信息',id:customerId,isOpen:'showContent4',backField:backField})" style="color: #074089;">查看更多</div>
+            <div @click="goToSeeAll({title:'全部参与课题信息',id:customerId,isOpen:'showContent4'})" style="color: #074089;">查看更多</div>
           </div>
         </swipeout-item>
       </swipeout>
     </div>
-    <!--论文发表-->
     <div class="fo-div">
       <cell
         :title="'论文发表信息('+ sumData.data5 + ')'"
@@ -241,40 +225,37 @@
       </cell>
 
       <swipeout class="slide" :class="showContent5?'animate':''">
-        <swipeout-item transition-mode="follow"   ref="swipeoutItem" v-for="(data, index) in contentData.contentData5" :key="index">
-          <div slot="right-menu" >
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-paper',data)" style="font-size: 13px;">编辑</swipeout-button>
-            <swipeout-button v-if="$datedifference(data.createdDate) < 30" type="warn" @click.native="deleteInfo('/new-paper',data.id)" style="font-size: 13px;">删除</swipeout-button>
+        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData5" :key="index">
+          <div slot="right-menu" v-if="isEdit == 1">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-paper',data)">编辑</swipeout-button>
+            <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-paper',data.id)">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span class="fo-span-top">{{data.paperName }}</span>
               <p style="margin: 10px 0">
-                <div class="ka-details">
-                  <div class="ka-details-items">
-                    <img class="icon-5" src="../assets/image/follow_up_role.png" alt="">
-                    <div-span v-bind:dictCode="'SMFS'" v-bind:dictItemCode="data.signType"></div-span>
-                  </div>
-                  <div class="ka-details-items">
-                    <img class="icon-5" src="../assets/image/follow_up_position.png" alt="">
-                    <div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="data.periodicalType"></div-span>
-                  </div>
-                  <div class="ka-details-items">
-                    <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
-                    {{data.paperYear}}
-                  </div>
-              </div>
+                <span class="right"><img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
+                <div-span v-bind:dictCode="'SMFS'" v-bind:dictItemCode="data.signType"></div-span>
+                </span>
+                <span class="right">
+                  <img class="fo-img-size" src="../assets/image/follow_up_position.png" alt="">
+                  <div-span v-bind:dictCode="'QK'" v-bind:dictItemCode="data.periodicalType"></div-span>
+                </span>
+                <span class="right">
+                  <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
+                  {{data.paperYear}}
+                </span>
+              </p>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部论文发表信息',id:customerId,isOpen:'showContent5',backField:backField})" style="color: #074089;">查看更多</div>
+            <div @click="goToSeeAll({title:'全部论文发表信息',id:customerId,isOpen:'showContent5'})" style="color: #074089;">查看更多</div>
           </div>
         </swipeout-item>
       </swipeout>
     </div>
-    <!--学术参与-->
     <div class="fo-div">
       <cell
         :title="'学术参与信息('+ sumData.data6 + ')'"
@@ -287,38 +268,39 @@
       </cell>
 
       <swipeout class="slide" :class="showContent6?'animate':''">
-        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData6" :key="index" >
-          <div slot="right-menu" >
-            <swipeout-button type="primary" @click.native="onButtonClick('/new-learning',data)" style="font-size: 13px;">编辑</swipeout-button>
-            <swipeout-button v-if="$datedifference(data.createdDate) < 30" type="warn" @click.native="deleteInfo('/new-learning',data.id)" style="font-size: 13px;">删除</swipeout-button>
+        <swipeout-item transition-mode="follow" v-for="(data, index) in contentData.contentData6" :key="index">
+          <div slot="right-menu" v-if="isEdit == 1">
+            <swipeout-button type="primary" @click.native="onButtonClick('/new-learning',data)">编辑</swipeout-button>
+            <swipeout-button v-if="$datedifference(data.createdDate) > 30" type="warn" @click.native="deleteInfo('/new-learning',data.id)">删除</swipeout-button>
           </div>
           <div slot="content" class="vux-1px-t" style="padding:12px;">
             <div class="fo-tex">
               <span class="fo-span"></span><span class="fo-span-top">{{data.activityName}}</span>
-              <div class="ka-details">
-                <div class="ka-details-items">
-                  <img class="icon-5" src="../assets/image/follow_up_role.png" alt="">{{data.academicActivityType}}
-                </div>
-                <div class="ka-details-items">
+              <p style="margin: 10px 0">
+                <span class="right">
+                  <img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
+                  {{data.academicActivityType}}
+                </span>
+                <span class="right">
                   <img class="fo-img-size" src="../assets/image/follow_up_role.png" alt="">
                   <div-span v-bind:dictCode="'SSJS'" v-bind:dictItemCode="data.participantRoles"></div-span>
-                </div>
-                <div class="ka-details-items">
+                </span>
+                <span class="right">
                   <icon style="color: #888888;font-size: 15px;" type="waiting-circle"></icon>
                   {{data.academicDate}}
-                </div>
-              </div>
+                </span>
+              </p>
             </div>
           </div>
         </swipeout-item>
         <swipeout-item transition-mode="follow">
           <div slot="content" class="vux-1px-t" style="padding:12px;">
-            <div @click="goToSeeAll({title:'全部学术参与信息',id:customerId,isOpen:'showContent6',backField:backField})" style="color: #074089;">查看更多</div>
+            <div @click="goToSeeAll({title:'全部学术参与信息',id:customerId,isOpen:'showContent6'})" style="color: #074089;">查看更多</div>
           </div>
         </swipeout-item>
       </swipeout>
     </div>
-    <div v-if="isEdit" class="fo-add" @click="openDiaLog(customerId)">+</div>
+    <div v-if="isEdit == 1" class="fo-add" @click="openDiaLog(customerId)">+</div>
     <new-dia-log ref="NewDiaLog"></new-dia-log>
   </div>
 </template>
@@ -327,9 +309,8 @@
     name: 'FollowDetails',
     data () {
       return {
-        customerId: this.$route.params.id || this.$route.query.id,
-        isEdit: false,
-        backField: this.$route.query,
+        customerId: this.$route.params.id,
+        isEdit: '',
         value5: '',
         showContent1: false,
         showContent2: false,
@@ -386,22 +367,9 @@
     },
     methods: {
       getCustomer (id) {
-        this.$get('/api/customer/' + this.customerId).then(info => {
-          this.customerData =info;
-          this.isEdit=info.isEdit;
-          if(info.isEdit*1){
-            if(this.$refs.swipeoutItem && this.$refs.swipeoutItem.length){
-              this.$refs.swipeoutItem.forEach(val=>{
-                val.isOpen=false;
-              })
-            }
-          }else{
-            if(this.$refs.swipeoutItem && this.$refs.swipeoutItem){
-              this.$refs.swipeoutItem.forEach(val=>{
-                val.isOpen=true;
-              })
-            }
-          }
+        this.$get('/api/customer/' + id).then(info => {
+          this.customerData = info
+          this.isEdit = info.isEdit
         })
       },
       // 会诊信息
@@ -410,7 +378,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId}).then(request => {
+        }, {'customer.id': this.$route.params.id}).then(request => {
           this.contentData.contentData1 = this.$sortData(request)
           this.sumData.data1 = this.$headers['x-total-count']
         }).catch(error => {
@@ -423,7 +391,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId}).then(request => {
+        }, {'customer.id': this.$route.params.id}).then(request => {
           this.contentData.contentData2 = this.$sortData(request)
           this.sumData.data2 = this.$headers['x-total-count']
         }).catch(error => {
@@ -460,7 +428,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId}).then(request => {
+        }, {'customer.id': this.$route.params.id}).then(request => {
           this.contentData.contentData5 = request
           this.sumData.data5 = this.$headers['x-total-count']
         }).catch(error => {
@@ -473,7 +441,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId}).then(request => {
+        }, {'customer.id': this.$route.params.id}).then(request => {
           this.contentData.contentData6 = request
           this.sumData.data6 = this.$headers['x-total-count']
         }).catch(error => {
@@ -584,10 +552,7 @@
               name: 'NewConsulInfo',
               params: {
                 title: '编辑会诊',
-                data: data,
-                backField: this.backField,
-                isEdit:this.isEdit,
-                start: 1
+                data: data
               }
             })
             break
@@ -596,11 +561,7 @@
               name: 'NewOperDemo',
               params: {
                 title: '编辑手术演示',
-                data: data,
-                backField: this.backField,
-                isEdit:this.isEdit,
-                start: 1,
-                subId:this.backField.subId
+                data: data
               }
             })
             break
@@ -609,10 +570,7 @@
               name: 'NewIecture',
               params: {
                 title: '编辑讲课',
-                data: data,
-                backField: this.backField,
-                isEdit:this.isEdit,
-                start: 1
+                data: data
               }
             })
             break
@@ -621,10 +579,7 @@
               name: 'NewPaper',
               params: {
                 title: '编辑论文发表',
-                data: data,
-                backField: this.backField,
-                isEdit:this.isEdit,
-                start: 1
+                data: data
               }
             })
             break
@@ -633,10 +588,7 @@
               name: 'NewTopic',
               params: {
                 title: '编辑参与课题',
-                data: data,
-                backField: this.backField,
-                isEdit:this.isEdit,
-                start: 1
+                data: data
               }
             })
             break
@@ -645,11 +597,7 @@
               name: 'NewLearning',
               params: {
                 title: '编辑学术参与',
-                data: data,
-                backField: this.backField,
-                isEdit:this.isEdit,
-                start: 1,
-
+                data: data
               }
             })
             break
@@ -750,7 +698,6 @@
             id: info.id,
             isEdit: this.isEdit,
             isOpen:info.isOpen,
-            backField:info.backField
           }
         })
       },
@@ -770,7 +717,6 @@
     .fo-img-size {
       width: 15px;
       height: 15px;
-      vertical-align: center;
     }
     p {
       margin: 0;
@@ -864,23 +810,5 @@
     position: relative;
     top: -2px;
   }
-  .ka-details{
-    margin: 10px 0;
-    display: flex;
-  }
-  .ka-details-items{
-    display: flex;
-    align-items: center;
-    margin-right: 30px;
-    color: #888888;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-  .icon-5{
-    margin-right: 5px;
-    width: 15px;
-    height: 15px;
-  }
-
 
 </style>

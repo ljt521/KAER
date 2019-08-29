@@ -1,0 +1,54 @@
+<template>
+  <div v-wechat-title="title">
+    <div class="dy-top">
+      <x-header @on-click-back="goToBack" :left-options="{backText: '',preventGoBack: true}">{{title}}</x-header>
+    </div>
+    <AllConsultation v-if="title === '全部会诊信息'" :personId="personId" :isEdit="isEdit">{{title}}</AllConsultation>
+    <AllOperDemo v-if="title === '全部手术演示信息'" :personId="personId" :isEdit="isEdit">{{title}}</AllOperDemo>
+    <AllIecture v-if="title === '全部讲课信息'" :personId="personId" :isEdit="isEdit">{{title}}</AllIecture>
+    <AllTopic v-if="title === '全部参与课题信息'" :personId="personId" :isEdit="isEdit">{{title}}</AllTopic>
+    <AllPaper v-if="title === '全部论文发表信息'" :personId="personId" :isEdit="isEdit">{{title}}</AllPaper>
+    <AllLearning v-if="title === '全部学术参与信息'" :personId="personId" :isEdit="isEdit">{{title}}</AllLearning>
+  </div>
+</template>
+<script>
+  import AllConsultation from '@/components/AllConsultation'
+  import AllOperDemo from '@/components/AllOperDemo'
+  import AllIecture from '@/components/AllIecture'
+  import AllTopic from '@/components/AllTopic'
+  import AllPaper from '@/components/AllPaper'
+  import AllLearning from '@/components/AllLearning'
+  export default {
+    name: 'SeeAll',
+    data() {
+      return{
+        title: '',
+        personId:'',
+        isEdit: this.$route.params.isEdit,
+        isOpen:'',
+      }
+    },
+    mounted () {
+      this.title = this.$route.params.title || this.$route.meta.title;
+      this.personId=this.$route.params.id
+      this.isEdit=this.$route.params.isEdit
+      this.isOpen = this.$route.params.isOpen
+    },
+    methods:{
+      goToBack(){
+        this.$router.push({
+          path:'/userInfo/'+this.personId+'/follow-details/'+this.personId,
+          query: {
+            isOpen:this.isOpen,
+          }
+        })
+        sessionStorage.setItem('tabIndex', '3')
+      }
+
+    },
+    components: {AllConsultation, AllOperDemo, AllIecture, AllPaper, AllTopic,AllLearning},
+
+  }
+</script>
+
+<style lang="less"></style>
