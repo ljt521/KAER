@@ -2,8 +2,7 @@
 <template>
   <div id="allSub">
     <div class="dy-top">
-      <x-header class="x-header" slot="header" @on-click-back="goToBack"
-                :left-options="{backText:'',preventGoBack:true}">
+      <x-header class="x-header" slot="header" @on-click-back="goToBack" :left-options="{backText:'',preventGoBack:true}">
         全部下属
       </x-header>
     </div>
@@ -26,8 +25,7 @@
               <span class="tree-name-span">{{data.field06}}</span>
             </div>
             <div @click="goToSubCus(data.id)" class="tree-after"><h3 class="tree-after-h3">
-              {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<badge v-if="data.field04 && data.field04 != 0"
-                                                               :text="data.field04"></badge>
+              {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<badge v-if="data.field04 && data.field04 != 0" :text="data.field04"></badge>
             </div>
             <div>
               <div @click="careData(data)">
@@ -41,12 +39,12 @@
                 </div>
               </div>
             </div>
+
           </li>
         </ul>
         <div v-if="data['childData']">
           <ul class="tree-ul" v-for="(child, i) in data.childData">
-            <li class="tree-li" :style="'left:'+ child.level * 20 +'px;'"
-                v-if="child.select || (i > 0 ? data.childData[ i-1]['select']: data.select)">
+            <li class="tree-li" :style="'left:'+ child.level * 20 +'px;'" v-if="child.select">
               <div class="tree-button" @click="addData(child['select'], child.id, child.level,index, i)">
                 <span class="tree-button-span">
                   <span v-if="child.field05 === '1'">
@@ -61,8 +59,7 @@
               <div @click="goToSubCus(child.id)" class="tree-name"><span
                 class="tree-name-span">{{child.field06}}</span></div>
               <div @click="goToSubCus(child.id)" class="tree-after"><h3 class="tree-after-h3">
-                {{child.name}}</h3>&nbsp;&nbsp;<badge v-if="child.field04 && child.field04 != 0"
-                                                      :text="child.field04"></badge>
+                {{child.name}}</h3>&nbsp;&nbsp;<badge v-if="child.field04 && child.field04 != 0" :text="child.field04"></badge>
               </div>
               <div @click="careData(child)">
                 <!--未关注-->
@@ -95,14 +92,13 @@
       Actionsheet,
       Badge,
     },
-    data () {
+    data() {
       return {
         subPersons: [],
-        that: '',
         myconcernscolleagueDto: {isSubFocusOn: Number},
       }
     },
-    mounted () {
+    mounted() {
       this.$get('/api/customer/subPersons', {personId: 0}).then(info => {
         for (let i = 0; i < info.length; i++) {
           info[i]['level'] = 0
@@ -115,7 +111,7 @@
       })
     },
     methods: {
-      careData (data) {
+      careData(data) {
         this.myconcernscolleagueDto.colleagueId = data.id
         if (data.field02 == '0') {
           this.myconcernscolleagueDto.isSubFocusOn = 1
@@ -137,8 +133,7 @@
           })
         }
       },
-      addData (select, value, level, index, indexLs) {
-        let that = this;
+      addData(select, value, level, index, indexLs) {
         const selectData = !select
         this.$get('/api/customer/subPersons', {personId: value}).then(info => {
           if (info.length == 0) {
@@ -146,29 +141,15 @@
             this.$vux.toast.text('无下属', 'middle')
             return
           }
-
-          if (indexLs != null && selectData) {
-            let arr = this.subPersons
-            for (let f = 0; f < info.length; f++) {
-              for (let h = 0; h < arr[index].childData.length; h++) {
-                if (arr[index].childData[h].id == info[f].id) {
-                  arr[index].childData.splice(h, 1);
-                }
-              }
-            }
-            arr[index].childData[indexLs].select = true
-            this.subPersons = JSON.parse(JSON.stringify(arr))
-          }
-
-          if (indexLs != null && !selectData) {
+          if (indexLs != null) {
             let arr = this.subPersons
             for (let k = 0; k < info.length; k++) {
               info[k]['level'] = level + 1
-              info[k]['select'] = false
-              arr[index].childData.splice(indexLs + 1, 0, info[k]);
+              info[i]['select'] = false
+              arr[index].childData.splice(indexLs, 0, info[k])
             }
             this.subPersons = JSON.parse(JSON.stringify(arr))
-          } else if (indexLs == null) {
+          } else {
             let arr = this.subPersons
             arr[index]['childData'] = []
             for (let i = 0; i < info.length; i++) {
@@ -181,57 +162,55 @@
           }
           if (selectData) {
             if (indexLs != null) {
-              if (that.subPersons[index].childData[indexLs]) {
-                for (let r = 0; r < that.subPersons[index].childData.length; r++) {
-                  if (that.subPersons[index].childData[r].level - that.subPersons[index].childData[indexLs].level == 1) {
-                    that.subPersons[index].childData[r].select = false
-                    that.subPersons[index].childData[indexLs].select = true
+              if (this.subPersons[index].childData[indexLs]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  if (this.subPersons[index].childData[indexLs].level - this.subPersons[index].childData[i].level === 1
+                    && this.subPersons[index].childData[i].father == value) {
+                    this.subPersons[index].childData[indexLs].select = true
+                    this.subPersons[index].childData[i].select = true
                   }
                 }
               }
             } else {
-              if (that.subPersons[index]['childData']) {
-                for (let q = 0; q < that.subPersons[index].childData.length; q++) {
-                  if (that.subPersons[index].childData[q].level - that.subPersons[index].level === 1) {
-                    that.subPersons[index].select = true
-                    that.subPersons[index].childData[q].select = true
+              if (this.subPersons[index]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  if (this.subPersons[index].childData[i].level - this.subPersons[index].level === 1) {
+                    this.subPersons[index].select = true
+                    this.subPersons[index].childData[i].select = true
                   }
                 }
               }
             }
-            this.subPersons = JSON.parse(JSON.stringify(that.subPersons))
           } else {
-            this.subPersons = that.subPersons;
             if (indexLs != null) {
-              if (that.subPersons[index]['childData']) {
-                for (let t = 0; t < that.subPersons[index].childData.length; t++ && that.subPersons[index].childData[t].father == value) {
-                  if (that.subPersons[index].childData[t].level - that.subPersons[index].level >= 1) {
-                    that.subPersons[index].childData[t].select = true
-                    that.subPersons[index].childData[indexLs].select = false
+              if (this.subPersons[index]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  if (this.subPersons[index].childData[i].level - this.subPersons[index].level >= 1 && this.subPersons[index].childData[i].father == value) {
+                    this.subPersons[index].childData[i].select = false
+                    this.subPersons[index].childData[indexLs].select = false
                   }
                 }
               }
             } else {
-              if (that.subPersons[index]['childData']) {
-                for (let u = 0; u < that.subPersons[index].childData.length; u++) {
-                  that.subPersons[index].select = false
-                  that.subPersons[index].childData[u].select = false
+              if (this.subPersons[index]['childData']) {
+                for (let i = 0; i < this.subPersons[index].childData.length; i++) {
+                  this.subPersons[index].childData[i].select = false
+                  this.subPersons[index].select = false
                 }
               }
             }
-            this.subPersons = JSON.parse(JSON.stringify(that.subPersons))
           }
         }).catch(error => {
           console.log(error)
         })
       },
-      goToSubCus (id) {
+      goToSubCus(id) {
         this.$router.push({
           path: '/subordinates-customer/' + id,
-          query: {previousPage: "AllSubordinates"}
+          query:{previousPage:"AllSubordinates"}
         })
       },
-      goToBack () {
+      goToBack(){
         this.$router.push('/customer')
       }
 
@@ -367,7 +346,7 @@
               </div>
               <div @click="goToSubCus(data.id)" class="tree-after"><h3 class="tree-after-h3">
                 {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
-                <badge v-if="data.field04 && data.field04 != 0" :text="data.field04"></badge>
+                <badge v-if="data.field01 && data.field01 != 0" :text="data.field01"></badge>
               </div>
             </li>
           </ul>

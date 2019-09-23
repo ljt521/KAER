@@ -1,17 +1,13 @@
 <!--全部同事-->
 <template>
   <div id="allCol">
-    <div class="dy-top" style="height: 40px;">
-      <!--标题 -->
+    <div class="dy-top">
       <!--<x-header class="x-header" @on-click-back="goToBack" :left-options="{backText: '',preventGoBack: true}"-->
                 <!--slot="header">-->
         <!--同事-->
       <!--</x-header>-->
-      <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 40px">
-        <search-box v-bind:black="true" :placeholder='countText' @on-black="blackClick" @on-search="searClick" @on-enter="enterBtn"
-                    @on-change="searchChange"></search-box>
-      </div>
-
+      <search-box v-bind:black="true" @on-black="blackClick" @on-search="searClick" @on-enter="enterBtn"
+                  @on-change="searchChange"></search-box>
     </div>
     <div class="tree-box">
       <div v-for="data in allColleagues">
@@ -21,7 +17,7 @@
               <span class="tree-name-span">{{data.field06}}</span>
             </div>
             <div @click="goColleaguesCustomer(data.id)" class="tree-after-name">
-              <h3 class="tree-after-h3"> {{data.name}}&nbsp;&nbsp;&nbsp;<span style="font-size: 10px;color: #ADADAD">{{data.field03}}</span></h3>
+              <h3 class="tree-after-h3"> {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
             </div>
             <div @click="careData(data)">
               <!--未关注-->
@@ -47,7 +43,6 @@
     name: "AllColleagues",
     data() {
       return {
-        countText: '请输入姓名',
         allColleagues: [],
         myconcernscolleagueDto: {isSubFocusOn: Number},
         searchData: {},
@@ -69,7 +64,8 @@
       },
       //关键字搜索
       keywordSearch(e) {
-        this.searchData = e;
+        this.searchData = e
+        console.log(this.searchData);
         this.$search('/api/customer/getColleagues', {}, {name:this.searchData}).then((info) => {
           this.allColleagues = info
         })
@@ -85,10 +81,8 @@
           this.keywordSearch(e)
         }
       },
-      blackClick(e) {
-        if (e) {
-          this.$router.push("/customer");
-        }
+      blackClick() {
+
       },
       //关注
       careData(data) {
@@ -194,10 +188,6 @@
           .tree-after-h3 {
             margin: 0;
             display: inline-block;
-          }
-          .tree-after-h4{
-            margin-left: 20px;
-
           }
         }
       }

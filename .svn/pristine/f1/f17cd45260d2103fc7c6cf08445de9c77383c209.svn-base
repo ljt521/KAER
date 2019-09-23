@@ -411,7 +411,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId,'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.customerId}).then(request => {
           this.contentData.contentData1 = this.$sortData(request)
           this.sumData.data1 = this.$headers['x-total-count']
         }).catch(error => {
@@ -424,7 +424,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId, 'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.customerId}).then(request => {
           this.contentData.contentData2 = this.$sortData(request)
           this.sumData.data2 = this.$headers['x-total-count']
         }).catch(error => {
@@ -437,7 +437,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.$route.params.id, 'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.$route.params.id}).then(request => {
           this.contentData.contentData3 = this.$sortData(request)
           this.sumData.data3 = this.$headers['x-total-count']
         }).catch(error => {
@@ -449,7 +449,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.$route.params.id,'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.$route.params.id}).then(request => {
           this.contentData.contentData4 = request
           this.sumData.data4 = this.$headers['x-total-count']
         }).catch(error => {
@@ -461,7 +461,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId,'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.customerId}).then(request => {
           this.contentData.contentData5 = request
           this.sumData.data5 = this.$headers['x-total-count']
         }).catch(error => {
@@ -474,7 +474,7 @@
           sort: 'createdDate,DESC',
           page: 0,
           size: 2
-        }, {'customer.id': this.customerId,'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.customerId}).then(request => {
           this.contentData.contentData6 = request
           this.sumData.data6 = this.$headers['x-total-count']
         }).catch(error => {
@@ -494,8 +494,7 @@
         }, {
           'customer.id': this.$route.params.id,
           'createdDate-le': end,
-          'createdDate-ge': start,
-          'operation':'CREATE'
+          'createdDate-ge': start
         }).then(request => {
           this.contentData.contentData1 = this.$sortData(request)
           this.sumData.data1 = this.$headers['x-total-count']
@@ -510,8 +509,7 @@
           }, {
             'customer.id': this.$route.params.id,
             'createdDate-le': end,
-            'createdDate-ge': start,
-            'operation':'CREATE'
+            'createdDate-ge': start
           }).then(request => {
             this.contentData.contentData2 = this.$sortData(request)
             this.sumData.data2 = this.$headers['x-total-count']
@@ -526,8 +524,7 @@
           }, {
             'customer.id': this.$route.params.id,
             'createdDate-le': end,
-            'createdDate-ge': start,
-            'operation':'CREATE'
+            'createdDate-ge': start
           }).then(request => {
             this.contentData.contentData3 = this.$sortData(request)
             this.sumData.data3 = this.$headers['x-total-count']
@@ -542,8 +539,7 @@
           }, {
             'customer.id': this.$route.params.id,
             'createdDate-le': end,
-            'createdDate-ge': start,
-            'operation':'CREATE'
+            'createdDate-ge': start
           }).then(request => {
             this.contentData.contentData4 = request
             this.sumData.data4 = this.$headers['x-total-count']
@@ -558,8 +554,7 @@
           }, {
             'customer.id': this.$route.params.id,
             'createdDate-le': end,
-            'createdDate-ge': start,
-            'operation':'CREATE'
+            'createdDate-ge': start
           }).then(request => {
             this.contentData.contentData5 = request
             this.sumData.data5 = this.$headers['x-total-count']
@@ -574,8 +569,7 @@
           }, {
             'customer.id': this.$route.params.id,
             'createdDate-le': end,
-            'createdDate-ge': start,
-            'operation':'CREATE'
+            'createdDate-ge': start
           }).then(request => {
             this.contentData.contentData6 = request
             this.sumData.data6 = this.$headers['x-total-count']

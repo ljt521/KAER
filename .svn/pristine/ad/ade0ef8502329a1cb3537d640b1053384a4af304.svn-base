@@ -26,8 +26,8 @@
               <span class="tree-name-span">{{data.field06}}</span>
             </div>
             <div @click="goToSubCus(data.id)" class="tree-after"><h3 class="tree-after-h3">
-              {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<badge v-if="data.field04 && data.field04 != 0"
-                                                               :text="data.field04"></badge>
+              {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;<badge v-if="data.field01 && data.field01 != 0"
+                                                               :text="data.field01"></badge>
             </div>
             <div>
               <div @click="careData(data)">
@@ -61,8 +61,8 @@
               <div @click="goToSubCus(child.id)" class="tree-name"><span
                 class="tree-name-span">{{child.field06}}</span></div>
               <div @click="goToSubCus(child.id)" class="tree-after"><h3 class="tree-after-h3">
-                {{child.name}}</h3>&nbsp;&nbsp;<badge v-if="child.field04 && child.field04 != 0"
-                                                      :text="child.field04"></badge>
+                {{child.name}}</h3>&nbsp;&nbsp;<badge v-if="child.field01 && child.field01 != 0"
+                                                      :text="child.field01"></badge>
               </div>
               <div @click="careData(child)">
                 <!--未关注-->
@@ -367,7 +367,7 @@
               </div>
               <div @click="goToSubCus(data.id)" class="tree-after"><h3 class="tree-after-h3">
                 {{data.name}}</h3>&nbsp;&nbsp;&nbsp;&nbsp;
-                <badge v-if="data.field04 && data.field04 != 0" :text="data.field04"></badge>
+                <badge v-if="data.field01 && data.field01 != 0" :text="data.field01"></badge>
               </div>
             </li>
           </ul>

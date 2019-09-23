@@ -1,19 +1,19 @@
 <!--全部同事-->
 <template>
   <div id="allCol">
-    <div class="dy-top" style="height: 40px;">
+    <div class="dy-top">
       <!--标题 -->
       <!--<x-header class="x-header" @on-click-back="goToBack" :left-options="{backText: '',preventGoBack: true}"-->
                 <!--slot="header">-->
         <!--同事-->
       <!--</x-header>-->
-      <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 40px">
+      <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 43px">
         <search-box v-bind:black="true" :placeholder='countText' @on-black="blackClick" @on-search="searClick" @on-enter="enterBtn"
-                    @on-change="searchChange"></search-box>
+                    @on-change="searchChange" ></search-box>
       </div>
 
     </div>
-    <div class="tree-box">
+    <div class="tree-box" style="margin-top: 42px">
       <div v-for="data in allColleagues">
         <ul class="tree-ul">
           <li class="tree-li">

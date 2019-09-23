@@ -202,7 +202,6 @@
               <load-more v-if="onFetching" tip="loading"></load-more>
             </div>
             <div style="padding: 10px" @click="onScrollBottom()" v-if="sizeData > sumData">已到底</div>
-
           </div>
         </div>
       </scroller>
@@ -230,6 +229,8 @@
         onFetching: false,
         pisCustomerData: [],
         hasPermission: 0,
+
+        // sizeData: Number(this.$route.query.sizeData) || 5,
         sumData: 0,
         sizeData: 5,
         orderHight: '',
@@ -239,18 +240,16 @@
       }
     },
     mounted () {
-      //我的客户列表
+      // console.log(this.$route.query.sizeData);
       this.$get('/api/customer/getCustomerByLeader', {sort: 'isFollowUp,name,DESC'}).then(info => {
         this.customerData = info
       }).catch(error => {
         console.log(error)
       })
-      //初次渲染页面时---------------
-      //查询该用户是否存在权限列表中
       this.$get('/api/customerPermisson/hasPermisson').then(info => {
         this.hasPermission = info.hasPermission
         if (this.hasPermission == 0) {
-          //下属的客户列表
+          //查询下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
@@ -263,7 +262,7 @@
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -301,7 +300,9 @@
       goCustomerInfo (id) {
         this.$router.push({
           path: '/userInfo/' + id + '/essential-info/' + id,
+          // query: {sizeData: this.sizeData}
         })
+        // sessionStorage.setItem('tabIndex', '1')
       },
       goCustomerByLeaderId (id) {
         this.$router.push({
@@ -310,7 +311,6 @@
         })
       },
       areaChange (e) {
-        this.sizeData = 5;
         this.area = e.code
         let obj = {
           area: this.area || undefined,
@@ -318,7 +318,6 @@
           name: this.searchData || undefined,
         }
         obj = JSON.parse(JSON.stringify(obj))
-        //查询我的客户
         this.$search('/api/customer/getCustomerByLeader', {
           sort: 'isFollowUp,name,DESC',
         }, obj).then(info => {
@@ -326,41 +325,32 @@
         }).catch(error => {
           console.log(error)
         })
-
-        //查询权限列表
         if (this.hasPermission == 0) {
-          //下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
             size: 10
           }, obj).then(info => {
             this.subCustomerData = info
-            this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
             size: 10
           }, obj).then(info => {
             this.pisCustomerData = info
-            this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         }
       },
-
       departmentChange (e) {
-        this.sizeData = 5;
         this.deptCode = e.code
         let obj = {
           area: this.area || undefined,
@@ -368,17 +358,14 @@
           name: this.searchData || undefined,
         }
         obj = JSON.parse(JSON.stringify(obj))
-        //我的客户列表
         this.$search('/api/customer/getCustomerByLeader', {
           sort: 'isFollowUp,name,DESC',
         }, obj).then(info => {
           this.customerData = info
-
         }).catch(error => {
           console.log(error)
         })
         if (this.hasPermission == 0) {
-          //我的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
@@ -386,13 +373,12 @@
           }, obj).then(info => {
             this.subCustomerData = info
             this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -400,17 +386,11 @@
           }, obj).then(info => {
             this.pisCustomerData = info
             this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
-        };
-        this.$nextTick(() => {
-          if (this.$refs.scrollerBottom) {
-            this.$refs.scrollerBottom.reset({top: 0})
-          }
-        })
+        }
       },
       keywordSearch (e) {
         this.searchData = e
@@ -418,6 +398,7 @@
           area: this.area || undefined,
           deptCode: this.deptCode || undefined,
           name: this.searchData || undefined,
+
         }
         obj = JSON.parse(JSON.stringify(obj))
         this.$search('/api/customer/getCustomerByLeader', {
@@ -428,7 +409,6 @@
           console.log(error)
         })
         if (this.hasPermission == 0) {
-          //下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
@@ -436,12 +416,11 @@
           }, obj).then(info => {
             this.subCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.allFlag = sizeData < this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -449,14 +428,12 @@
           }, obj).then(info => {
             this.pisCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.allFlag = sizeData < this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         }
       },
       getMorData () {
-        this.sizeData = 5;
         this.sizeData = this.sizeData + 10
         let obj = {
           area: this.area || undefined,
@@ -484,7 +461,7 @@
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -510,7 +487,6 @@
           _this.onFetching = false
           return
         }
-
         if (this.onFetching) {
           // this.$vux.toast.text('', 'middle')
         } else {

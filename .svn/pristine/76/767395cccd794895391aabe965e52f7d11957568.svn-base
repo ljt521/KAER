@@ -16,241 +16,218 @@
     <div class="" style="height: 75px"></div>
 
     <div style="overflow: hidden">
-      <scroller :height="'-120'" lock-x @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"
-                :scroll-bottom-offst="20">
-        <div>
-          <!--我的-->
-          <div class="cu-con">
-            <flexbox>
-              <flexbox-item>
-                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span>
-                </p></div>
-              </flexbox-item>
-              <!-- <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item> -->
-            </flexbox>
-            <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
-              <div class="cu-content-top">
-                <div class="user-img" @click="goCustomerInfo(customer.id)">
-                  <img v-bind:src="baseUrl + customer.headImg" alt="">
-                </div>
-                <div class="userImg-r" @click="goCustomerInfo(customer.id)">
-                  <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
-                    <span style="font-size: 18px;padding-right: 10px;">
+      <!--我的-->
+      <div class="cu-con" v-if="customerData.length > 0">
+        <flexbox>
+          <flexbox-item>
+            <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">我的</span>
+            </p></div>
+          </flexbox-item>
+          <!-- <flexbox-item><div class="flex-demo"><div class="cu-div"><i style="position: relative;top: -3px;"><x-icon type="ios-plus-empty" size="25"></x-icon></i><span @click="goNewCustomer">新建客户</span></div></div></flexbox-item> -->
+        </flexbox>
+        <div class="cu-content" v-for="(customer,index) in customerData" :key="index">
+          <div class="cu-content-top">
+            <div class="user-img" @click="goCustomerInfo(customer.id)">
+              <img v-bind:src="baseUrl + customer.headImg" alt="">
+            </div>
+            <div class="userImg-r" @click="goCustomerInfo(customer.id)">
+              <p><span style="font-size: 15px;padding-right: 10px;">{{customer.name}}</span>
+                <span style="font-size: 18px;padding-right: 10px;">
                       <div-span style="font-size: 13px" v-bind:dictCode="'ZC'"
                                 v-bind:dictItemCode="customer.title"></div-span>
                     </span>
-                    <span class="cu-title" v-if="customer.isFollowUp == '1'">待跟进</span></p>
-                  <p>
-                    <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
-                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
+                <span class="cu-title" v-if="customer.isFollowUp == '1'">待跟进</span></p>
+              <p>
+                <img class="cu-img-size" src="../assets/image/client_hospital.png" alt="">
+                <span style="color: #888888;font-size: 13px" class="cu-span-top">
                       {{customer.hospitalName}}
                       </span>
-                  </p>
-                  <p style="margin-top: 3px">
-                    <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
-                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
+              </p>
+              <p style="margin-top: 3px">
+                <img class="cu-img-size" src="../assets/image/client_department.png" alt="">
+                <span style="color: #888888;font-size: 13px" class="cu-span-top">
                         <div-span v-bind:dictCode="'KSLX'" v-bind:dictItemCode="customer.deptCode"></div-span>
                       </span>
-                  </p>
-                </div>
-                <div class="cu-bottom">
-                  <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
-                    <span class="cu-span-top">动态</span>
-                  </div>
-                  <div @click="openDiaLog(customer.id)" class="cu-bottom-r">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
-                    <span class="cu-span-top">日常跟进</span>
-                  </div>
-                </div>
+              </p>
+            </div>
+            <div class="cu-bottom">
+              <div class="cu-bottom-l" @click="goToDynamic(customer.id)">
+                <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+                <span class="cu-span-top">动态</span>
+              </div>
+              <div @click="openDiaLog(customer.id)" class="cu-bottom-r">
+                <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                <span class="cu-span-top">日常跟进</span>
               </div>
             </div>
           </div>
-          <!--下属的-->
-          <div class="cu-con" v-if="hasPermission == '0'">
-            <flexbox>
-              <flexbox-item>
-                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">下属的</span>
-                </p></div>
-              </flexbox-item>
-              <flexbox-item>
-                <div class="flex-demo">
-                  <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward"
-                                                                                   size="20"></x-icon></span>
-                    <span class="x-icon-span">全部下属</span>
-                  </div>
-                </div>
-              </flexbox-item>
-            </flexbox>
-            <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
-              <div class="cu-content-top">
-                <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
-                  <img v-bind:src="baseUrl + subCustomer.headImg" alt="">
-                  <span style="display: inline-block;position: absolute;top:66px;left: 16px;color:#eaa304;"
-                        v-if="subCustomer.isFocusOn == '1'">已关注</span>
-                </div>
+        </div>
+      </div>
+      <!--下属的-->
+      <div class="cu-con" v-if="hasPermission == '0'">
+        <flexbox>
+          <flexbox-item>
+            <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">下属的</span>
+            </p></div>
+          </flexbox-item>
+          <flexbox-item>
+            <div class="flex-demo">
+              <div class="cu-div" v-on:click="goAllSubordinates"><span><x-icon type="ios-arrow-forward"
+                                                                               size="20"></x-icon></span>
+                <span class="x-icon-span">全部下属</span>
+              </div>
+            </div>
+          </flexbox-item>
+        </flexbox>
+        <div class="cu-content" v-for="(subCustomer,index) in subCustomerData" :key="index">
+          <div class="cu-content-top">
+            <div class="user-img" @click="goCustomerInfo(subCustomer.id)">
+              <img v-bind:src="baseUrl + subCustomer.headImg" alt="">
+              <span style="display: inline-block;position: absolute;top:66px;left: 16px;color:#eaa304;"
+                    v-if="subCustomer.isFocusOn == '1'">已关注</span>
+            </div>
 
-                <div class="userImg-r" @click="goCustomerInfo(subCustomer.id)">
-                  <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
-                    <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
-                              v-bind:dictItemCode="subCustomer.title"></div-span>
-                    <span class="cu-title" v-if="subCustomer.isFollowUp == '1'">待跟进</span>
-                  </p>
-                  <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
-                                                  src="../assets/image/client_hospital.png" alt="">
-                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
+            <div class="userImg-r" @click="goCustomerInfo(subCustomer.id)">
+              <p><span style="font-size: 15px;padding-right: 5px;">{{subCustomer.name}}</span>
+                <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
+                          v-bind:dictItemCode="subCustomer.title"></div-span>
+                <span class="cu-title" v-if="subCustomer.isFollowUp == '1'">待跟进</span>
+              </p>
+              <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
+                                              src="../assets/image/client_hospital.png" alt="">
+                <span style="color: #888888;font-size: 13px" class="cu-span-top">
                       {{subCustomer.hospitalName}}
                     </span></p>
-                  <p style="margin-top: 3px">
-                    <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
-                         alt=""/>
-                    <span style="color: #888888;font-size: 13px;display: inline-block"
-                          class="cu-span-top">
+              <p style="margin-top: 3px">
+                <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
+                     alt=""/>
+                <span style="color: #888888;font-size: 13px;display: inline-block"
+                      class="cu-span-top">
                       <div-span style="position: relative;display: inline-block;line-height: 19px;"
                                 v-bind:dictCode="'KSLX'" v-bind:dictItemCode="subCustomer.deptCode"></div-span>
                     </span>
 
-                  </p>
-                </div>
-                <div style="display: inline-block; position: absolute;top:58px;right: 3px"
-                     @click="goCustomerByLeaderId(subCustomer.leaderId)">
+              </p>
+            </div>
+            <div style="display: inline-block; position: absolute;top:58px;right: 3px"
+                 @click="goCustomerByLeaderId(subCustomer.leaderId)">
               <span style="color: #888888;max-width: calc(100% - 160px);line-height:21px;"
                     class="span-web">
                  <img style="height: 13px;padding-right: 3px" src="../assets/image/client_responsible_person.png"
                       alt=""/>{{subCustomer.leaderName}}
               </span>
-                </div>
-                <div class="cu-bottom">
-                  <div class="cu-bottom-l" @click="goToDynamic(subCustomer.id)">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
+            </div>
+            <div class="cu-bottom">
+              <div class="cu-bottom-l" @click="goToDynamic(subCustomer.id)">
+                <img style="width: 16px;height: 16px;" src="../assets/image/client_dynamic.png" alt=""/>
 
-                    <span class="cu-span-top">动态</span>
-                  </div>
-                  <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r">
-                    <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
-                    <span class="cu-span-top">日常跟进</span>
-                  </div>
-                </div>
+                <span class="cu-span-top">动态</span>
+              </div>
+              <div @click="openDiaLog(subCustomer.id)" class="cu-bottom-r">
+                <img style="width: 16px;height: 16px;" src="../assets/image/client_daily_follow_up.png" alt=""/>
+                <span class="cu-span-top">日常跟进</span>
               </div>
             </div>
-            <div style="padding: 10px" @click="onScrollBottom()" v-if="sizeData < sumData">查看更多...
-              <load-more v-if="onFetching" tip="loading"></load-more>
-            </div>
-            <div style="padding: 10px" @click="onScrollBottom()" v-if="sizeData > sumData">已到底</div>
           </div>
-          <!--可查看的-->
-          <div class="cu-con" v-if="hasPermission == '1'">
-            <flexbox>
-              <flexbox-item>
-                <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span
-                  class="cu-right">可查看的</span>
-                </p></div>
-              </flexbox-item>
-              <flexbox-item>
-                <div class="flex-demo">
-                  <div class="cu-div" v-on:click="goAllColleagues"><span><x-icon type="ios-arrow-forward"
-                                                                                 size="20"></x-icon></span>
-                    <span class="x-icon-span">同事</span>
-                  </div>
-                </div>
-              </flexbox-item>
-            </flexbox>
-            <div class="cu-content" v-for="(pisCustomer,index) in pisCustomerData" :key="index">
-              <div class="cu-content-top" style="padding-bottom:10px;">
-                <div class="user-img" @click="goCustomerInfo(pisCustomer.id)">
-                  <img v-bind:src="baseUrl + pisCustomer.headImg" alt="">
-                  <span style="display: inline-block;position: absolute;top:66px;left: 16px;color:#eaa304;"
-                        v-if="pisCustomer.isFocusOn == '1'">已关注</span>
-                </div>
+        </div>
+        <div style="padding: 10px" @click="getMorData" v-if="sizeData < sumData">查看更多...</div>
+      </div>
+      <!--可查看的-->
+      <div class="cu-con" v-if="hasPermission == '1'">
+        <flexbox>
+          <flexbox-item>
+            <div class="flex-demo"><p class="cu-span"><span class="cu-left"></span><span class="cu-right">可查看的</span>
+            </p></div>
+          </flexbox-item>
+          <flexbox-item>
+            <div class="flex-demo">
+              <div class="cu-div" v-on:click="goAllColleagues"><span><x-icon type="ios-arrow-forward"
+                                                                             size="20"></x-icon></span>
+                <span class="x-icon-span">同事</span>
+              </div>
+            </div>
+          </flexbox-item>
+        </flexbox>
+        <div class="cu-content" v-for="(pisCustomer,index) in pisCustomerData" :key="index">
+          <div class="cu-content-top" style="padding-bottom:10px;">
+            <div class="user-img" @click="goCustomerInfo(pisCustomer.id)">
+              <img v-bind:src="baseUrl + pisCustomer.headImg" alt="">
+              <span style="display: inline-block;position: absolute;top:66px;left: 16px;color:#eaa304;"
+                    v-if="pisCustomer.isFocusOn == '1'">已关注</span>
+            </div>
 
-                <div class="userImg-r" @click="goCustomerInfo(pisCustomer.id)">
-                  <p><span style="font-size: 15px;padding-right: 5px;">{{pisCustomer.name}}</span>
-                    <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
-                              v-bind:dictItemCode="pisCustomer.title"></div-span>
-                    <span class="cu-title" v-if="pisCustomer.isFollowUp == '1'">待跟进</span>
-                  </p>
-                  <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
-                                                  src="../assets/image/client_hospital.png" alt="">
-                    <span style="color: #888888;font-size: 13px" class="cu-span-top">
+            <div class="userImg-r" @click="goCustomerInfo(pisCustomer.id)">
+              <p><span style="font-size: 15px;padding-right: 5px;">{{pisCustomer.name}}</span>
+                <div-span style="font-size: 13px;" v-bind:dictCode="'ZC'"
+                          v-bind:dictItemCode="pisCustomer.title"></div-span>
+                <span class="cu-title" v-if="pisCustomer.isFollowUp == '1'">待跟进</span>
+              </p>
+              <p style="margin-top: 3px"><img class="cu-img-size" style="position: relative;"
+                                              src="../assets/image/client_hospital.png" alt="">
+                <span style="color: #888888;font-size: 13px" class="cu-span-top">
                     {{pisCustomer.hospitalName}}
                 </span>
-                  </p>
+              </p>
 
-                  <p style="margin-top: 3px">
-                    <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
-                         alt=""/>
-                    <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;"
-                          class="cu-span-top">
+              <p style="margin-top: 3px">
+                <img class="cu-img-size" style="position: relative;" src="../assets/image/client_department.png"
+                     alt=""/>
+                <span style="color: #888888;font-size: 13px;display: inline-block;line-height: 19px;"
+                      class="cu-span-top">
                       <div-span style="position: relative;display: inline-block;line-height: 19px;"
                                 v-bind:dictCode="'KSLX'" v-bind:dictItemCode="pisCustomer.deptCode"></div-span>
                     </span>
 
-                  </p>
+              </p>
 
-                </div>
-                <div style="display: inline-block; position: absolute;top:58px;right: 3px"
-                     @click="goCustomerByLeaderId(pisCustomer.leaderId)">
+            </div>
+            <div style="display: inline-block; position: absolute;top:58px;right: 3px"
+                 @click="goCustomerByLeaderId(pisCustomer.leaderId)">
                 <span style="color: #888888;max-width: calc(100% - 160px);line-height:21px;"
                       class="span-web">
                  <img style="height: 13px;padding-right: 3px" src="../assets/image/client_responsible_person.png"
                       alt=""/>{{pisCustomer.leaderName}}
               </span>
-                </div>
-              </div>
             </div>
-            <div style="padding: 10px" @click="onScrollBottom()" v-if="sizeData < sumData">查看更多...
-              <load-more v-if="onFetching" tip="loading"></load-more>
-            </div>
-            <div style="padding: 10px" @click="onScrollBottom()" v-if="sizeData > sumData">已到底</div>
-
           </div>
         </div>
-      </scroller>
+        <div style="padding: 10px" @click="getMorData" v-if="sizeData < sumData">查看更多...</div>
+      </div>
       <new-dia-log ref="NewDiaLogDom"></new-dia-log>
     </div>
   </div>
 </template>
 
 <script>
-  import {Scroller, LoadMore} from 'vux'
-
   export default {
     name: 'Customer',
-    components: {
-      Scroller,
-      LoadMore,
-    },
-    data () {
+    data() {
       return {
         baseUrl: this.$baseURL,
         area: '',
         deptCode: '',
         customerData: [],
         subCustomerData: [],
-        onFetching: false,
         pisCustomerData: [],
         hasPermission: 0,
+        sizeData: Number(this.$route.query.sizeData) || 5,
         sumData: 0,
-        sizeData: 5,
         orderHight: '',
         conText: '',
         searchData: '',
-        allFlag: false,
       }
     },
-    mounted () {
-      //我的客户列表
+    mounted() {
+      // console.log(this.$route.query.sizeData);
       this.$get('/api/customer/getCustomerByLeader', {sort: 'isFollowUp,name,DESC'}).then(info => {
         this.customerData = info
       }).catch(error => {
         console.log(error)
       })
-      //初次渲染页面时---------------
-      //查询该用户是否存在权限列表中
       this.$get('/api/customerPermisson/hasPermisson').then(info => {
         this.hasPermission = info.hasPermission
         if (this.hasPermission == 0) {
-          //下属的客户列表
+          //查询下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
@@ -258,12 +235,11 @@
           }).then(info => {
             this.subCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.onFetching = info.length == 0
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -271,7 +247,6 @@
           }).then(info => {
             this.pisCustomerData = info
             this.sumData = this.$headers['x-total-count'];
-            this.onFetching = info.length == 0
           }).catch(error => {
             console.log(error)
           })
@@ -281,36 +256,37 @@
       })
     },
     methods: {
-      goAllColleagues () {
+      goAllColleagues() {
         this.$router.push('/all-colleagues')
       },
-      goAllSubordinates () {
+      goAllSubordinates() {
         this.$router.push('/all-subordinates')
       },
-      openDiaLog (id) {
+      openDiaLog(id) {
         let self = this
         let start = 2
         self.$refs['NewDiaLogDom'].isShowDia(true, id, start)
       },
-      goToDynamic (id) {
+      goToDynamic(id) {
         this.$router.push({
           path: '/userInfo/' + id + '/dynamic-assembly/' + id
         })
         sessionStorage.setItem('tabIndex', '4')
       },
-      goCustomerInfo (id) {
+      goCustomerInfo(id) {
         this.$router.push({
           path: '/userInfo/' + id + '/essential-info/' + id,
+          // query: {sizeData: this.sizeData}
         })
+        sessionStorage.setItem('tabIndex', '1')
       },
-      goCustomerByLeaderId (id) {
+      goCustomerByLeaderId(id) {
         this.$router.push({
           path: '/subordinates-customer/' + id,
           query: {previousPage: 'customer'}
         })
       },
-      areaChange (e) {
-        this.sizeData = 5;
+      areaChange(e) {
         this.area = e.code
         let obj = {
           area: this.area || undefined,
@@ -318,7 +294,6 @@
           name: this.searchData || undefined,
         }
         obj = JSON.parse(JSON.stringify(obj))
-        //查询我的客户
         this.$search('/api/customer/getCustomerByLeader', {
           sort: 'isFollowUp,name,DESC',
         }, obj).then(info => {
@@ -326,41 +301,32 @@
         }).catch(error => {
           console.log(error)
         })
-
-        //查询权限列表
         if (this.hasPermission == 0) {
-          //下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
             size: 10
           }, obj).then(info => {
             this.subCustomerData = info
-            this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
             size: 10
           }, obj).then(info => {
             this.pisCustomerData = info
-            this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         }
       },
-
-      departmentChange (e) {
-        this.sizeData = 5;
+      departmentChange(e) {
         this.deptCode = e.code
         let obj = {
           area: this.area || undefined,
@@ -368,56 +334,45 @@
           name: this.searchData || undefined,
         }
         obj = JSON.parse(JSON.stringify(obj))
-        //我的客户列表
         this.$search('/api/customer/getCustomerByLeader', {
           sort: 'isFollowUp,name,DESC',
         }, obj).then(info => {
           this.customerData = info
-
         }).catch(error => {
           console.log(error)
         })
         if (this.hasPermission == 0) {
-          //我的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
             size: 5
           }, obj).then(info => {
             this.subCustomerData = info
-            this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
             size: 10
           }, obj).then(info => {
             this.pisCustomerData = info
-            this.onFetching = info.length == 0
-            this.allFlag = false
             this.sumData = this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
-        };
-        this.$nextTick(() => {
-          if (this.$refs.scrollerBottom) {
-            this.$refs.scrollerBottom.reset({top: 0})
-          }
-        })
+        }
       },
-      keywordSearch (e) {
+      keywordSearch(e) {
         this.searchData = e
         let obj = {
           area: this.area || undefined,
           deptCode: this.deptCode || undefined,
           name: this.searchData || undefined,
+
         }
         obj = JSON.parse(JSON.stringify(obj))
         this.$search('/api/customer/getCustomerByLeader', {
@@ -428,7 +383,6 @@
           console.log(error)
         })
         if (this.hasPermission == 0) {
-          //下属的客户列表
           this.$search('/api/customer/getCustomerBySubPerson', {
             sort: 'isFocusOn,isFollowUp,name,DESC',
             page: 0,
@@ -436,12 +390,11 @@
           }, obj).then(info => {
             this.subCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.allFlag = sizeData < this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -449,14 +402,12 @@
           }, obj).then(info => {
             this.pisCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.allFlag = sizeData < this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         }
       },
-      getMorData () {
-        this.sizeData = 5;
+      getMorData() {
         this.sizeData = this.sizeData + 10
         let obj = {
           area: this.area || undefined,
@@ -484,7 +435,7 @@
             console.log(error)
           })
         } else {
-          //可查看的客户列表
+          //按权限查询客户列表
           this.$search('/api/customer/getCustomerByPermission', {
             sort: 'name,DESC',
             page: 0,
@@ -504,82 +455,13 @@
           })
         }
       },
-      onScrollBottom () {
-        let _this = this
-        if (_this.allFlag) {
-          _this.onFetching = false
-          return
-        }
-
-        if (this.onFetching) {
-          // this.$vux.toast.text('', 'middle')
-        } else {
-          this.onFetching = true
-          setTimeout(() => {
-            _this.sizeData = _this.sizeData + 10
-            this.$nextTick(() => {
-              this.$refs.scrollerBottom.reset()
-            })
-            if (_this.hasPermission == 0) {
-              _this.$search('/api/customer/getCustomerBySubPerson', {
-                sort: 'isFocusOn,isFollowUp,name,DESC',
-                page: 0,
-                size: _this.sizeData
-              }, {
-                area: _this.area,
-                deptCode: _this.deptCode
-              }).then(info => {
-                _this.subCustomerData = info
-                _this.sumData = this.$headers['x-total-count']
-                if (_this.sizeData > _this.sumData) {
-                  _this.$vux.toast.text('已获取全部', 'middle')
-                  _this.allFlag = true
-                  return
-                }
-                if (this.sumData == 0) {
-                  _this.$vux.toast.text('无数据', 'middle')
-                  return
-                }
-                _this.onFetching = false
-              }).catch(error => {
-                console.log(error)
-              })
-            } else {
-              //按权限查询客户列表
-              _this.$search('/api/customer/getCustomerByPermission', {
-                sort: 'name,DESC',
-                page: 0,
-                size: _this.sizeData
-              }, {
-                area: _this.area,
-                deptCode: _this.deptCode
-              }).then(info => {
-                _this.pisCustomerData = info
-                _this.sumData = _this.$headers['x-total-count']
-                if (_this.sizeData > _this.sumData) {
-                  _this.$vux.toast.text('已获取全部', 'middle')
-                  _this.allFlag = true
-                  return
-                }
-                if (_this.sumData == 0) {
-                  _this.$vux.toast.text('无数据', 'middle')
-                  return
-                }
-                _this.onFetching = false
-              }).catch(error => {
-                console.log(error)
-              })
-            }
-          }, 2000)
-        }
-      },
-      searClick (e) {
+      searClick(e) {
         this.keywordSearch(e)
       },
-      enterBtn (e) {
+      enterBtn(e) {
         this.keywordSearch(e)
       },
-      searchChange (e) {
+      searchChange(e) {
         if (e == null || e == '') {
           this.keywordSearch(e)
         }
@@ -604,7 +486,6 @@
     .weui-search-bar__label {
       top: 5px;
     }
-
     .cu-type1, .cu-type2 {
       display: inline-block;
       background-color: #fff;
@@ -615,7 +496,7 @@
         height: 35px;
       }
       .weui-label {
-        width: 60px !important
+        width: 70px;
       }
     }
     .cu-span {

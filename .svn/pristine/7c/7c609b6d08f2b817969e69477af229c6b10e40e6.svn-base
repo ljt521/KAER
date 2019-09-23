@@ -2,7 +2,7 @@
 <template>
   <div class="dy-top">
     <x-header @on-click-back="goToBack"  class="x-header"  style="background-color: #073f89"  :left-options="{backText: '',preventGoBack: true}" ></x-header>
-    <div class="herder"></div>
+    <div class="herder" style="height: 85px"></div>
     <div class="us-s-top">
       <!--头像-->
       <div style="position: relative;">
@@ -216,7 +216,7 @@
   .dy-top {
     .herder {
       background: #073f89 !important;
-      height: 136px;
+      height: 134px;
       .userInfo {
         float: left;
         margin: 55px 0 0 81px;

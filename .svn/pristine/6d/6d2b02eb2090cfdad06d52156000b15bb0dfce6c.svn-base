@@ -37,10 +37,6 @@
           </p>
           <p style="margin: 10px 0">
             <span class="right"><img class="all-img-size " src="../assets/image/follow_up_product_information.png"
-                                     alt="">&nbsp;{{operationDemo.activityName }}</span>
-          </p>
-          <p style="margin: 10px 0">
-            <span class="right"><img class="all-img-size " src="../assets/image/follow_up_product_information.png"
                                      alt="">
               <template v-for="(data, i) in operationDemo.product[0]">
                 <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
@@ -54,7 +50,10 @@
               </template>
             </span>
           </p>
-
+          <p style="margin: 10px 0">
+            <span class="right"><img class="all-img-size " src="../assets/image/follow_up_product_information.png"
+                                     alt="">&nbsp;{{operationDemo.activityName }}</span>
+          </p>
         </div>
       </swipeout-item>
     </swipeout>
@@ -80,7 +79,7 @@
         this.$search('/api/OperationDemoInfo', {
           page: 0,
           size: this.sumSize
-        }, {'customer.id': this.personId,'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.personId}).then(request => {
           this.operationDemoData = this.$sortData(request)
           this.sumData = this.$headers['x-total-count']
         }).catch(error => {
@@ -118,9 +117,7 @@
       /*查看更多*/
       getMore () {
         this.sumSize = this.sumSize + 10
-        this.$search('/api/OperationDemoInfo',
-          {page: 0, size: this.sumSize},
-          {'customer.id': this.personId,'operation':'CREATE'}).then(request => {
+        this.$search('/api/OperationDemoInfo', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(request => {
           this.operationDemoData = this.$sortData(request)
           this.sumData = this.$headers['x-total-count']
           if (this.sumData == 0) {

@@ -106,7 +106,7 @@
       GridItem,
       VueCropper
     },
-    data () {
+    data() {
       return {
         care: true,
         myConcernsCustomerDto: {
@@ -141,35 +141,12 @@
         backField: this.$route.query
       }
     },
-    created () {
+    created() {
       this.getCustomer(this.id)
-      switch (this.tabIndex) {
-        case 1:
-          this.$router.push({
-            path: '/userInfo/' + this.id + '/essential-info/' + this.id + '?previousPage=' + this.backField.previousPage + '&subId=' + this.backField.subId,
-          })
-          break;
-        case 2:
-          this.$router.push({
-            path: '/userInfo/' + this.id + '/growth-archives/' + this.id + '?previousPage=' + this.backField.previousPage + '&subId=' + this.backField.subId,
-          })
-          break;
-        case 3:
-          this.$router.push({
-            path: '/userInfo/' + this.id + '/follow-details/' + this.id + '?previousPage=' + this.backField.previousPage + '&subId=' + this.backField.subId
-          })
-          break;
-        case 4:
-          this.$router.push({
-            path: '/userInfo/' + this.id + '/dynamic-assembly/' + this.id + '?previousPage=' + this.backField.previousPage + '&subId=' + this.backField.subId
-          })
-          break;
-      }
     },
-
     methods: {
       /*关注*/
-      careData () {
+      careData() {
         this.customerDto.isFocusOn = !this.customerDto.isFocusOn;
         if (this.customerDto.isFocusOn) {/*关注*/
           this.$post('/api/myconcernscustomer', this.myConcernsCustomerDto).then(info => {
@@ -189,7 +166,7 @@
 
       },
       /*返回*/
-      goToBack () {
+      goToBack() {
         let previousPage = this.backField.previousPage
         //从所属客户页面跳转，并返回到所属客户列表
         if (previousPage === 'dynamic' || previousPage === 'AllSubordinates' || previousPage === 'customer' || previousPage === 'concernSub' || previousPage === 'AllColleagues' || previousPage === 'DynamicAssembly') {
@@ -207,13 +184,10 @@
         }
 
         console.log(previousPage === 'MyConcern');
-        this.$router.push({
-          path: '/customer',
-          // query: {sizeData:this.$route.query.sizeData}
-        })
+        this.$router.push('/customer')
       },
       /*客户信息*/
-      getCustomer (id) {
+      getCustomer(id) {
         this.$get('/api/customer/' + id).then(info => {
           this.customerDto = info;
           this.imgSrc = this.customerDto.headImg;
@@ -221,7 +195,7 @@
           this.isShowLeader = info.isLeader;
         })
       },
-      loadImg (e) {
+      loadImg(e) {
         if (this.isShowIsEdit == 0) {
           return
         }
@@ -251,7 +225,7 @@
           }
         }
       },
-      upImg (e) {
+      upImg(e) {
         const imageData = new FormData()
         imageData.append('file', e)
         this.$post('/api/file/change-head', imageData, 'header').then(info => {
@@ -267,7 +241,7 @@
           })
         })
       },
-      finish (type) {
+      finish(type) {
         if (type === 'blob') {
           this.$refs.cropper.getCropBlob((data) => {
             this.upImg(data)
@@ -279,14 +253,13 @@
           })
         }
       },
-      cancel () {
+      cancel() {
         this.showBox = false
       },
-      onItemClick (value) {
+      onItemClick(value) {
         this.tabIndex = value;
-        sessionStorage.setItem('tabIndex', value);
       },
-      suofang (base64, bili) {
+      suofang(base64, bili) {
         const _this = this
         //处理缩放，转格式
         let _img = new Image();

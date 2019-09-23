@@ -52,7 +52,6 @@
             })
             break
           case '客户菜单':
-            this.$router.meta.keepAlive = true;
             this.$router.push({
               path: '/customer'
             })
@@ -99,7 +98,6 @@
                 })
                 break
               case '客户菜单':
-                this.$route.meta.keepAlive = false;
                 this.$router.push({
                   path: '/customer'
                 })

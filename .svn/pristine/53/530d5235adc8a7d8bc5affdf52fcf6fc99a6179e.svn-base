@@ -26,24 +26,23 @@
                 </span>
               </span>
             </p>
-          <p style="margin: 10px 0">
-            <span class="right"><img class="all-img-size" src="../assets/image/follow_up_product_information.png" alt="">&nbsp;{{lectureInfo.activityName}}</span>
-          </p>
             <p style="margin: 10px 0">
               <span class="right"><img class="all-img-size " src="../assets/image/follow_up_product_information.png" alt="">
                 <template v-for="(data, i) in lectureInfo.product[0]">
                   <div-span v-bind:dictCode="'CPXX'" v-bind:dictItemCode="data"></div-span>
                   <div-span v-bind:dictCode="'CPPP'" v-bind:dictItemCode="lectureInfo.product[1][i]"></div-span>
                   <!--产品信息选择-->
-                  <span v-if="lectureInfo.product[1][i] === 'CPPP11'">({{lectureInfo.productNote}})</span>
-                  <span v-if="(i+1)%1==0 && (lectureInfo.product[1][i+1] != null || lectureInfo.product[1][i+1] != undefined)">
-                    <br>
-                    <span style="margin-right: 30px"></span>
-                  </span>
+                <span v-if="lectureInfo.product[1][i] === 'CPPP11'">({{lectureInfo.productNote}})</span>
+                <span v-if="(i+1)%1==0 && (lectureInfo.product[1][i+1] != null || lectureInfo.product[1][i+1] != undefined)">
+                  <br>
+                  <span style="margin-right: 30px"></span>
+                </span>
                 </template>
               </span>
             </p>
-
+            <p style="margin: 10px 0">
+              <span class="right"><img class="all-img-size" src="../assets/image/follow_up_product_information.png" alt="">&nbsp;{{lectureInfo.activityName}}</span>
+            </p>
         </div>
       </swipeout-item>
     </swipeout>
@@ -73,9 +72,7 @@
     },
     methods: {
       getLectureInfo () {
-        this.$search('/api/lectureInfo',
-          {page: 0, size: this.sumSize},
-          {'customer.id': this.personId,'operation':'CREATE'}).then(request => {
+        this.$search('/api/lectureInfo', {page: 0, size: this.sumSize}, {'customer.id': this.personId}).then(request => {
           this.LectureInfoData = this.$sortData(request);
           this.sumData = this.$headers['x-total-count']
         }).catch(error => {
@@ -112,9 +109,7 @@
       /*查看更多*/
       getMore () {
         this.sumSize = this.sumSize + 10
-        this.$search('/api/lectureInfo',
-          {page: 0,size: this.sumSize},
-          {'customer.id': this.personId,'operation':'CREATE'}).then(request => {
+        this.$search('/api/lectureInfo', {page: 0,size: this.sumSize}, {'customer.id': this.personId}).then(request => {
           this.LectureInfoData = this.$sortData(request)
           this.sumData = this.$headers['x-total-count']
           if (this.sumData == 0) {

@@ -7,7 +7,8 @@ axios.defaults.timeout = 5000
 // axios.defaults.baseURL = 'http://192.168.10.65:8088'
 //axios.defaults.baseURL = 'http://192.168.0.107:8088'
 //axios.defaults.baseURL = 'http://10.96.25.49:8088'
-axios.defaults.baseURL = 'http://mytest.karlstorz.com.cn:8088'
+// axios.defaults.baseURL = 'http://mytest.karlstorz.com.cn:8088'
+axios.defaults.baseURL = 'http://mywechat.karlstorz.com.cn:7777'
 // axios.defaults.baseURL = 'http://24301t9n03.zicp.vip:23074'
 Vue.prototype.$baseURL = axios.defaults.baseURL
 // http request 拦截器

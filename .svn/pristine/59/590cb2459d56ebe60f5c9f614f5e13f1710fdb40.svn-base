@@ -75,7 +75,7 @@
         this.$search('/api/Consultation', {
           page: 0,
           size: this.sumSize
-        }, {'customer.id': this.personId,'operation': 'CREATE'}).then(request => {
+        }, {'customer.id': this.personId}).then(request => {
           this.consultationData = this.$sortData(request)
           this.sumData = this.$headers['x-total-count']
         }).catch(error => {
@@ -115,7 +115,7 @@
         this.$search('/api/Consultation', {
           page: 0,
           size: this.sumSize
-        }, {'customer.id': this.personId,'operation':'CREATE'}).then(request => {
+        }, {'customer.id': this.personId}).then(request => {
           this.consultationData = this.$sortData(request)
           this.sumData = this.$headers['x-total-count']
           if (this.sumData == 0) {

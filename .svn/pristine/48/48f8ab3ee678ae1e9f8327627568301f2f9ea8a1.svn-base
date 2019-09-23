@@ -1,5 +1,5 @@
 <template>
-  <div class="cu-app">
+  <div class="cu-app" >
     <!--搜索-->
     <div style="position: fixed;width: 100%;top: 0;z-index: 99;height: 80px">
       <search-box v-model="conText" @on-search="searClick" @on-enter="enterBtn" @on-change="searchChange"></search-box>
@@ -220,7 +220,7 @@
       Scroller,
       LoadMore,
     },
-    data () {
+    data() {
       return {
         baseUrl: this.$baseURL,
         area: '',
@@ -238,7 +238,7 @@
         allFlag: false,
       }
     },
-    mounted () {
+    mounted() {
       //我的客户列表
       this.$get('/api/customer/getCustomerByLeader', {sort: 'isFollowUp,name,DESC'}).then(info => {
         this.customerData = info
@@ -281,35 +281,35 @@
       })
     },
     methods: {
-      goAllColleagues () {
+      goAllColleagues() {
         this.$router.push('/all-colleagues')
       },
-      goAllSubordinates () {
+      goAllSubordinates() {
         this.$router.push('/all-subordinates')
       },
-      openDiaLog (id) {
+      openDiaLog(id) {
         let self = this
         let start = 2
         self.$refs['NewDiaLogDom'].isShowDia(true, id, start)
       },
-      goToDynamic (id) {
+      goToDynamic(id) {
         this.$router.push({
           path: '/userInfo/' + id + '/dynamic-assembly/' + id
         })
         sessionStorage.setItem('tabIndex', '4')
       },
-      goCustomerInfo (id) {
+      goCustomerInfo(id) {
         this.$router.push({
           path: '/userInfo/' + id + '/essential-info/' + id,
         })
       },
-      goCustomerByLeaderId (id) {
+      goCustomerByLeaderId(id) {
         this.$router.push({
           path: '/subordinates-customer/' + id,
           query: {previousPage: 'customer'}
         })
       },
-      areaChange (e) {
+      areaChange(e) {
         this.sizeData = 5;
         this.area = e.code
         let obj = {
@@ -359,7 +359,7 @@
         }
       },
 
-      departmentChange (e) {
+      departmentChange(e) {
         this.sizeData = 5;
         this.deptCode = e.code
         let obj = {
@@ -405,14 +405,9 @@
           }).catch(error => {
             console.log(error)
           })
-        };
-        this.$nextTick(() => {
-          if (this.$refs.scrollerBottom) {
-            this.$refs.scrollerBottom.reset({top: 0})
-          }
-        })
+        }
       },
-      keywordSearch (e) {
+      keywordSearch(e) {
         this.searchData = e
         let obj = {
           area: this.area || undefined,
@@ -436,7 +431,7 @@
           }, obj).then(info => {
             this.subCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.allFlag = sizeData < this.$headers['x-total-count']
+            this.allFlag = sizeData<this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
@@ -449,13 +444,13 @@
           }, obj).then(info => {
             this.pisCustomerData = info
             this.sumData = this.$headers['x-total-count']
-            this.allFlag = sizeData < this.$headers['x-total-count']
+            this.allFlag = sizeData<this.$headers['x-total-count']
           }).catch(error => {
             console.log(error)
           })
         }
       },
-      getMorData () {
+      getMorData() {
         this.sizeData = 5;
         this.sizeData = this.sizeData + 10
         let obj = {
@@ -504,7 +499,7 @@
           })
         }
       },
-      onScrollBottom () {
+      onScrollBottom() {
         let _this = this
         if (_this.allFlag) {
           _this.onFetching = false
@@ -573,13 +568,13 @@
           }, 2000)
         }
       },
-      searClick (e) {
+      searClick(e) {
         this.keywordSearch(e)
       },
-      enterBtn (e) {
+      enterBtn(e) {
         this.keywordSearch(e)
       },
-      searchChange (e) {
+      searchChange(e) {
         if (e == null || e == '') {
           this.keywordSearch(e)
         }
