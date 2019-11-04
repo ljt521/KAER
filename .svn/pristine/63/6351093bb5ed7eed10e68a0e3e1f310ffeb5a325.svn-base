@@ -54,7 +54,7 @@
 <script>
   export default {
     name: 'NewIecture',
-    data () {
+    data() {
       return {
         lectureInfoDto: {
           lessonDate: '', //日期
@@ -83,7 +83,7 @@
     },
     watch: {
       list: {
-        handler (old, newVal) {
+        handler(old, newVal) {
           for (let i = 0, len = newVal.length; i < len; i++) {
             if (newVal[i].proData != null && newVal[i].proData != undefined) {
               this.isProduct = false;
@@ -98,7 +98,7 @@
       }
 
     },
-    created () {
+    created() {
       if (this.$route.params.data) {
         this.lectureInfoDto.lessonDate = this.$route.params.data.lessonDate.slice(0, 10)
         this.lectureInfoDto.lessonName = this.$route.params.data.lessonName
@@ -111,7 +111,7 @@
         this.lectureInfoDto['id'] = this.$route.params.data.id
       }
     },
-    mounted () {
+    mounted() {
       this.customerId = this.$route.params.id || this.$route.query.id
       this.title = this.$route.params.title || this.$route.meta.title
       if (this.$route.params.isEdit) {
@@ -125,22 +125,24 @@
         this.backField.subId = this.$route.query.subId
         this.start = 1;
       }
-      this.lectureInfoDto.customerId = this.customerId;
-      if (window.localStorage.getItem('CPXX')) {
-        this.list = JSON.parse(window.localStorage.getItem('CPXX'));
-        this.forList();
-      } else {
-        this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
-          this.list = info
-          this.forList();
-        }).catch(error => {
-          console.log(error)
+      this.lectureInfoDto.customerId = this.customerId
+      this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
+        this.list = info
+        this.list.forEach(val => {
+          let data = this.$route.params.data.product
+          for (let i in data[0]) {
+            if (val.code === data[0][i]) {
+              val['select'] = true
+              val['proData'] = data[1][i]
+            }
+          }
         })
-      }
-
+      }).catch(error => {
+        console.log(error)
+      })
     },
     methods: {
-      getPlain (e) {
+      getPlain(e) {
         if (e.hasOwnProperty('proData')) {
           if (e.select && e.proData) {
             const obj = {}
@@ -165,7 +167,7 @@
         }
         this.list = JSON.parse(JSON.stringify(this.list))
       },
-      goEssentialInfo () {
+      goEssentialInfo() {
         for (let key in this.lectureInfoDto) {
           switch (key) {
             case 'lessonDate':
@@ -250,7 +252,7 @@
           })
         }
       },
-      goToBack () {
+      goToBack() {
         if (this.backField.previousPage == 'concernSub' && this.backField.subId == 'undefined') {
           this.$router.push({
             path: '/subordinates-customer/' + this.$route.query.personId,
@@ -286,26 +288,12 @@
           return
         }
         this.$router.push('/customer')
-      },
-      forList () {
-        this.list.forEach(val => {
-          let data = this.$route.params.data.product
-          for (let i in data[0]) {
-            if (val.code === data[0][i]) {
-              val['select'] = true
-              val['proData'] = data[1][i]
-            }
-          }
-        })
       }
     },
-    beforeRouteLeave (to, from, next) {
+    beforeRouteLeave(to, from, next) {
       if (!to.params.id) {
         to.params.title = '全部讲课信息'
         to.params.id = this.lectureInfoDto.customerId
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
       }
       next()
     },

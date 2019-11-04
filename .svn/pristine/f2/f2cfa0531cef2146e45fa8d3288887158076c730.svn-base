@@ -1,7 +1,7 @@
 <!--作者：莫岭红 功能：新建（编辑）会诊-->
 <template>
   <div v-wechat-title="title" class="newConsul">
-    <div v-if="!switchTabHospital && !switchTabOperationName">
+    <div v-if="!switchTab">
       <div class="dy-top">
         <x-header @on-click-back="goToBack" :left-options="{backText: '',preventGoBack: true}" class="x-header"
                   slot="header">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a>
@@ -9,10 +9,9 @@
       </div>
       <div class="backgroundStyle">
         <datetime v-model="crInfo.consultationDate" title="会诊日期" placeholder="请选择"></datetime>
-        <cell @click.native="selectOps()" title="手术名称" :value="crInfo.operationNames" is-link></cell>
-        <!--<div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
+        <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
                       v-on:listenSelect="(value) => {crInfo.operationName = value.code}"
-                      :anyData="crInfo.operationName" :is-type="codeValue" required></div-selector>-->
+                      :anyData="crInfo.operationName" :is-type="codeValue" required></div-selector>
         <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
                       v-on:listenSelect="(value) => {crInfo.operativeRole = value.code}"
                       :anyData="crInfo.operativeRole" :is-type="codeValue" required></div-selector>
@@ -48,30 +47,11 @@
         </div>
       </div>
     </div>
-    <!--手术名称-->
-    <div class="location" v-if="switchTabOperationName">
-      <div class="search">
-        <search-box v-bind:black="true" @on-black="blackClick('switchTabOperationName')" @on-search="searClick"
-                    @on-enter="enterBtn"
-                    @on-change="searchChange">
 
-        </search-box>
-      </div>
-      <!--<a slot="right" @click="goEssentialInfo()">完成</a>-->
-      <div class="operationName">
-        <div>
-          <div class="info" v-for="item of operationNameList" @click="getOptionalName(item)">
-            <h3>{{item.value}}</h3>
-          </div>
-        </div>
-
-      </div>
-    </div>
     <!--医院信息-->
-    <div class="location" v-if="switchTabHospital">
+    <div class="location" v-if="switchTab">
       <div class="search">
-        <search-box v-bind:black="true" @on-black="blackClick('switchTabHospital')" @on-search="searClick"
-                    @on-enter="enterBtn"
+        <search-box v-bind:black="true" @on-black="blackClick" @on-search="searClick" @on-enter="enterBtn"
                     @on-change="searchChange"></search-box>
         <div class="locationTab">
           <div class="filter">
@@ -128,9 +108,7 @@
         hcoList: [],
         ppData: '', // 品牌code
         addressData: ChinaAddressData,
-        switchTabHospital: false,
-        switchTabOperationName: false,
-        operationNameList: [],
+        switchTab: false,
         address: {
           regionalValue: '',
           provinceOption: [],
@@ -142,8 +120,7 @@
         },
         crInfo: {
           consultationDate: '',// 会诊日期
-          operationName: '',// 手术名称id
-          operationNames: '', //手术名称中文
+          operationName: '',// 手术名称
           operativeRole: '',// 手术中的角色
           operativeRoleOther: '',//手术中的其他角色
           operationLocal: '',// 手术地点
@@ -184,14 +161,12 @@
       }
     },
     created () {
-      //编辑状态
       if (this.$route.params.data) {
         this.crInfo.consultationDate = this.$route.params.data.consultationDate.slice(0, 10)
         this.crInfo.customerId = this.$route.params.data.customerId
         this.crInfo.operationLocal = this.$route.params.data.operationLocal
-        this.crInfo.operationName = this.$route.params.data.operationName//手术id
-        this.crInfo.operationNames = this.getData('optionlName') //手术名称中文
-        this.crInfo.addressName = this.getData('hospital')
+        this.crInfo.operationName = this.$route.params.data.operationName
+        this.crInfo.addressName = this.getData()
         this.crInfo.operativeRole = this.$route.params.data.operativeRole
         this.crInfo.operativeRoleOther = this.$route.params.data.operativeRoleOther
         this.crInfo.productInfo = JSON.parse(this.$route.params.data.productInfo)
@@ -214,59 +189,24 @@
         this.start = 1;
       }
       this.crInfo.customerId = this.customerId
-      //编辑产品信息时
-      if (this.crInfo.id) {
-        if (window.localStorage.getItem('CPXX')) {
-          this.list = JSON.parse(window.localStorage.getItem('CPXX'));
-          this.list.forEach(val => {
-            let data = this.$route.params.data.product
-            for (let i in data[0]) {
-              if (val.code === data[0][i]) {
-                val['select'] = true
-                val['proData'] = data[1][i]
-              }
+      this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
+        this.list = info
+        this.list.forEach(val => {
+          let data = this.$route.params.data.product
+          for (let i in data[0]) {
+            if (val.code === data[0][i]) {
+              val['select'] = true
+              val['proData'] = data[1][i]
             }
-          })
-        } else {
-          this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
-            this.list = info
-            this.list.forEach(val => {
-              let data = this.$route.params.data.product
-              for (let i in data[0]) {
-                if (val.code === data[0][i]) {
-                  val['select'] = true
-                  val['proData'] = data[1][i]
-                }
-              }
-            })
-          }).catch(error => {
-            console.log(error)
-          })
-        }
-      } else {
-        if (window.localStorage.getItem('CPXX')) {
-          this.list = JSON.parse(window.localStorage.getItem('CPXX'));
-        } else {
-          this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
-            this.list = info
-          }).catch(error => {
-            console.log(error)
-          })
-        }
-      }
+          }
+        })
+      }).catch(error => {
+      });
+
       this.$get('/api/hospital', {page: 0, size: 10}).then((info) => {
         this.hcoList = info
         this.sumData = this.$headers['x-total-count']
-      });
-      if (window.localStorage.getItem('SSMC')) {
-        this.operationNameList = JSON.parse(window.localStorage.getItem('SSMC'));
-      } else {
-        this.$get('/api/customer/getDictItemList', {dictKey: "SSMC"}).then((info) => {
-          console.log(info);
-          this.operationNameList = info;
-        });
-      }
-
+      })
     },
     methods: {
       getPlain (e) {
@@ -295,7 +235,6 @@
         this.list = JSON.parse(JSON.stringify(this.list))
       },
       goEssentialInfo () {
-        //校验
         for (let key in this.crInfo) {
           switch (key) {
             case 'consultationDate':
@@ -331,7 +270,6 @@
               }
           }
         }
-        //编辑会诊信息
         if (this.title === '编辑会诊') {
           if (!this.list.some(val => (val.proData == 'CPPP11'))) {
             this.crInfo.productNote = '';
@@ -351,7 +289,7 @@
           }).catch(error => {
             this.$vux.toast.text('编辑会诊失败', 'middle')
           })
-        } else if (this.title === '新建会诊') {//新建会诊信息
+        } else if (this.title === '新建会诊') {
           this.crInfo.productInfo = JSON.stringify(this.crInfo.productInfo)
           this.$post('/api/Consultation', this.crInfo).then(info => {
             this.$vux.toast.text('新建会诊成功', 'middle')
@@ -370,41 +308,18 @@
           })
         }
       },
-      getData (val) {
-        if (val == 'hospital') {
-          this.$get('/api/hospital/' + this.crInfo.operationLocal).then(info => {
-            this.crInfo.addressName = info.hcoName
-          });
-          return;
-        }
-        if (val == 'optionlName') {
-
-          this.$get('/api/customer/getDictItemValue', {
-            dictKey: "SSMC",
-            dictItemKey: this.crInfo.operationName
-          }).then((info) => {
-            this.crInfo.operationNames = info;
-          });
-        }
+      getData () {
+        this.$get('/api/hospital/' + this.crInfo.operationLocal).then(info => {
+          this.crInfo.addressName = info.hcoName
+        })
       },
       getHospital (e) {
         this.crInfo.operationLocal = e.hcoCode
-        this.getData('hospital')
-        this.switchTabHospital = false;
-        this.keywordSearch(null);//重置搜索框内容
-
+        this.getData()
+        this.switchTab = false
       },
       selectHos () {
-        this.switchTabHospital = true
-      },
-      selectOps () {
-        this.switchTabOperationName = true;
-      },
-      getOptionalName (e) {
-        this.crInfo.operationName = e.code
-        this.getData('optionlName');
-        this.switchTabOperationName = false;
-        this.keywordSearch(null);//重置搜索框内容
+        this.switchTab = true
       },
       /*区域*/
       regionalChange (e) {
@@ -531,17 +446,13 @@
           cityCode: this.address.city || undefined,
           countyCode: this.address.area || undefined,
           hcoName: this.searchData || undefined,
-        };
+        }
         obj = JSON.parse(JSON.stringify(obj))
         this.$search('/api/hospital', {page: 0, size: 10}, obj).then((info) => {
           this.hcoList = info
           this.sumSize = 10
           this.sumData = this.$headers['x-total-count'];
         })
-
-        this.$get('/api/customer/queryDictItemValue', {dictKey: 'SSMC', condition: e}).then((info) => {
-          this.operationNameList = info;
-        });
       },
       searClick (e) {
         this.keywordSearch(e)
@@ -555,12 +466,9 @@
         }
       },
       blackClick (e) {
-        if (e == 'switchTabOperationName') {
-          this.switchTabOperationName = false;
-        } else if (e == 'switchTabHospital') {
-          this.switchTabHospital = false;
+        if (e) {
+          this.switchTab = false
         }
-        this.keywordSearch(null);//重置搜索框内容
       },
       goToBack () {
         if (this.backField.previousPage == 'concernSub' && this.backField.subId == 'undefined') {
@@ -602,20 +510,13 @@
       }
     },
     beforeRouteLeave (to, from, next) {
-      if (this.switchTabHospital) {
-        this.switchTabHospital = false;
+      if (this.switchTab) {
+        this.switchTab = false;
         return;
       }
-      if (this.switchTabOperationName) {
-        this.switchTabOperationName = false;
-        return
-      }
       if (!to.params.id) {
-        to.params.title = '全部会诊信息';
-        to.params.id = this.crInfo.customerId;//用户id
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
+        to.params.title = '全部会诊信息'
+        to.params.id = this.crInfo.customerId
       }
       next()
     },
@@ -697,6 +598,28 @@
       }
     }
     .location {
+      .search {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 99;
+        height: 80px;
+        .weui-search-bar__form {
+          border-radius: 50%;
+        }
+        .weui-search-bar {
+          padding: 4px 10px;
+        }
+        .weui-search-bar__input {
+          padding: 5px 2px !important;
+        }
+        .weui-search-bar {
+          background-color: #073f89;
+        }
+        .weui-search-bar__label {
+          top: 5px;
+        }
+      }
       .locationTab {
         position: fixed;
         top: 40px;
@@ -716,27 +639,9 @@
           }
         }
       }
-      .operationName {
-        text-align: left;
-        /*margin-top: 42px;*/
-        background: #fff;
-        .info {
-          border-bottom: 1px solid #D9D9D9;
-          padding: 5px 15px;
-          font-size: 12px;
-          h3 {
-            margin: 5px 0;
-          }
-          span {
-            display: inline-block;
-            color: #999;
-            margin-right: 20px;
-          }
-        }
-      }
       .hospitalInfo {
         text-align: left;
-        margin-top: 30px;
+        margin-top: 90px;
         background: #fff;
         .info {
           border-bottom: 1px solid #D9D9D9;

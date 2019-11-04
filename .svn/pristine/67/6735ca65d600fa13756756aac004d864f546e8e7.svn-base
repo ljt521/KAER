@@ -79,6 +79,7 @@
             <h3>{{item.value}}</h3>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -406,7 +407,6 @@
         this.operationDemoInfoDto.operationName = e.code
         this.getData();
         this.switchTabOperationName = false;
-        this.keywordSearch(null);
       },
     },
     beforeRouteLeave(to, from, next) {
@@ -417,9 +417,6 @@
       if (!to.params.id) {
         to.params.title = '全部手术演示信息';
         to.params.id = this.operationDemoInfoDto.customerId;
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
       }
       next()
     },

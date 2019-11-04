@@ -113,7 +113,7 @@
 
   export default {
     name: 'NewConsulInfo',
-    data () {
+    data() {
       return {
         codeValue: function (value) {
           return {
@@ -169,7 +169,7 @@
     },
     watch: {
       list: {
-        handler (old, newVal) {
+        handler(old, newVal) {
           for (let i = 0, len = newVal.length; i < len; i++) {
             if (newVal[i].proData != null && newVal[i].proData != undefined) {
               this.isProduct = false;
@@ -183,7 +183,7 @@
         deep: true
       }
     },
-    created () {
+    created() {
       //编辑状态
       if (this.$route.params.data) {
         this.crInfo.consultationDate = this.$route.params.data.consultationDate.slice(0, 10)
@@ -199,7 +199,7 @@
         this.crInfo['id'] = this.$route.params.data.id
       }
     },
-    mounted () {
+    mounted() {
       this.title = this.$route.params.title || this.$route.meta.title
       this.customerId = this.$route.params.id || this.$route.query.id
       if (this.$route.params.isEdit) {
@@ -269,7 +269,7 @@
 
     },
     methods: {
-      getPlain (e) {
+      getPlain(e) {
         if (e.hasOwnProperty('proData')) {
           if (e.select && e.proData) {
             const obj = {}
@@ -294,7 +294,7 @@
         }
         this.list = JSON.parse(JSON.stringify(this.list))
       },
-      goEssentialInfo () {
+      goEssentialInfo() {
         //校验
         for (let key in this.crInfo) {
           switch (key) {
@@ -370,7 +370,7 @@
           })
         }
       },
-      getData (val) {
+      getData(val) {
         if (val == 'hospital') {
           this.$get('/api/hospital/' + this.crInfo.operationLocal).then(info => {
             this.crInfo.addressName = info.hcoName
@@ -387,27 +387,24 @@
           });
         }
       },
-      getHospital (e) {
+      getHospital(e) {
         this.crInfo.operationLocal = e.hcoCode
         this.getData('hospital')
-        this.switchTabHospital = false;
-        this.keywordSearch(null);//重置搜索框内容
-
+        this.switchTabHospital = false
       },
-      selectHos () {
+      selectHos() {
         this.switchTabHospital = true
       },
-      selectOps () {
+      selectOps() {
         this.switchTabOperationName = true;
       },
-      getOptionalName (e) {
+      getOptionalName(e) {
         this.crInfo.operationName = e.code
         this.getData('optionlName');
         this.switchTabOperationName = false;
-        this.keywordSearch(null);//重置搜索框内容
       },
       /*区域*/
-      regionalChange (e) {
+      regionalChange(e) {
         this.sumSize = 10
         this.address.regionalValue = e.code
         this.$post('/api/hospital/cascadeInfo', {regionCode: e.code}).then(info => {
@@ -426,7 +423,7 @@
 
       },
       /*省份*/
-      provinceChange (e) {
+      provinceChange(e) {
         this.sumSize = 10
         this.address.province = e.code
         this.$post('/api/hospital/cascadeInfo', {
@@ -447,7 +444,7 @@
         })
       },
       /*市*/
-      cityChange (e) {
+      cityChange(e) {
         this.sumSize = 10
         this.address.city = e.code
         this.$post('/api/hospital/cascadeInfo', {
@@ -469,7 +466,7 @@
         })
       },
       /*区*/
-      areaChange (e) {
+      areaChange(e) {
         this.sumSize = 10
         this.address.area = e.code
         this.$search('/api/hospital', {page: 0, size: 10},
@@ -484,7 +481,7 @@
         })
       },
       /*获取更多*/
-      getMorHospital () {
+      getMorHospital() {
         if (this.allFlag) {
           this.onFetching = false
           return
@@ -523,7 +520,7 @@
           }, 2000)
         }
       },
-      keywordSearch (e) {
+      keywordSearch(e) {
         this.searchData = e
         let obj = {
           regionCode: this.address.regionalValue || undefined,
@@ -543,26 +540,26 @@
           this.operationNameList = info;
         });
       },
-      searClick (e) {
+      searClick(e) {
         this.keywordSearch(e)
       },
-      enterBtn (e) {
+      enterBtn(e) {
         this.keywordSearch(e)
       },
-      searchChange (e) {
+      searchChange(e) {
         if (e == null || e == '') {
           this.keywordSearch(e)
         }
       },
-      blackClick (e) {
+      blackClick(e) {
         if (e == 'switchTabOperationName') {
           this.switchTabOperationName = false;
         } else if (e == 'switchTabHospital') {
           this.switchTabHospital = false;
         }
-        this.keywordSearch(null);//重置搜索框内容
+        this.keywordSearch(null);//返回重置搜索框内容
       },
-      goToBack () {
+      goToBack() {
         if (this.backField.previousPage == 'concernSub' && this.backField.subId == 'undefined') {
           this.$router.push({
             path: '/subordinates-customer/' + this.$route.query.personId,
@@ -601,7 +598,7 @@
         this.$router.push('/customer')
       }
     },
-    beforeRouteLeave (to, from, next) {
+    beforeRouteLeave(to, from, next) {
       if (this.switchTabHospital) {
         this.switchTabHospital = false;
         return;
@@ -612,10 +609,7 @@
       }
       if (!to.params.id) {
         to.params.title = '全部会诊信息';
-        to.params.id = this.crInfo.customerId;//用户id
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
+        to.params.id = this.crInfo.customerId;
       }
       next()
     },

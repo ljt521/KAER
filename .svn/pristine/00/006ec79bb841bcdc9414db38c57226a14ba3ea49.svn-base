@@ -1,83 +1,56 @@
 <!--作者：莫岭红 功能：新建（编辑）手术演示-->
 <template>
   <div v-wechat-title="title" class="newOperD">
-    <div v-if="!switchTabOperationName">
-      <div class="dy-top">
-        <x-header @on-click-back="goToBack" :left-options="{backText: '',preventGoBack: true}" class="x-header"
-                  slot="header">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a>
-        </x-header>
-      </div>
-      <div class="backgroundStyle">
-        <datetime
-          v-model="operationDemoInfoDto.demoDate"
-          title="日期"
-          placeholder="请选择">
-        </datetime>
-        <cell @click.native="selectOps()" title="手术名称" :value="operationDemoInfoDto.operationNames" is-link></cell>
-        <!--<div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"-->
-        <!--v-on:listenSelect="(value) => {operationDemoInfoDto.operationName = value.code}"-->
-        <!--:anyData="operationDemoInfoDto.operationName" :is-type="codeValue" required></div-selector>-->
-        <div-selector :tilteValue="'演示场合'" :dictCode="'CH'"
-                      v-on:listenSelect="(value) => {operationDemoInfoDto.demoOccasion = value.code}"
-                      :anyData="operationDemoInfoDto.demoOccasion" :is-type="codeValue" required></div-selector>
-        <div v-if="operationDemoInfoDto.demoOccasion === 'CH04'">
-          <x-input type="text" placeholder="请填写" v-model="operationDemoInfoDto.demoOccasionOther" :is-type="codeValue"
-                   text-align="right" required></x-input>
-        </div>
-        <x-input title="活动名称" v-model="operationDemoInfoDto.activityName" placeholder="请填写" text-align="right"
-                 :is-type="codeValue" required></x-input>
-        <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
-                      v-on:listenSelect="(value) => {operationDemoInfoDto.roleinOperation  = value.code}"
-                      :anyData="operationDemoInfoDto.roleinOperation" :is-type="codeValue" required></div-selector>
-        <div v-if="operationDemoInfoDto.roleinOperation === 'SSJS05'">
-          <x-input type="text" placeholder="请填写" v-model="operationDemoInfoDto.roleinOperationOther"
-                   :is-type="codeValue"
-                   text-align="right" required></x-input>
-        </div>
-        <cell title="产品信息">
-        </cell>
-        <div>
-          <cell v-for="(item,i) of myData" :key="i">
-            <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)">
-              {{item.value}}
-            </check-icon>
-            <template v-slot="value">
-              <div class="new-select">
-                <div-selector :placeholder="'请选择品牌'" :dictCode="'CPPP'" v-model="item['proData']"
-                              v-on:listenSelect="(value) => {item['proData'] = value.code;item['select'] = true;getPlain(item);}"
-                              :anyData="item.proData" :is-type="codeValue" required></div-selector>
-              </div>
-            </template>
-          </cell>
-          <div v-if="isProduct==true">
-            <x-textarea
-              title="产品备注"
-              type="text"
-              placeholder="请填写内容"
-              v-model="operationDemoInfoDto.productNote"></x-textarea>
-          </div>
-        </div>
-
-      </div>
+    <div class="dy-top">
+      <x-header @on-click-back="goToBack" :left-options="{backText: '',preventGoBack: true}" class="x-header"
+                slot="header">{{title}}<a slot="right" @click="goEssentialInfo()">完成</a>
+      </x-header>
     </div>
-    <!--手术名称-->
-    <div class="location" v-if="switchTabOperationName">
-      <div class="search">
-        <search-box v-bind:black="true" @on-black="blackClick()" @on-search="searClick"
-                    @on-enter="enterBtn"
-                    @on-change="searchChange">
-
-        </search-box>
+    <div class="backgroundStyle">
+      <datetime
+        v-model="operationDemoInfoDto.demoDate"
+        title="日期"
+        placeholder="请选择"></datetime>
+      <div-selector :tilteValue="'手术名称'" :dictCode="'SSMC'"
+                    v-on:listenSelect="(value) => {operationDemoInfoDto.operationName = value.code}"
+                    :anyData="operationDemoInfoDto.operationName" :is-type="codeValue" required></div-selector>
+      <div-selector :tilteValue="'演示场合'" :dictCode="'CH'"
+                    v-on:listenSelect="(value) => {operationDemoInfoDto.demoOccasion = value.code}"
+                    :anyData="operationDemoInfoDto.demoOccasion" :is-type="codeValue" required></div-selector>
+      <div v-if="operationDemoInfoDto.demoOccasion === 'CH04'">
+        <x-input type="text" placeholder="请填写" v-model="operationDemoInfoDto.demoOccasionOther" :is-type="codeValue"
+                 text-align="right" required></x-input>
       </div>
-      <!--<x-header :left-options="{backText: '',preventGoBack: true}" @on-click-back="blackClick('switchTabOperationName')"-->
-      <!--slot="header" style="background-color: #073f89">手术名称-->
-      <!--&lt;!&ndash;<a slot="right" @click="goEssentialInfo()">完成</a>&ndash;&gt;-->
-      <!--</x-header>-->
-      <div class="operationName">
-        <div>
-          <div class="info" v-for="item of operationNameList" @click="getOptionalName(item)">
-            <h3>{{item.value}}</h3>
-          </div>
+      <x-input title="活动名称" v-model="operationDemoInfoDto.activityName" placeholder="请填写" text-align="right"
+               :is-type="codeValue" required></x-input>
+      <div-selector :tilteValue="'手术中角色'" :dictCode="'SSJS'"
+                    v-on:listenSelect="(value) => {operationDemoInfoDto.roleinOperation  = value.code}"
+                    :anyData="operationDemoInfoDto.roleinOperation" :is-type="codeValue" required></div-selector>
+      <div v-if="operationDemoInfoDto.roleinOperation === 'SSJS05'">
+        <x-input type="text" placeholder="请填写" v-model="operationDemoInfoDto.roleinOperationOther" :is-type="codeValue"
+                 text-align="right" required></x-input>
+      </div>
+      <cell title="产品信息">
+      </cell>
+      <div>
+        <cell v-for="(item,i) of myData" :key="i">
+          <check-icon slot="icon" :value.sync="item['select']" type="plain" @click.native="getPlain(item)">
+            {{item.value}}
+          </check-icon>
+          <template v-slot="value">
+            <div class="new-select">
+              <div-selector :placeholder="'请选择品牌'" :dictCode="'CPPP'" v-model="item['proData']"
+                            v-on:listenSelect="(value) => {item['proData'] = value.code;item['select'] = true;getPlain(item);}"
+                            :anyData="item.proData" :is-type="codeValue" required></div-selector>
+            </div>
+          </template>
+        </cell>
+        <div v-if="isProduct==true">
+          <x-textarea
+            title="产品备注"
+            type="text"
+            placeholder="请填写内容"
+            v-model="operationDemoInfoDto.productNote"></x-textarea>
         </div>
       </div>
     </div>
@@ -96,8 +69,7 @@
         operationDemoInfoDto: {
           customerId: '',
           demoDate: '',// 日期
-          operationName: '',//手术id
-          operationNames: '',//手术名称中文
+          operationName: '',//手术名称
           demoOccasion: '',//演示场合
           demoOccasionOther: '',//演示场合其他
           activityName: '',//活动名称
@@ -109,13 +81,11 @@
         myData: [],
         title: '新建手术演示',
         backField: {},
-        operationNameList: [],
         isEdit: '',
         customerId: '',
         start: '', //状态 1为创建 0为编辑
         demo1: false,
-        isProduct: false,
-        switchTabOperationName: false
+        isProduct: false
       }
     },
     watch: {
@@ -150,16 +120,12 @@
         this.backField.subId = this.$route.query.subId
         this.start = 1;
       }
-      this.$get('/api/customer/getDictItemList', {dictKey: "SSMC"}).then((info) => {
-        this.operationNameList = info;
-      })
     },
     created() {
       if (this.$route.params.data) {
         this.operationDemoInfoDto.customerId = this.$route.params.data.customerId
         this.operationDemoInfoDto.demoDate = this.$route.params.data.demoDate
         this.operationDemoInfoDto.operationName = this.$route.params.data.operationName
-        this.operationDemoInfoDto.operationNames = this.getData()
         this.operationDemoInfoDto.activityName = this.$route.params.data.activityName
         this.operationDemoInfoDto.demoOccasion = this.$route.params.data.demoOccasion
         this.operationDemoInfoDto.demoOccasionOther = this.$route.params.data.demoOccasionOther
@@ -170,45 +136,20 @@
         this.operationDemoInfoDto.productNote = this.$route.params.data.productNote
 
       }
-      if (this.operationDemoInfoDto.id) {
-        if (window.localStorage.getItem('CPXX')) {
-          this.myData = JSON.parse(window.localStorage.getItem('CPXX'));
-          this.myData.forEach(val => {
-            let data = this.$route.params.data.product
-            for (let i in data[0]) {
-              if (val.code === data[0][i]) {
-                val['select'] = true
-                val['proData'] = data[1][i]
-              }
+      this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
+        this.myData = info
+        this.myData.forEach(val => {
+          let data = this.$route.params.data.product
+          for (let i in data[0]) {
+            if (val.code === data[0][i]) {
+              val['select'] = true
+              val['proData'] = data[1][i]
             }
-          });
-        } else {
-          this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
-            this.myData = info
-            this.myData.forEach(val => {
-              let data = this.$route.params.data.product
-              for (let i in data[0]) {
-                if (val.code === data[0][i]) {
-                  val['select'] = true
-                  val['proData'] = data[1][i]
-                }
-              }
-            })
-          }).catch(error => {
-            console.log(error)
-          });
-        }
-      } else {
-        if (window.localStorage.getItem('CPXX')) {
-          this.myData = JSON.parse(window.localStorage.getItem('CPXX'));
-        } else {
-          this.$get('/api/customer/getDictItemList', {dictKey: 'CPXX'}).then((info) => {
-            this.myData = info
-          }).catch(error => {
-            console.log(error)
-          });
-        }
-      }
+          }
+        })
+      }).catch(error => {
+        console.log(error)
+      })
     },
     methods: {
       goEssentialInfo() {
@@ -329,32 +270,6 @@
         }
         this.myData = JSON.parse(JSON.stringify(this.myData))
       },
-      getData() {
-        this.$get('/api/customer/getDictItemValue', {
-          dictKey: "SSMC",
-          dictItemKey: this.operationDemoInfoDto.operationName
-        }).then((info) => {
-          this.operationDemoInfoDto.operationNames = info;
-        });
-      },
-      //搜索
-      keywordSearch(e) {
-        this.searchData = e
-        this.$get('/api/customer/queryDictItemValue', {dictKey: 'SSMC', condition: this.searchData}).then((info) => {
-          this.operationNameList = info;
-        });
-      },
-      searClick(e) {
-        this.keywordSearch(e)
-      },
-      enterBtn(e) {
-        this.keywordSearch(e)
-      },
-      searchChange(e) {
-        if (e == null || e == '') {
-          this.keywordSearch(e)
-        }
-      },
       //返回
       goToBack() {
         if (this.backField.previousPage == 'concernSub' && this.backField.subId == 'undefined') {
@@ -394,32 +309,12 @@
         }
         this.$router.push('/customer')
 
-      },
-      selectOps() {
-        this.switchTabOperationName = true;
-      },
-      blackClick() {
-        this.switchTabOperationName = false;
-        this.keywordSearch(null);
-      },
-      getOptionalName(e) {
-        this.operationDemoInfoDto.operationName = e.code
-        this.getData();
-        this.switchTabOperationName = false;
-        this.keywordSearch(null);
-      },
+      }
     },
     beforeRouteLeave(to, from, next) {
-      if (this.switchTabOperationName) {
-        this.switchTabOperationName = false;
-        return;
-      }
       if (!to.params.id) {
-        to.params.title = '全部手术演示信息';
-        to.params.id = this.operationDemoInfoDto.customerId;
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
+        to.params.title = '全部手术演示信息'
+        to.params.id = this.operationDemoInfoDto.customerId
       }
       next()
     },
@@ -462,63 +357,6 @@
     }
     .weui-label {
       width: 80px !important;
-    }
-    .location {
-      .locationTab {
-        position: fixed;
-        top: 40px;
-        background-color: #fff;
-        width: 100%;
-        .filter {
-          display: inline-block;
-          background-color: #fff;
-          float: left;
-          width: 25%;
-          .vux-selector.weui-cell_select-after {
-            background-color: #fff;
-            height: 35px;
-          }
-          .weui-label {
-            width: 70px;
-          }
-        }
-      }
-      .operationName {
-        text-align: left;
-        /*margin-top: 42px;*/
-        background: #fff;
-        .info {
-          border-bottom: 1px solid #D9D9D9;
-          padding: 5px 15px;
-          font-size: 12px;
-          h3 {
-            margin: 5px 0;
-          }
-          span {
-            display: inline-block;
-            color: #999;
-            margin-right: 20px;
-          }
-        }
-      }
-      .hospitalInfo {
-        text-align: left;
-        margin-top: 30px;
-        background: #fff;
-        .info {
-          border-bottom: 1px solid #D9D9D9;
-          padding: 5px 15px;
-          font-size: 12px;
-          h3 {
-            margin: 5px 0;
-          }
-          span {
-            display: inline-block;
-            color: #999;
-            margin-right: 20px;
-          }
-        }
-      }
     }
   }
 </style>

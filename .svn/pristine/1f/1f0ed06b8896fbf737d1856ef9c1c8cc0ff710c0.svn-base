@@ -161,9 +161,6 @@
       if (!to.params.id) {
         to.params.title = '全部论文发表信息'
         to.params.id = this.paperPublishInfoDto.customerId
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
       }
       next()
     },

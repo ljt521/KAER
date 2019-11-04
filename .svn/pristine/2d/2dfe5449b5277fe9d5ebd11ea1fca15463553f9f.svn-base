@@ -35,7 +35,16 @@
           }).catch(error => {
             console.log(error);
           })
+          // this.$get('/api/customer/getDictItemValue', {
+          //   dictKey: this.dictCode,
+          //   dictItemKey: this.dictItemCode
+          // }).then(info => {
+          //   this.message = info;
+          // }).catch(error => {
+          //   console.log(error);
+          // })
         }
+
       }
     },
     methods: {},
@@ -61,6 +70,14 @@
           }).catch(error => {
             console.log(error);
           })
+          // this.$get('/api/customer/getDictItemValue', {
+          //   dictKey: this.dictCode,
+          //   dictItemKey: this.dictItemCode
+          // }).then(info => {
+          //   this.message = info;
+          // }).catch(error => {
+          //   console.log(error);
+          // })
         }
       }
     }

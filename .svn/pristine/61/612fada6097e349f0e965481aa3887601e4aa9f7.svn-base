@@ -390,9 +390,7 @@
       getHospital (e) {
         this.crInfo.operationLocal = e.hcoCode
         this.getData('hospital')
-        this.switchTabHospital = false;
-        this.keywordSearch(null);//重置搜索框内容
-
+        this.switchTabHospital = false
       },
       selectHos () {
         this.switchTabHospital = true
@@ -404,7 +402,6 @@
         this.crInfo.operationName = e.code
         this.getData('optionlName');
         this.switchTabOperationName = false;
-        this.keywordSearch(null);//重置搜索框内容
       },
       /*区域*/
       regionalChange (e) {
@@ -560,7 +557,7 @@
         } else if (e == 'switchTabHospital') {
           this.switchTabHospital = false;
         }
-        this.keywordSearch(null);//重置搜索框内容
+        this.keywordSearch(null);//返回重置搜索框内容
       },
       goToBack () {
         if (this.backField.previousPage == 'concernSub' && this.backField.subId == 'undefined') {
@@ -612,10 +609,9 @@
       }
       if (!to.params.id) {
         to.params.title = '全部会诊信息';
-        to.params.id = this.crInfo.customerId;//用户id
-        to.params.isOpen = this.isOpen;//
-        to.params.backField = this.backField;//上一个页面内容
-        to.params.isEdit = this.isEdit;//是否可编辑
+        to.params.id = this.crInfo.customerId;
+        to.params.isOpen = this.isOpen;
+        to.params.backField = this.backField;
       }
       next()
     },
